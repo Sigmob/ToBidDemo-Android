@@ -1,0 +1,36 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://android-sdk.is.com/'
+        }
+        maven { url 'https://dl.bintray.com/mintegral-official/Mintegral_ad_SDK_Android' }
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://android-sdk.is.com/'
+        }
+        maven { url 'https://dl.bintray.com/mintegral-official/Mintegral_ad_SDK_Android' }
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,24 @@
+<network-security-config>
+    <!--    <debug-overrides>-->
+    <!--        <trust-anchors>-->
+    <!--            &lt;!&ndash; Trust user added CAs while debuggable only &ndash;&gt;-->
+    <!--            <certificates src="user" />-->
+    <!--        </trust-anchors>-->
+    <!--    </debug-overrides>-->
+    <!--    <base-config cleartextTrafficPermitted="true" />-->
+
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+    <!--MTG-->
+    <!--- you need config the domain in your file,it will help us to cache video -->
+    <domain-config cleartextTrafficPermitted="true">
+
+        <domain includeSubdomains="true">127.0.0.1</domain>
+
+    </domain-config>
+
+</network-security-config>
