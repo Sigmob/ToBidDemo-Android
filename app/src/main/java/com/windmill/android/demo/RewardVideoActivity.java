@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.windmill.sdk.WindMillAd;
+import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.reward.WMRewardAd;
 import com.windmill.sdk.reward.WMRewardAdListener;
@@ -150,7 +150,8 @@ public class RewardVideoActivity extends AppCompatActivity {
                 break;
             case R.id.playAd_button:
                 HashMap option = new HashMap();
-                option.put(WindMillAd.AD_SCENE, "menu_1");
+                option.put(WMConstants.AD_SCENE_ID, "567");
+                option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
                 if (windRewardedVideoAd != null && windRewardedVideoAd.isReady()) {
                     windRewardedVideoAd.show(this, option);
                 } else {

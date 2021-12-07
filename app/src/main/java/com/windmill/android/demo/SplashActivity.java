@@ -1,13 +1,12 @@
 package com.windmill.android.demo;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ViewGroup;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.windmill.sdk.WindMillAd;
 import com.windmill.sdk.WindMillConsentStatus;
@@ -23,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class SplashActivity extends AppCompatActivity implements WMSplashAdListener {
+public class SplashActivity extends Activity implements WMSplashAdListener {
 
     /**
      * 设置一个变量来控制当前开屏页面是否可以跳转，当开屏广告为普链类广告时，点击会打开一个广告落地页，此时开发者还不能打开自己的App主页。当从广告落地页返回以后，
@@ -103,11 +102,6 @@ public class SplashActivity extends AppCompatActivity implements WMSplashAdListe
          *  开屏是单独Activity ，建议true。
          */
         splashAdRequest.setDisableAutoHideAd(true);
-
-        /**
-         * 广告允许最大等待返回时间
-         */
-        splashAdRequest.setFetchDelay(5);
 
         /**
          * 设置应用LOGO标题及描述,半屏Window展示

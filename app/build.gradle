@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId 'com.windmill.demo.android'
+        applicationId 'com.windmill.android.demo'
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
@@ -37,6 +37,8 @@ android {
 dependencies {
 
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
     testImplementation 'junit:junit:4.12'
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -45,7 +47,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.5.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 
-    //noinspection GradleCompatible
     //AndroidX
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
@@ -53,6 +54,19 @@ dependencies {
 
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
     implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+
+
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/gdt')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/kuaishou')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/mintegral-cn')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/oneway')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/tapjoy')
+    implementation 'com.google.android.gms:play-services-basement:17.0.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/csj')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/unity')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/vungle')
 
 }
 

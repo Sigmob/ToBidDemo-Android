@@ -22,7 +22,15 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault">
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+        <meta-data
+            android:name="applovin.sdk.key"
+            android:value="DmvA8hJTTP56TkNOgp8HSFzTDPh1o8B_u5A1nUUEuZLMHklzXuE-8CSLb9MNHTNAdXBP0gevE_GWi0TFviD1vg" />
+
         <activity
             android:name=".natives.NativeAdUnifiedRecycleActivity"
             android:configChanges="orientation|screenSize"
@@ -46,7 +54,6 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity
             android:name=".InterstitialActivity"
             android:configChanges="orientation|screenSize"
@@ -55,8 +62,7 @@
         <activity
             android:name=".RewardVideoActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="sensor" />
 
         <provider
             android:name="com.sigmob.sdk.SigmobFileProvider"
@@ -67,12 +73,44 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/sigmob_provider_paths" />
+        </provider> <!-- TT 国内 -->
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
+            android:authorities="${applicationId}.TTFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/toutiao" />
+        </provider> <!-- TT（国内） GP专属 -->
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
+            android:authorities="${applicationId}.TTMultiProvider"
+            android:exported="false" /> <!-- GDT -->
+        <provider
+            android:name="com.qq.e.comm.GDTFileProvider"
+            android:authorities="${applicationId}.gdt.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gdt_file_path" />
+        </provider>
+        <provider
+            android:name="mobi.oneway.export.OWProvider"
+            android:authorities="${applicationId}.OWProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:ignore="Instantiatable">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/ow_file_paths" />
         </provider>
 
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,14 +119,20 @@
         </activity>
 
         <activity
+            android:name=".SplashAdActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-
+        
         <!-- 以下是DEMO的测试ID,请勿使用到正式环境中去！ -->
         <meta-data
             android:name="sigmob.app_id"

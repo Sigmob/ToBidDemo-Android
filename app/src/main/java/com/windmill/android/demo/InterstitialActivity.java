@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillAd;
 import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.interstitial.WMInterstitialAd;
@@ -140,7 +141,8 @@ public class InterstitialActivity extends AppCompatActivity {
                 break;
             case R.id.playAd_button:
                 HashMap option = new HashMap();
-                option.put(WindMillAd.AD_SCENE, "menu_1");
+                option.put(WMConstants.AD_SCENE_ID, "567");
+                option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
                 if (windInterstitialAd1 != null && windInterstitialAd1.isReady()) {
                     windInterstitialAd1.show(this, option);
                 } else {

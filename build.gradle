@@ -3,12 +3,28 @@
 buildscript {
 
     repositories {
-        google()
-        mavenCentral()
+
         maven {
-            url 'https://android-sdk.is.com/'
+            url 'https://maven.aliyun.com/repository/public/'
         }
-        maven { url 'https://dl.bintray.com/mintegral-official/Mintegral_ad_SDK_Android' }
+
+        google()
+
+        mavenCentral()
+
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        //非上架GP市场应用 安卓X版本
+        maven {
+            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china"
+        }
+
+        //上架GP市场应用 安卓X版本
+        maven {
+            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea"
+        }
 
     }
     dependencies {
@@ -21,13 +37,33 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/public/'
+        }
         google()
         mavenCentral()
         maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        // Some network SDKs are found in the following additional repositories:
+        maven {
             url 'https://android-sdk.is.com/'
         }
-        maven { url 'https://dl.bintray.com/mintegral-official/Mintegral_ad_SDK_Android' }
 
+        //非上架GP市场应用 安卓X版本
+        maven {
+            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china"
+        }
+
+        //上架GP市场应用 安卓X版本
+        maven {
+            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea"
+        }
+
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 

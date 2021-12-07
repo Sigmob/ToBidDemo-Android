@@ -21,9 +21,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * 获取Gaid
  */
-
 public class AdvertisingIdClient {
-    
+
     private static boolean optOutEnabled;//检索用户是否启用了限制性广告跟踪。
 
     public static boolean advertiserIdEnabled() {

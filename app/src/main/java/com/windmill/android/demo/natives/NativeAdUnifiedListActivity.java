@@ -324,11 +324,6 @@ public class NativeAdUnifiedListActivity extends AppCompatActivity {
                     Log.d("lance", "----------onADError----------:" + error.toString());
                 }
 
-                @Override
-                public void onADStatusChanged(String ctaText) {
-                    Log.d("lance", "----------onADStatusChanged----------:" + ctaText);
-//                    updateAdAction(ctaText);
-                }
             });
 
             //设置media监听

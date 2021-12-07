@@ -146,12 +146,6 @@ public class NativeAdUnifiedActivity extends AppCompatActivity {
             public void onADError(WindMillError error) {
                 Log.d("lance", "----------onADError----------:" + error.toString());
             }
-
-            @Override
-            public void onADStatusChanged(String ctaText) {
-                Log.d("lance", "----------onADStatusChanged----------:" + ctaText);
-//                    updateAdAction(ctaText);
-            }
         });
 
         //设置media监听

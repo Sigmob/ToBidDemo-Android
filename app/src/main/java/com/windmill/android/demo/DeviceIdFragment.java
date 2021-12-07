@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 
 import com.windmill.android.demo.deviceid.AdvertisingIdClient;
 import com.windmill.android.demo.deviceid.OaidHelper;
-import com.windmill.sdk.WindMillAd;
 
 public class DeviceIdFragment extends Fragment {
     private TextView imeiView, gaidView, oaidView, sigUidView;
@@ -39,7 +38,7 @@ public class DeviceIdFragment extends Fragment {
 
         return view;
     }
-    
+
     @Override
     public void onStart() {
         super.onStart();
@@ -97,7 +96,7 @@ public class DeviceIdFragment extends Fragment {
          * 获取uid
          */
 
-        String uid = WindMillAd.sharedAds().getWindUid();
+        String uid = "125";
         if (!TextUtils.isEmpty(uid)) {
             sigUidView.setText(uid);
         }
