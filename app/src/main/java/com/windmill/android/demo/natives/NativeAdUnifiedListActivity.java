@@ -24,11 +24,11 @@ import com.windmill.android.demo.view.ILoadMoreListener;
 import com.windmill.android.demo.view.LoadMoreListView;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.natives.WMNativeAd;
 import com.windmill.sdk.natives.WMNativeAdContainer;
 import com.windmill.sdk.natives.WMNativeAdData;
 import com.windmill.sdk.natives.WMNativeAdDataType;
 import com.windmill.sdk.natives.WMNativeAdRequest;
-import com.windmill.sdk.natives.WMNativeUnifiedAd;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class NativeAdUnifiedListActivity extends AppCompatActivity {
     private static final int LIST_ITEM_COUNT = 10;
     private LoadMoreListView mListView;
     private MyAdapter myAdapter;
-    private WMNativeUnifiedAd windNativeUnifiedAd;
+    private WMNativeAd windNativeUnifiedAd;
     private int userID = 0;
     private String placementId;
 
@@ -95,10 +95,10 @@ public class NativeAdUnifiedListActivity extends AppCompatActivity {
         Map<String, Object> options = new HashMap<>();
         options.put("user_id", String.valueOf(userID));
         if (windNativeUnifiedAd == null) {
-            windNativeUnifiedAd = new WMNativeUnifiedAd(this, new WMNativeAdRequest(placementId, String.valueOf(userID), 3, options));
+            windNativeUnifiedAd = new WMNativeAd(this, new WMNativeAdRequest(placementId, String.valueOf(userID), 3, options));
         }
 
-        windNativeUnifiedAd.loadAd(new WMNativeUnifiedAd.NativeAdLoadListener() {
+        windNativeUnifiedAd.loadAd(new WMNativeAd.NativeAdLoadListener() {
             @Override
             public void onError(WindMillError error, String placementId) {
                 Log.d("lance", "onError:" + error.toString() + ":" + placementId);

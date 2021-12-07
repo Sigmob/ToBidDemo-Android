@@ -45,6 +45,7 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
                 isSelfLogo = isChecked;
             }
         });
+
         String[] stringArray = getResources().getStringArray(R.array.splash_id_value);
         placementId = stringArray[0];
     }

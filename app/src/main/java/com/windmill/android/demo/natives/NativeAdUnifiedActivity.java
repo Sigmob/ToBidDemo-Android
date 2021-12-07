@@ -1,24 +1,27 @@
 package com.windmill.android.demo.natives;
 
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.windmill.android.demo.Constants;
 import com.windmill.android.demo.R;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.natives.WMNativeAd;
 import com.windmill.sdk.natives.WMNativeAdContainer;
 import com.windmill.sdk.natives.WMNativeAdData;
 import com.windmill.sdk.natives.WMNativeAdDataType;
 import com.windmill.sdk.natives.WMNativeAdRequest;
-import com.windmill.sdk.natives.WMNativeUnifiedAd;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,24 +30,63 @@ import java.util.Map;
 public class NativeAdUnifiedActivity extends AppCompatActivity {
 
     private ViewGroup adContainer;
-    private Button loadAdBtn;
-    private Button playAdBtn;
-    private WMNativeUnifiedAd windNativeUnifiedAd;
+    private WMNativeAd windNativeAd;
     private int userID = 0;
     private String placementId;
-    private List<WMNativeAdData> unifiedADDataList;
+    private List<WMNativeAdData> nativeAdDataList;
+
+    private EditText editTextWidth, editTextHeight; // 编辑框输入的宽高
+    private int adWidth, adHeight; // 广告宽高
+    private CheckBox checkBoxFullWidth, checkBoxAutoHeight;
+
+    private void getExtraInfo() {
+        Intent intent = getIntent();
+        placementId = intent.getStringExtra("placementId");
+        if (TextUtils.isEmpty(placementId)) {
+            String[] stringArray = getResources().getStringArray(R.array.native_id_value);
+            placementId = stringArray[0];
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_ad_unified);
         adContainer = findViewById(R.id.native_ad_container);
-        loadAdBtn = this.findViewById(R.id.load_native_button);
-        playAdBtn = this.findViewById(R.id.show_native_button);
-        updatePlacement();
+        getExtraInfo();
+
+        editTextWidth = (EditText) findViewById(R.id.editWidth);
+        editTextHeight = (EditText) findViewById(R.id.editHeight);
+
+        checkBoxFullWidth = (CheckBox) findViewById(R.id.checkboxFullWidth);
+        checkBoxAutoHeight = (CheckBox) findViewById(R.id.checkboxAutoHeight);
+        checkBoxFullWidth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editTextWidth.setText("0");
+                    editTextWidth.setEnabled(false);
+                } else {
+                    editTextWidth.setText("340");
+                    editTextWidth.setEnabled(true);
+                }
+            }
+        });
+        checkBoxAutoHeight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editTextHeight.setText("0");
+                    editTextHeight.setEnabled(false);
+                } else {
+                    editTextHeight.setText("320");
+                    editTextHeight.setEnabled(true);
+                }
+            }
+        });
     }
 
-    public void buttonClick(View view) {
+    public void ButtonClick(View view) {
         switch (view.getId()) {
             case R.id.load_native_button:
                 //加载原生广告
@@ -57,16 +99,50 @@ public class NativeAdUnifiedActivity extends AppCompatActivity {
         }
     }
 
+    private boolean checkEditTextEmpty() {
+        String width = editTextWidth.getText().toString();
+        String height = editTextHeight.getText().toString();
+        if (TextUtils.isEmpty(width) || TextUtils.isEmpty(height)) {
+            Toast.makeText(this, "请先输入广告位的宽、高！", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
+    public static int screenWidthAsIntDips(Context context) {
+        int pixels = context.getResources().getDisplayMetrics().widthPixels;
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) ((pixels / density) + 0.5f);
+    }
+
     private void loadNativeAd() {
         Log.d("lance", "-----------loadNativeAd-----------");
-        userID++;
-        Map<String, Object> options = new HashMap<>();
-        options.put("user_id", String.valueOf(userID));
-        if (windNativeUnifiedAd == null) {
-            windNativeUnifiedAd = new WMNativeUnifiedAd(this, new WMNativeAdRequest(placementId, String.valueOf(userID), 3, options));
+
+        if (checkEditTextEmpty()) {
+            return;
         }
 
-        windNativeUnifiedAd.loadAd(new WMNativeUnifiedAd.NativeAdLoadListener() {
+        adWidth = Integer.valueOf(editTextWidth.getText().toString());
+        adHeight = Integer.valueOf(editTextHeight.getText().toString());
+
+        if (adWidth == 0) {//最大宽度
+            adWidth = screenWidthAsIntDips(this) - 20;//减20因为容器有个margin 10dp//340
+        }
+
+        if (adHeight == 0) {
+            adHeight = WMConstants.AUTO_SIZE;//自适应高度
+        }
+
+        userID++;
+        Map<String, Object> options = new HashMap<>();
+        options.put(WMConstants.AD_WIDTH, adWidth);//针对于模版广告有效、单位dp
+        options.put(WMConstants.AD_HEIGHT, adHeight);//自适应高度
+        options.put("user_id", String.valueOf(userID));
+        if (windNativeAd == null) {
+            windNativeAd = new WMNativeAd(this, new WMNativeAdRequest(placementId, String.valueOf(userID), 3, options));
+        }
+
+        windNativeAd.loadAd(new WMNativeAd.NativeAdLoadListener() {
             @Override
             public void onError(WindMillError error, String placementId) {
                 Log.d("lance", "onError:" + error.toString() + ":" + placementId);
@@ -76,10 +152,10 @@ public class NativeAdUnifiedActivity extends AppCompatActivity {
             @Override
             public void onFeedAdLoad(String placementId) {
                 Toast.makeText(NativeAdUnifiedActivity.this, "onFeedAdLoad", Toast.LENGTH_SHORT).show();
-                List<WMNativeAdData> unifiedADData = windNativeUnifiedAd.getNativeADDataList();
+                List<WMNativeAdData> unifiedADData = windNativeAd.getNativeADDataList();
                 if (unifiedADData != null && unifiedADData.size() > 0) {
                     Log.d("lance", "onFeedAdLoad:" + unifiedADData.size());
-                    unifiedADDataList = unifiedADData;
+                    nativeAdDataList = unifiedADData;
                 }
             }
         });
@@ -87,16 +163,20 @@ public class NativeAdUnifiedActivity extends AppCompatActivity {
 
     private void showNativeAd() {
         Log.d("lance", "-----------showNativeAd-----------");
-        if (unifiedADDataList != null && unifiedADDataList.size() > 0) {
-            WMNativeAdData nativeAdData = unifiedADDataList.get(0);
+        if (nativeAdDataList != null && nativeAdDataList.size() > 0) {
+            WMNativeAdData nativeAdData = nativeAdDataList.get(0);
 
             //先绑定监听器
             bindListener(nativeAdData, placementId);
 
             if (nativeAdData.isExpressAd()) {//模版广告
-                nativeAdData.render();
+                nativeAdData.render();//onRenderSuccess
 //                View expressAdView = nativeAdData.getExpressAdView();
-
+//                //媒体最终将要展示广告的容器
+//                if (adContainer != null) {
+//                    adContainer.removeAllViews();
+//                    adContainer.addView(expressAdView);
+//                }
             } else {//自渲染广告
                 //创建一个装整个自渲染广告的容器
                 WMNativeAdContainer windContainer = new WMNativeAdContainer(this);
@@ -192,12 +272,12 @@ public class NativeAdUnifiedActivity extends AppCompatActivity {
 
                 @Override
                 public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                    Log.d("lance", "----------onADExposed----------");
+                    Log.d("lance", "----------onDownloadActive----------");
                 }
 
                 @Override
                 public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                    Log.d("lance", "----------onDownloadActive----------");
+                    Log.d("lance", "----------onDownloadPaused----------");
                 }
 
                 @Override
@@ -242,26 +322,16 @@ public class NativeAdUnifiedActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (unifiedADDataList != null && unifiedADDataList.size() > 0) {
-            for (WMNativeAdData ad : unifiedADDataList) {
+        if (nativeAdDataList != null && nativeAdDataList.size() > 0) {
+            for (WMNativeAdData ad : nativeAdDataList) {
                 if (ad != null) {
                     ad.destroy();
                 }
             }
         }
-        if (windNativeUnifiedAd != null) {
-            windNativeUnifiedAd.destroy();
+        if (windNativeAd != null) {
+            windNativeAd.destroy();
         }
     }
 
-    private void updatePlacement() {
-
-        SharedPreferences sharedPreferences = this.getSharedPreferences("setting", 0);
-
-        placementId = sharedPreferences.getString(Constants.CONF_UNIFIED_NATIVE_PLACEMENTID, Constants.native_unified_placement_id);
-
-        loadAdBtn.setText("加载自渲染广告:" + placementId);
-        playAdBtn.setText("展示自渲染广告: " + placementId);
-        Toast.makeText(this, "updatePlacement", Toast.LENGTH_SHORT).show();
-    }
 }

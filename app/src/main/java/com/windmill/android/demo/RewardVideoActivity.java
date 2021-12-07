@@ -1,15 +1,14 @@
 package com.windmill.android.demo;
 
-import android.content.SharedPreferences;
-import android.os.Build;
+import android.app.Activity;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
@@ -18,185 +17,82 @@ import com.windmill.sdk.reward.WMRewardAdListener;
 import com.windmill.sdk.reward.WMRewardAdRequest;
 import com.windmill.sdk.reward.WMRewardInfo;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-public class RewardVideoActivity extends AppCompatActivity {
-    private Button loadAdBtn;
-    private Button playAdBtn;
-    private TextView logTextView;
+public class RewardVideoActivity extends Activity implements AdapterView.OnItemSelectedListener {
+    private Spinner spinner;
+    private ArrayAdapter<String> arrayAdapter;
     private WMRewardAd windRewardedVideoAd;
     private String placementId;
-    private String userID = "userId";
+    private String userID = "123456789";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reward_video);
 
-        loadAdBtn = this.findViewById(R.id.loadAd_button);
-        playAdBtn = this.findViewById(R.id.playAd_button);
+        spinner = findViewById(R.id.id_spinner);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.reward_adapter));
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(this);
 
-        logTextView = this.findViewById(R.id.logView);
-        logTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return true;
-            }
-        });
-        logTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
+        WebView.setWebContentsDebuggingEnabled(true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
-
-        updatePlacement();
+        String[] stringArray = getResources().getStringArray(R.array.reward_adapter);
+        placementId = stringArray[0];
 
         Map<String, Object> options = new HashMap<>();
-        options.put("lance", String.valueOf(userID));
+        options.put("user_id", String.valueOf(userID));
         windRewardedVideoAd = new WMRewardAd(this, new WMRewardAdRequest(placementId, userID, options));
         windRewardedVideoAd.setWindRewardedVideoAdListener(new WMRewardAdListener() {
             @Override
             public void onVideoAdLoadSuccess(final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoAdLoadSuccess [ " + placementId + " ]");
-                    }
-                });
+                Log.d("lance", "------onVideoAdLoadSuccess------" + placementId);
+                Toast.makeText(RewardVideoActivity.this, "onVideoAdLoadSuccess", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVideoAdPlayEnd(final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoAdPlayEnd [ " + placementId + " ]");
-                    }
-                });
+                Log.d("lance", "------onVideoAdPlayEnd------" + placementId);
             }
 
             @Override
             public void onVideoAdPlayStart(final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoAdPlayStart [ " + placementId + " ]");
-                    }
-                });
+                Log.d("lance", "------onVideoAdPlayStart------" + placementId);
             }
 
             @Override
             public void onVideoAdClicked(final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoAdClicked [ " + placementId + " ]");
-                    }
-                });
+                Log.d("lance", "------onVideoAdClicked------" + placementId);
             }
 
             @Override
             public void onVideoAdClosed(final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoAdClosed() [" + placementId + "]");
-                    }
-                });
+                Log.d("lance", "------onVideoAdClosed------" + placementId);
             }
 
             @Override
             public void onVideoRewarded(final WMRewardInfo rewardInfo, final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoRewarded() called with: reward = [" + rewardInfo.toString() + "], placementId = [" + placementId + "]");
-                    }
-                });
+                Log.d("lance", "------onVideoRewarded------" + rewardInfo.toString() + ":" + placementId);
             }
 
             @Override
             public void onVideoAdLoadError(final WindMillError error, final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoAdLoadError() called with: error = [" + error + "], placementId = [" + placementId + "]");
-                    }
-                });
+                Log.d("lance", "------onVideoAdLoadError------" + error.toString() + ":" + placementId);
             }
 
             @Override
             public void onVideoAdPlayError(final WindMillError error, final String placementId) {
-                RewardVideoActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        logMessage("onVideoAdPlayError() called with: error = [" + error + "], placementId = [" + placementId + "]");
-                    }
-                });
+                Log.d("lance", "------onVideoAdPlayError------" + error.toString() + ":" + placementId);
             }
         });
-    }
-
-    public void buttonClick(View view) {
-        switch (view.getId()) {
-            case R.id.loadAd_button:
-                if (windRewardedVideoAd != null) {
-                    windRewardedVideoAd.loadAd();
-                }
-                break;
-            case R.id.playAd_button:
-                HashMap option = new HashMap();
-                option.put(WMConstants.AD_SCENE_ID, "567");
-                option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
-                if (windRewardedVideoAd != null && windRewardedVideoAd.isReady()) {
-                    windRewardedVideoAd.show(this, option);
-                } else {
-                    logMessage("Ad is not Ready");
-                }
-                break;
-            case R.id.cleanLog_button:
-                cleanLog();
-                break;
-        }
-    }
-
-    private void updatePlacement() {
-
-        SharedPreferences sharedPreferences = this.getSharedPreferences("setting", 0);
-
-        placementId = sharedPreferences.getString(Constants.CONF_REWARD_PLACEMENTID, Constants.reward_placement_id);
-        userID = sharedPreferences.getString(Constants.CONF_USERID, "");
-
-        loadAdBtn.setText("load  " + placementId);
-        playAdBtn.setText("play " + placementId);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    private void cleanLog() {
-        logTextView.setText("");
-    }
-
-    private static SimpleDateFormat dateFormat = null;
-
-    private static SimpleDateFormat getDateTimeFormat() {
-
-        if (dateFormat == null) {
-            dateFormat = new SimpleDateFormat("MM-dd HH:mm:ss SSS", Locale.CHINA);
-        }
-        return dateFormat;
-    }
-
-    private void logMessage(String message) {
-        Date date = new Date();
-        logTextView.append(getDateTimeFormat().format(date) + " " + message + '\n');
     }
 
     @Override
@@ -206,5 +102,37 @@ public class RewardVideoActivity extends AppCompatActivity {
             windRewardedVideoAd.destroy();
             windRewardedVideoAd = null;
         }
+    }
+
+    public void ButtonClick(View view) {
+        switch (view.getId()) {
+            case R.id.bt_load_ad:
+                if (windRewardedVideoAd != null) {
+                    windRewardedVideoAd.loadAd();
+                }
+                break;
+            case R.id.bt_show_ad:
+                HashMap option = new HashMap();
+                option.put(WMConstants.AD_SCENE_ID, "567");
+                option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
+                if (windRewardedVideoAd != null && windRewardedVideoAd.isReady()) {
+                    windRewardedVideoAd.show(this, option);
+                } else {
+                    Log.d("lance", "------Ad is not Ready------");
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("lance", "------onItemSelected------" + position);
+        String[] stringArray = getResources().getStringArray(R.array.reward_id_value);
+        placementId = stringArray[position];
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        Log.d("lance", "------onNothingSelected------");
     }
 }

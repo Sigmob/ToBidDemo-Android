@@ -17,4 +17,60 @@
         <item>ee7919a6d46</item>
     </string-array>
 
+    <array name="reward_adapter">
+        <item>SigMob</item>
+        <item>穿山甲</item>
+        <item>快手</item>
+        <item>腾讯广告</item>
+        <item>Mtg</item>
+    </array>
+
+    <string-array name="reward_id_value">
+        <item>ee7913be5cc</item>
+        <item>ee78f2cc615</item>
+        <item>ee7913a4087</item>
+        <item>ee791393b0b</item>
+        <item>ee791d1ffde</item>
+    </string-array>
+
+    <array name="interstitial_adapter">
+        <item>SigMob</item>
+        <item>穿山甲</item>
+        <item>快手</item>
+        <item>腾讯广告</item>
+        <item>Mtg</item>
+    </array>
+
+    <string-array name="interstitial_full_id_value">
+        <item>ee79153f7df</item>
+        <item>ee78f2f32c2</item>
+        <item>ee79152db8b</item>
+        <item>ee7915168fd</item>
+        <item>ee79163e53f</item>
+    </string-array>
+
+    <string-array name="interstitial_half_id_value">
+        <item>0</item>//不支持半屏
+        <item>ee791a4c5ff</item>
+        <item>ee791a62b82</item>
+        <item>ee792063499</item>
+        <item>ee791ff5448</item>
+    </string-array>
+
+    <array name="native_adapter">
+        <item>SigMob</item>
+        <item>穿山甲</item>
+        <item>快手</item>
+        <item>腾讯广告</item>
+        <item>Mtg</item>
+    </array>
+
+    <string-array name="native_id_value">
+        <item>ee78f308b79</item>
+        <item>ee78f2cc615</item>
+        <item>ee7913a4087</item>
+        <item>ee791393b0b</item>
+        <item>ee791d1ffde</item>
+    </string-array>
+
 </resources>
