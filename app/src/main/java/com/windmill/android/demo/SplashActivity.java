@@ -1,23 +1,17 @@
 package com.windmill.android.demo;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 
-import com.windmill.sdk.WindMillAd;
-import com.windmill.sdk.WindMillConsentStatus;
 import com.windmill.sdk.WindMillError;
-import com.windmill.sdk.WindMillOptions;
-import com.windmill.sdk.WindMillUserAgeStatus;
 import com.windmill.sdk.splash.WMSplashAd;
 import com.windmill.sdk.splash.WMSplashAdListener;
 import com.windmill.sdk.splash.WMSplashAdRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,70 +24,39 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
      */
     public boolean canJumpImmediately = false;
     private WMSplashAd splashAd;
-    private ArrayList<String> logs;
-    private boolean isLoadAndShow = true;//是否实时加载并显示开屏广告
     private ViewGroup adContainer;
-    private boolean halfSplash;
 
-    private void initSDK() {
+    private boolean isLoadAndShow = true;//是否实时加载并显示开屏广告
+    private boolean isFullScreen = false;
+    private boolean isSelfLogo = false;
+    private boolean needStartMainActivity = true;
 
-        WindMillAd ads = WindMillAd.sharedAds();
-
-        ads.setUserAge(18);
-        ads.setAdult(true);//是否未成年
-        ads.setPersonalizedAdvertisingOn(true);//是否关闭个性化推荐接口
-        ads.setIsAgeRestrictedUser(WindMillUserAgeStatus.WindAgeRestrictedStatusNO);//是否年龄限制
-        ads.setUserGDPRConsentStatus(WindMillConsentStatus.ACCEPT);//是否接受gdpr协议
-
-        SharedPreferences sharedPreferences = getSharedPreferences("setting", 0);
-        String appId = sharedPreferences.getString(Constants.CONF_APPID, Constants.app_id);
-        String appKey = sharedPreferences.getString(Constants.CONF_APPKEY, Constants.app_key);
-
-        logs = new ArrayList<>();
-        logs.add("init SDK appId :" + appId + " appKey: " + appKey);
-        ads.startWithOptions(this, new WindMillOptions(appId, appKey));
-
-    }
+    private String placementId;
+    private String userId = "123456789";
 
     private void getExtraInfo() {
         Intent intent = getIntent();
-        if (intent == null) {
-            return;
-        }
         isLoadAndShow = intent.getBooleanExtra("isLoadAndShow", true);
+        isFullScreen = intent.getBooleanExtra("isFullScreen", false);
+        isSelfLogo = intent.getBooleanExtra("isLoadAndShow", false);
+        placementId = intent.getStringExtra("placementId");
+        needStartMainActivity = intent.getBooleanExtra("need_start_main_activity", true);
+        if (TextUtils.isEmpty(placementId)) {
+            String[] stringArray = getResources().getStringArray(R.array.splash_id_value);
+            placementId = stringArray[0];
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_splash);
+        adContainer = findViewById(R.id.splash_container);
 
         getExtraInfo();
 
-        Constants.loadDefualtAdSetting(this);
-
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-        adContainer = findViewById(R.id.splash_container);
-
-        initSDK();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("setting", 0);
-
-        String placementId = sharedPreferences.getString(Constants.CONF_SPLASH_PLACEMENTID, Constants.splash_placement_id);
-        String userId = sharedPreferences.getString(Constants.CONF_USERID, null);
-
-
-        String appTitle = sharedPreferences.getString(Constants.CONF_APP_TITLE, null);
-        String appDesc = sharedPreferences.getString(Constants.CONF_APP_DESC, null);
-        halfSplash = sharedPreferences.getBoolean(Constants.CONF_HALF_SPLASH, true);
-
         Map<String, Object> options = new HashMap<>();
-        options.put("user_id", "123456");
-
+        options.put("user_id", userId);
         WMSplashAdRequest splashAdRequest = new WMSplashAdRequest(placementId, userId, options);
 
         /**
@@ -106,25 +69,22 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
         /**
          * 设置应用LOGO标题及描述,半屏Window展示
          */
-        if (!TextUtils.isEmpty(appTitle)) {
-            splashAdRequest.setAppTitle(appTitle);
-            splashAdRequest.setAppDesc(appDesc);
+        if (isSelfLogo) {
+            splashAdRequest.setAppTitle("开心消消乐");
+            splashAdRequest.setAppDesc("让世界充满快乐");
         }
 
         splashAd = new WMSplashAd(this, splashAdRequest, this);
 
-        logs.add("isLoadAndShow:" + isLoadAndShow);
-
         if (isLoadAndShow) {
-            if (halfSplash) {//采用容器展示开屏广告内容
-                splashAd.loadAdAndShow(adContainer);
-            } else {//全屏开屏Window展示
+            if (isFullScreen) {//全屏开屏Window展示
                 splashAd.loadAdAndShow(null);
+            } else {//采用容器展示开屏广告内容
+                splashAd.loadAdAndShow(adContainer);
             }
         } else {
             splashAd.loadAdOnly();
         }
-
     }
 
     private void jumpWhenCanClick() {
@@ -139,13 +99,11 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
      * 不可点击的开屏，使用该jump方法，而不是用jumpWhenCanClick
      */
     private void jumpMainActivity() {
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        String[] list = logs.toArray(new String[logs.size()]);
-
-        intent.putExtra("logs", list);
-        this.startActivity(intent);
+        if (needStartMainActivity) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            this.startActivity(intent);
+        }
         this.finish();
     }
 
@@ -166,37 +124,35 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
 
     @Override
     public void onSplashAdSuccessPresent() {
-        logs.add("onSplashAdSuccessPresent");
+        Log.d("lance", "------onSplashAdSuccessPresent------");
     }
 
     @Override
     public void onSplashAdSuccessLoad() {
-        logs.add("onSplashAdSuccessLoad:" + splashAd.isReady());
+        Log.d("lance", "------onSplashAdSuccessLoad------" + splashAd.isReady());
         if (!isLoadAndShow && splashAd.isReady()) {
-            if (halfSplash) {//采用容器展示开屏广告内容
-                splashAd.showAd(adContainer);
-            } else {//全屏开屏Window展示
+            if (isFullScreen) {//全屏开屏Window展示
                 splashAd.showAd(null);
+            } else {//采用容器展示开屏广告内容
+                splashAd.showAd(adContainer);
             }
         }
     }
 
     @Override
     public void onSplashAdFailToLoad(WindMillError windMillError, String placementId) {
-        logs.add("onSplashAdFailToLoad: " + windMillError + " placementId: " + placementId);
+        Log.d("lance", "------onSplashAdFailToLoad------" + windMillError.toString() + ":" + placementId);
         jumpMainActivity();
     }
 
     @Override
     public void onSplashAdClicked() {
-        logs.add("onSplashAdClicked");
+        Log.d("lance", "------onSplashAdClicked------");
     }
 
     @Override
     public void onSplashClosed() {
-        logs.add("onSplashClosed");
-
+        Log.d("lance", "------onSplashClosed------");
         jumpWhenCanClick();
-
     }
 }

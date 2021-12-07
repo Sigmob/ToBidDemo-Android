@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="splash_adapter">
+        <item>SigMob</item>
+        <item>穿山甲</item>
+        <item>快手</item>
+        <item>腾讯广告</item>
+        <item>Mtg</item>
+    </array>
+
+    <string-array name="splash_id_value">
+        <item>ee791904f96</item>
+        <item>ee78f2e39b9</item>
+        <item>ee7918ef1a1</item>
+        <item>ee7918df0d9</item>
+        <item>ee7919a6d46</item>
+    </string-array>
+
+</resources>
