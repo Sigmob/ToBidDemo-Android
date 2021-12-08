@@ -210,7 +210,7 @@ public class NativeAdDemoRender implements WMNativeAdRender<WMNativeAdData> {
         updateAdAction(ctaText);
     }
 
-    private void updateAdAction(String ctaText) {
+    public void updateAdAction(String ctaText) {
         if (!TextUtils.isEmpty(ctaText)) {
             //如果拉取广告包含CTA组件，则渲染该组件
             mCTAButton.setText(ctaText);

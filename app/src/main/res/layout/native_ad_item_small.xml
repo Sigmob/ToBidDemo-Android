@@ -94,7 +94,7 @@
                 android:layout_height="15dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/sig_logo"
                 android:visibility="visible" />
 

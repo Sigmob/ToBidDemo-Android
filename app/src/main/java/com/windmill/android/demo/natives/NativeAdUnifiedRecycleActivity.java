@@ -1,12 +1,13 @@
 package com.windmill.android.demo.natives;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.windmill.android.demo.Constants;
 import com.windmill.android.demo.R;
 import com.windmill.android.demo.view.ILoadMoreListener;
 import com.windmill.android.demo.view.LoadMoreRecyclerView;
@@ -40,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class NativeAdUnifiedRecycleActivity extends AppCompatActivity {
+public class NativeAdUnifiedRecycleActivity extends Activity {
 
     private static final int LIST_ITEM_COUNT = 10;
 
@@ -58,21 +57,31 @@ public class NativeAdUnifiedRecycleActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
+    private int adWidth; // 广告宽高
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_ad_unified_recycle);
-        updatePlacement();
+        getExtraInfo();
         initListView();
+        adWidth = screenWidthAsIntDips(this) - 20;//减20因为容器有个margin 10dp//340
     }
 
-    private void updatePlacement() {
+    private void getExtraInfo() {
+        Intent intent = getIntent();
+        placementId = intent.getStringExtra("placementId");
+        if (TextUtils.isEmpty(placementId)) {
+            String[] stringArray = getResources().getStringArray(R.array.native_id_value);
+            placementId = stringArray[0];
+        }
+    }
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("setting", 0);
-
-        placementId = sharedPreferences.getString(Constants.CONF_UNIFIED_NATIVE_PLACEMENTID, Constants.native_unified_placement_id);
-
-        Toast.makeText(this, "updatePlacement", Toast.LENGTH_SHORT).show();
+    public static int screenWidthAsIntDips(Context context) {
+        int pixels = context.getResources().getDisplayMetrics().widthPixels;
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) ((pixels / density) + 0.5f);
     }
 
     private void initListView() {
@@ -100,9 +109,11 @@ public class NativeAdUnifiedRecycleActivity extends AppCompatActivity {
      * 加载feed广告
      */
     private void loadListAd() {
-        Log.d("lance", "-----------loadListAd-----------");
+        Log.d("lance", adWidth + "-----------loadListAd-----------" + placementId);
         userID++;
         Map<String, Object> options = new HashMap<>();
+        options.put(WMConstants.AD_WIDTH, adWidth);//针对于模版广告有效、单位dp
+        options.put(WMConstants.AD_HEIGHT, WMConstants.AUTO_SIZE);//自适应高度
         options.put("user_id", String.valueOf(userID));
         if (windNativeUnifiedAd == null) {
             windNativeUnifiedAd = new WMNativeAd(this, new WMNativeAdRequest(placementId, String.valueOf(userID), 3, options));
@@ -190,13 +201,12 @@ public class NativeAdUnifiedRecycleActivity extends AppCompatActivity {
             }
         }
 
-        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             if (holder instanceof UnifiedAdViewHolder) {
                 WMNativeAdData nativeAdData = mData.get(position);
                 final UnifiedAdViewHolder adViewHolder = (UnifiedAdViewHolder) holder;
-                bindListener(nativeAdData);
+                bindListener(nativeAdData, holder);
                 //将容器和view链接起来
                 nativeAdData.connectAdToView(mActivity, adViewHolder.windContainer, adViewHolder.adRender);
                 //添加进容器
@@ -214,7 +224,7 @@ public class NativeAdUnifiedRecycleActivity extends AppCompatActivity {
             } else if (holder instanceof ExpressAdViewHolder) {
                 WMNativeAdData nativeAdData = mData.get(position);
                 final ExpressAdViewHolder adViewHolder = (ExpressAdViewHolder) holder;
-                bindListener(nativeAdData);
+                bindListener(nativeAdData, holder);
                 nativeAdData.render();
                 View expressAdView = nativeAdData.getExpressAdView();
                 //添加进容器
@@ -246,7 +256,7 @@ public class NativeAdUnifiedRecycleActivity extends AppCompatActivity {
             return Color.argb(a, r, g, b);
         }
 
-        private void bindListener(final WMNativeAdData nativeAdData) {
+        private void bindListener(final WMNativeAdData nativeAdData, final RecyclerView.ViewHolder adViewHolder) {
             //设置广告交互监听
             nativeAdData.setInteractionListener(new WMNativeAdData.NativeAdInteractionListener() {
                 @Override
@@ -316,31 +326,49 @@ public class NativeAdUnifiedRecycleActivity extends AppCompatActivity {
                     @Override
                     public void onIdle() {
                         Log.d("lance", "----------onIdle----------");
+                        if (adViewHolder instanceof UnifiedAdViewHolder) {
+                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("开始下载");
+                        }
                     }
 
                     @Override
                     public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
                         Log.d("lance", "----------onADExposed----------");
+                        if (adViewHolder instanceof UnifiedAdViewHolder) {
+                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("下载中");
+                        }
                     }
 
                     @Override
                     public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
                         Log.d("lance", "----------onDownloadActive----------");
+                        if (adViewHolder instanceof UnifiedAdViewHolder) {
+                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("下载暂停");
+                        }
                     }
 
                     @Override
                     public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
                         Log.d("lance", "----------onDownloadFailed----------");
+                        if (adViewHolder instanceof UnifiedAdViewHolder) {
+                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("重新下载");
+                        }
                     }
 
                     @Override
                     public void onDownloadFinished(long totalBytes, String fileName, String appName) {
                         Log.d("lance", "----------onDownloadFinished----------");
+                        if (adViewHolder instanceof UnifiedAdViewHolder) {
+                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("点击安装");
+                        }
                     }
 
                     @Override
                     public void onInstalled(String fileName, String appName) {
                         Log.d("lance", "----------onInstalled----------");
+                        if (adViewHolder instanceof UnifiedAdViewHolder) {
+                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("点击打开");
+                        }
                     }
                 });
             }

@@ -185,7 +185,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
                 android:gravity="center_vertical"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/sig_logo"
                 android:visibility="visible" />
 

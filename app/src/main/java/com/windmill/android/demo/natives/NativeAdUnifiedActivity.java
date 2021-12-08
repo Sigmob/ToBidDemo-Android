@@ -1,5 +1,6 @@
 package com.windmill.android.demo.natives;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +12,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.windmill.android.demo.R;
 import com.windmill.sdk.WMConstants;
@@ -27,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NativeAdUnifiedActivity extends AppCompatActivity {
+public class NativeAdUnifiedActivity extends Activity {
 
     private ViewGroup adContainer;
     private WMNativeAd windNativeAd;

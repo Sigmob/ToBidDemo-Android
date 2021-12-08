@@ -1,5 +1,6 @@
 package com.windmill.android.demo.natives;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,11 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.annotation.IdRes;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.windmill.android.demo.R;
 
-public class NativeAdActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class NativeAdActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     private Spinner spinner;
     private ArrayAdapter<String> arrayAdapter;

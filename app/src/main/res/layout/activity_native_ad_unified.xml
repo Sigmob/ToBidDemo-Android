@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -17,7 +18,6 @@
             android:id="@+id/textWidth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:gravity="center"
             android:text="宽：" />
 
@@ -45,6 +45,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -52,7 +53,6 @@
             android:id="@+id/textHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:gravity="center"
             android:text="高：" />
 
@@ -88,7 +88,7 @@
             android:id="@+id/textSizeHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="上面的宽、高单位为dp，可以在这里调出合适的尺寸\nADSize.AUTO_HEIGHT可以让NativeExpressADView的高度根据广告内容自适应\n"
+            android:text="上面的宽、高单位为dp,可以在这里调出合适的尺寸WMConstants.AUTO_SIZE可以让WMNativeAdData模版渲染的高度根据广告内容自适应"
             android:textStyle="italic" />
 
     </RelativeLayout>
