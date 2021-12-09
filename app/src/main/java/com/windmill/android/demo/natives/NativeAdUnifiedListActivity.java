@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.windmill.android.demo.R;
 import com.windmill.android.demo.view.ILoadMoreListener;
@@ -323,13 +322,8 @@ public class NativeAdUnifiedListActivity extends Activity {
                 }
 
                 @Override
-                public void onRenderFail(View view, String msg, int code) {
-                    Log.d("lance", "----------onRenderFail----------:" + msg + ":" + code);
-                }
-
-                @Override
-                public void onRenderSuccess(View view, float width, float height) {
-                    Log.d("lance", "----------onRenderSuccess----------:" + width + ":" + height);
+                public void onADRenderSuccess(View view, float width, float height) {
+                    Log.d("lance", "----------onADRenderSuccess----------:" + width + ":" + height);
                 }
 
                 @Override

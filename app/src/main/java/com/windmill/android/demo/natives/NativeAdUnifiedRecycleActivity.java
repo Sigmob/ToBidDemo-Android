@@ -270,13 +270,8 @@ public class NativeAdUnifiedRecycleActivity extends Activity {
                 }
 
                 @Override
-                public void onRenderFail(View view, String msg, int code) {
-                    Log.d("lance", "----------onRenderFail----------:" + msg + ":" + code);
-                }
-
-                @Override
-                public void onRenderSuccess(View view, float width, float height) {
-                    Log.d("lance", "----------onRenderSuccess----------:" + width + ":" + height);
+                public void onADRenderSuccess(View view, float width, float height) {
+                    Log.d("lance", "----------onADRenderSuccess----------:" + width + ":" + height);
                 }
 
                 @Override

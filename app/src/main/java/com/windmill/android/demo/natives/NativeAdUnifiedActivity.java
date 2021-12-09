@@ -8,12 +8,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.windmill.android.demo.R;
+import com.windmill.android.demo.log.CallBackInfo;
+import com.windmill.android.demo.log.CallBackItem;
+import com.windmill.android.demo.log.ExpandAdapter;
+import com.windmill.android.demo.log.MyListView;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.natives.WMNativeAd;
@@ -22,6 +27,7 @@ import com.windmill.sdk.natives.WMNativeAdData;
 import com.windmill.sdk.natives.WMNativeAdDataType;
 import com.windmill.sdk.natives.WMNativeAdRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +43,32 @@ public class NativeAdUnifiedActivity extends Activity {
     private EditText editTextWidth, editTextHeight; // 编辑框输入的宽高
     private int adWidth, adHeight; // 广告宽高
     private CheckBox checkBoxFullWidth, checkBoxAutoHeight;
+
+    private MyListView listView;
+    private ExpandAdapter adapter;
+    private List<CallBackItem> callBackDataList = new ArrayList<>();
+
+    private void initCallBack() {
+        resetCallBackData();
+        listView = findViewById(R.id.callback_lv);
+        adapter = new ExpandAdapter(this, callBackDataList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("lance", "------onItemClick------" + position);
+                CallBackItem callItem = callBackDataList.get(position);
+                if (callItem != null) {
+                    if (callItem.is_expand()) {
+                        callItem.set_expand(false);
+                    } else {
+                        callItem.set_expand(true);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
 
     private void getExtraInfo() {
         Intent intent = getIntent();
@@ -83,11 +115,17 @@ public class NativeAdUnifiedActivity extends Activity {
                 }
             }
         });
+
+        initCallBack();
     }
 
     public void ButtonClick(View view) {
         switch (view.getId()) {
             case R.id.load_native_button:
+                resetCallBackData();
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
                 //加载原生广告
                 loadNativeAd();
                 break;
@@ -145,12 +183,14 @@ public class NativeAdUnifiedActivity extends Activity {
             @Override
             public void onError(WindMillError error, String placementId) {
                 Log.d("lance", "onError:" + error.toString() + ":" + placementId);
+                logCallBack("onError", error.toString());
                 Toast.makeText(NativeAdUnifiedActivity.this, "onError", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFeedAdLoad(String placementId) {
                 Toast.makeText(NativeAdUnifiedActivity.this, "onFeedAdLoad", Toast.LENGTH_SHORT).show();
+                logCallBack("onFeedAdLoad", "");
                 List<WMNativeAdData> unifiedADData = windNativeAd.getNativeADDataList();
                 if (unifiedADData != null && unifiedADData.size() > 0) {
                     Log.d("lance", "onFeedAdLoad:" + unifiedADData.size());
@@ -199,21 +239,19 @@ public class NativeAdUnifiedActivity extends Activity {
             @Override
             public void onADExposed() {
                 Log.d("lance", "----------onADExposed----------");
+                logCallBack("onADExposed", "");
             }
 
             @Override
             public void onADClicked() {
                 Log.d("lance", "----------onADClicked----------");
+                logCallBack("onADClicked", "");
             }
 
             @Override
-            public void onRenderFail(View view, String msg, int code) {
-                Log.d("lance", "----------onRenderFail----------:" + msg + ":" + code);
-            }
-
-            @Override
-            public void onRenderSuccess(View view, float width, float height) {
-                Log.d("lance", "----------onRenderSuccess----------:" + width + ":" + height);
+            public void onADRenderSuccess(View view, float width, float height) {
+                Log.d("lance", "----------onADRenderSuccess----------:" + width + ":" + height);
+                logCallBack("onADRenderSuccess", "");
                 //媒体最终将要展示广告的容器
                 if (adContainer != null) {
                     adContainer.removeAllViews();
@@ -223,6 +261,7 @@ public class NativeAdUnifiedActivity extends Activity {
 
             @Override
             public void onADError(WindMillError error) {
+                logCallBack("onADError", error.toString());
                 Log.d("lance", "----------onADError----------:" + error.toString());
             }
         });
@@ -330,6 +369,29 @@ public class NativeAdUnifiedActivity extends Activity {
         }
         if (windNativeAd != null) {
             windNativeAd.destroy();
+        }
+    }
+
+    private void resetCallBackData() {
+        callBackDataList.clear();
+        for (int i = 0; i < CallBackInfo.NATIVE_CALLBACK.length; i++) {
+            callBackDataList.add(new CallBackItem(CallBackInfo.NATIVE_CALLBACK[i], "", false, false));
+        }
+    }
+
+    private void logCallBack(String call, String child) {
+        for (int i = 0; i < callBackDataList.size(); i++) {
+            CallBackItem callItem = callBackDataList.get(i);
+            if (callItem.getText().equals(call)) {
+                callItem.set_callback(true);
+                if (!TextUtils.isEmpty(child)) {
+                    callItem.setChild_text(child);
+                }
+                break;
+            }
+        }
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
         }
     }
 

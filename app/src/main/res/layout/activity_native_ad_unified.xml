@@ -1,130 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
+    android:scrollbars="none"
     tools:context=".natives.NativeAdUnifiedActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textWidth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="宽：" />
-
-        <EditText
-            android:id="@+id/editWidth"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="3"
-            android:background="@android:drawable/edit_text"
-            android:inputType="number"
-            android:maxLines="1"
-            android:paddingLeft="5dp"
-            android:text="340" />
-
-        <CheckBox
-            android:id="@+id/checkboxFullWidth"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="最大宽度" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textHeight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="高：" />
-
-        <EditText
-            android:id="@+id/editHeight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="3"
-            android:background="@android:drawable/edit_text"
-            android:enabled="false"
-            android:inputType="number"
-            android:maxLines="1"
-            android:paddingLeft="5dp"
-            android:text="0" />
-
-        <CheckBox
-            android:id="@+id/checkboxAutoHeight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:checked="true"
-            android:text="自适应高度" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:id="@+id/textSizeHint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="上面的宽、高单位为dp,可以在这里调出合适的尺寸WMConstants.AUTO_SIZE可以让WMNativeAdData模版渲染的高度根据广告内容自适应"
-            android:textStyle="italic" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/load_native_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:onClick="ButtonClick"
-            android:text="加载广告" />
-
-        <Button
-            android:id="@+id/show_native_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:onClick="ButtonClick"
-            android:text="展示广告" />
-
-        <FrameLayout
-            android:id="@+id/native_ad_container"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@color/colorAccent" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="宽：" />
+
+            <EditText
+                android:id="@+id/editWidth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="3"
+                android:background="@android:drawable/edit_text"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingLeft="5dp"
+                android:text="340" />
+
+            <CheckBox
+                android:id="@+id/checkboxFullWidth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="最大宽度" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="高：" />
+
+            <EditText
+                android:id="@+id/editHeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="3"
+                android:background="@android:drawable/edit_text"
+                android:enabled="false"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingLeft="5dp"
+                android:text="0" />
+
+            <CheckBox
+                android:id="@+id/checkboxAutoHeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:checked="true"
+                android:text="自适应高度" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/textSizeHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="上面的宽、高单位为dp,可以在这里调出合适的尺寸WMConstants.AUTO_SIZE可以让WMNativeAdData模版渲染的高度根据广告内容自适应"
+                android:textStyle="italic" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/load_native_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:onClick="ButtonClick"
+                android:text="加载广告" />
+
+            <Button
+                android:id="@+id/show_native_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:onClick="ButtonClick"
+                android:text="展示广告" />
+
+            <FrameLayout
+                android:id="@+id/native_ad_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorAccent" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:text="广告回调信息:"
+            android:textSize="16dp" />
+
+        <com.windmill.android.demo.log.MyListView
+            android:id="@+id/callback_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:divider="@color/colorGray"
+            android:dividerHeight="1px" />
+
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

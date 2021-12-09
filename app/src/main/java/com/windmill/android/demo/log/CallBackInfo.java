@@ -31,4 +31,12 @@ public class CallBackInfo {
             "onSplashAdClicked",
             "onSplashClosed"};
 
+    public static String[] NATIVE_CALLBACK = {
+            "onFeedAdLoad",
+            "onError",
+            "onADExposed",
+            "onADClicked",
+            "onADError",
+            "onADRenderSuccess"};
+
 }
