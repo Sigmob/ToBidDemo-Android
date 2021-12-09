@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -46,7 +45,8 @@ public class VersionActivity extends Activity {
             row.setGravity(Gravity.CENTER_VERTICAL);
 
             TextView tv1 = new TextView(this);
-            TableRow.LayoutParams params1 = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dipsToIntPixels(40));
+            TableRow.LayoutParams params1 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+            params1.weight = 1;
             params1.setMargins(0, 0, 1, 0);
             tv1.setLayoutParams(params1);
             tv1.setGravity(Gravity.CENTER);
@@ -56,7 +56,8 @@ public class VersionActivity extends Activity {
             row.addView(tv1);
 
             TextView tv2 = new TextView(this);
-            TableRow.LayoutParams params2 = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dipsToIntPixels(40));
+            TableRow.LayoutParams params2 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+            params2.weight = 1;
             tv2.setLayoutParams(params2);
             tv2.setGravity(Gravity.CENTER);
             tv2.setBackgroundColor(Color.WHITE);
@@ -78,7 +79,8 @@ public class VersionActivity extends Activity {
                 tb.setGravity(Gravity.CENTER_VERTICAL);
 
                 TextView tv3 = new TextView(this);
-                TableRow.LayoutParams params3 = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dipsToIntPixels(40));
+                TableRow.LayoutParams params3 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+                params3.weight = 1;
                 params3.setMargins(0, 0, 1, 0);
                 tv3.setLayoutParams(params3);
                 tv3.setGravity(Gravity.CENTER);
@@ -88,7 +90,8 @@ public class VersionActivity extends Activity {
                 tb.addView(tv3);
 
                 TextView tv4 = new TextView(this);
-                TableRow.LayoutParams params4 = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dipsToIntPixels(40));
+                TableRow.LayoutParams params4 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+                params4.weight = 1;
                 tv4.setLayoutParams(params4);
                 tv4.setGravity(Gravity.CENTER);
                 tv4.setBackgroundColor(Color.WHITE);
