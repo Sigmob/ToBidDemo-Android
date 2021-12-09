@@ -61,4 +61,12 @@
             android:onClick="ButtonClick"
             android:text="观看广告" />
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/callback_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:divider="@color/colorGray"
+        android:dividerHeight="1px" />
 </LinearLayout>
