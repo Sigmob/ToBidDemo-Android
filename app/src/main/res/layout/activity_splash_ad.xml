@@ -83,5 +83,22 @@
             android:text="拉取与显示分离" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:text="广告回调信息:"
+        android:textSize="16dp" />
+
+    <ListView
+        android:id="@+id/callback_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:divider="@color/colorGray"
+        android:dividerHeight="1px" />
+
 
 </LinearLayout>

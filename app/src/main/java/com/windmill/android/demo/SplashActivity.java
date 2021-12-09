@@ -34,6 +34,8 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
     private String placementId;
     private String userId = "123456789";
 
+    private HashMap<String, String> callBack;
+
     private void getExtraInfo() {
         Intent intent = getIntent();
         isLoadAndShow = intent.getBooleanExtra("isLoadAndShow", true);
@@ -52,6 +54,7 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         adContainer = findViewById(R.id.splash_container);
+        callBack = new HashMap<>();
 
         getExtraInfo();
 
@@ -103,8 +106,14 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             this.startActivity(intent);
+            this.finish();
+        } else {
+            Intent intent = new Intent();
+            intent.putExtra("result", callBack);
+            //设置返回数据
+            this.setResult(RESULT_OK, intent);
+            this.finish();
         }
-        this.finish();
     }
 
     @Override
@@ -125,11 +134,13 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
     @Override
     public void onSplashAdSuccessPresent() {
         Log.d("lance", "------onSplashAdSuccessPresent------");
+        callBack.put("onSplashAdSuccessPresent", "");
     }
 
     @Override
     public void onSplashAdSuccessLoad() {
         Log.d("lance", "------onSplashAdSuccessLoad------" + splashAd.isReady());
+        callBack.put("onSplashAdSuccessLoad", "");
         if (!isLoadAndShow && splashAd.isReady()) {
             if (isFullScreen) {//全屏开屏Window展示
                 splashAd.showAd(null);
@@ -141,17 +152,20 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
 
     @Override
     public void onSplashAdFailToLoad(WindMillError windMillError, String placementId) {
+        callBack.put("onSplashAdFailToLoad", windMillError.toString());
         Log.d("lance", "------onSplashAdFailToLoad------" + windMillError.toString() + ":" + placementId);
         jumpMainActivity();
     }
 
     @Override
     public void onSplashAdClicked() {
+        callBack.put("onSplashAdClicked", "");
         Log.d("lance", "------onSplashAdClicked------");
     }
 
     @Override
     public void onSplashClosed() {
+        callBack.put("onSplashClosed", "");
         Log.d("lance", "------onSplashClosed------");
         jumpWhenCanClick();
     }
