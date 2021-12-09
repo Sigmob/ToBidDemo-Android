@@ -2,6 +2,7 @@ package com.windmill.android.demo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -9,16 +10,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.windmill.android.demo.log.CallBackInfo;
+import com.windmill.android.demo.log.CallBackItem;
+import com.windmill.android.demo.log.ExpandAdapter;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.interstitial.WMInterstitialAd;
 import com.windmill.sdk.interstitial.WMInterstitialAdListener;
 import com.windmill.sdk.interstitial.WMInterstitialAdRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InterstitialActivity extends Activity implements WMInterstitialAdListener, AdapterView.OnItemSelectedListener {
@@ -32,6 +38,32 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     private CheckBox halfScreen;
     private boolean isHalfScreen = false;
     private int selectedId = 0;
+
+    private ListView listView;
+    private ExpandAdapter adapter;
+    private List<CallBackItem> callBackDataList = new ArrayList<>();
+
+    private void initCallBack() {
+        resetCallBackData();
+        listView = findViewById(R.id.callback_lv);
+        adapter = new ExpandAdapter(this, callBackDataList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("lance", "------onItemClick------" + position);
+                CallBackItem callItem = callBackDataList.get(position);
+                if (callItem != null) {
+                    if (callItem.is_expand()) {
+                        callItem.set_expand(false);
+                    } else {
+                        callItem.set_expand(true);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +86,17 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
 
         WebView.setWebContentsDebuggingEnabled(true);
 
+        initCallBack();
+
     }
 
     public void ButtonClick(View view) {
         switch (view.getId()) {
             case R.id.bt_load_ad:
+                resetCallBackData();
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
                 updatePlacementId();
                 if (windInterstitialAd == null) {
                     Map<String, Object> options = new HashMap<>();
@@ -129,36 +167,66 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     @Override
     public void onInterstitialAdLoadSuccess(final String placementId) {
         Log.d("lance", "------onInterstitialAdLoadSuccess------" + placementId);
-        Toast.makeText(InterstitialActivity.this, "onInterstitialAdLoadSuccess", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(InterstitialActivity.this, "onInterstitialAdLoadSuccess", Toast.LENGTH_SHORT).show();
+        logCallBack("onInterstitialAdLoadSuccess", "");
     }
 
     @Override
     public void onInterstitialAdPlayStart(final String placementId) {
         Log.d("lance", "------onInterstitialAdPlayStart------" + placementId);
+        logCallBack("onInterstitialAdPlayStart", "");
     }
 
     @Override
     public void onInterstitialAdPlayEnd(final String placementId) {
         Log.d("lance", "------onInterstitialAdPlayEnd------" + placementId);
+        logCallBack("onInterstitialAdPlayEnd", "");
     }
 
     @Override
     public void onInterstitialAdClicked(final String placementId) {
         Log.d("lance", "------onInterstitialAdClicked------" + placementId);
+        logCallBack("onInterstitialAdClicked", "");
     }
 
     @Override
     public void onInterstitialAdClosed(final String placementId) {
         Log.d("lance", "------onInterstitialAdClosed------" + placementId);
+        logCallBack("onInterstitialAdClosed", "");
     }
 
     @Override
     public void onInterstitialAdLoadError(final WindMillError error, final String placementId) {
         Log.d("lance", "------onInterstitialAdLoadError------" + error.toString() + ":" + placementId);
+        logCallBack("onInterstitialAdLoadError", error.toString());
     }
 
     @Override
     public void onInterstitialAdPlayError(final WindMillError error, final String placementId) {
         Log.d("lance", "------onInterstitialAdPlayError------" + error.toString() + ":" + placementId);
+        logCallBack("onInterstitialAdPlayError", error.toString());
+    }
+
+    private void resetCallBackData() {
+        callBackDataList.clear();
+        for (int i = 0; i < CallBackInfo.INTERSTITIAL_CALLBACK.length; i++) {
+            callBackDataList.add(new CallBackItem(CallBackInfo.INTERSTITIAL_CALLBACK[i], "", false, false));
+        }
+    }
+
+    private void logCallBack(String call, String child) {
+        for (int i = 0; i < callBackDataList.size(); i++) {
+            CallBackItem callItem = callBackDataList.get(i);
+            if (callItem.getText().equals(call)) {
+                callItem.set_callback(true);
+                if (!TextUtils.isEmpty(child)) {
+                    callItem.setChild_text(child);
+                }
+                break;
+            }
+        }
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

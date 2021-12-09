@@ -15,4 +15,13 @@ public class CallBackInfo {
             "onVideoAdClosed",
             "onVideoRewarded"};
 
+    public static String[] INTERSTITIAL_CALLBACK = {
+            "onInterstitialAdLoadSuccess",
+            "onInterstitialAdLoadError",
+            "onInterstitialAdPlayStart",
+            "onInterstitialAdPlayError",
+            "onInterstitialAdPlayEnd",
+            "onInterstitialAdClicked",
+            "onInterstitialAdClosed",};
+
 }
