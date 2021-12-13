@@ -27,9 +27,6 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
-        <meta-data
-            android:name="applovin.sdk.key"
-            android:value="DmvA8hJTTP56TkNOgp8HSFzTDPh1o8B_u5A1nUUEuZLMHklzXuE-8CSLb9MNHTNAdXBP0gevE_GWi0TFviD1vg" />
 
         <activity
             android:name=".natives.NativeAdUnifiedRecycleActivity"
@@ -115,18 +112,6 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/gdt_file_path" />
-        </provider>
-
-        <!-- OneWay -->
-        <provider
-            android:name="mobi.oneway.export.OWProvider"
-            android:authorities="${applicationId}.OWProvider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:ignore="Instantiatable">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/ow_file_paths" />
         </provider>
 
         <activity

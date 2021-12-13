@@ -58,10 +58,6 @@ dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/gdt')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/kuaishou')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/mintegral-cn')
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/oneway')
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/tapjoy')
-    implementation 'com.google.android.gms:play-services-basement:17.0.0'
-    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/csj')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/unity')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/vungle')
