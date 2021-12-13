@@ -23,12 +23,6 @@
         android:roundIcon="@mipmap/windmill_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".VersionActivity"
-            android:exported="true" />
-        <activity
-            android:name=".DeviceActivity"
-            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -41,35 +35,49 @@
             android:name=".natives.NativeAdUnifiedRecycleActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".natives.NativeAdUnifiedListActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".natives.NativeAdUnifiedActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".natives.NativeAdActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InterstitialActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RewardVideoActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="sensor" />
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".VersionActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DeviceActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".SplashAdActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+
+        <!-- SigMob -->
         <provider
             android:name="com.sigmob.sdk.SigmobFileProvider"
             android:authorities="${applicationId}.sigprovider"
@@ -79,7 +87,9 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/sigmob_provider_paths" />
-        </provider> <!-- TT 国内 -->
+        </provider>
+
+        <!-- TT 国内 -->
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
             android:authorities="${applicationId}.TTFileProvider"
@@ -88,11 +98,15 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/toutiao" />
-        </provider> <!-- TT（国内） GP专属 -->
+        </provider>
+
+        <!-- TT（国内） GP专属 -->
         <provider
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
             android:authorities="${applicationId}.TTMultiProvider"
-            android:exported="false" /> <!-- GDT -->
+            android:exported="false" />
+
+        <!-- GDT -->
         <provider
             android:name="com.qq.e.comm.GDTFileProvider"
             android:authorities="${applicationId}.gdt.fileprovider"
@@ -102,6 +116,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/gdt_file_path" />
         </provider>
+
+        <!-- OneWay -->
         <provider
             android:name="mobi.oneway.export.OWProvider"
             android:authorities="${applicationId}.OWProvider"
@@ -123,37 +139,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SplashAdActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="true"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" /> <!-- 以下是DEMO的测试ID,请勿使用到正式环境中去！ -->
-        <meta-data
-            android:name="sigmob.app_id"
-            android:value="6878" />
-        <meta-data
-            android:name="sigmob.app_key"
-            android:value="8ebc1fd1c27e650c" />
-        <meta-data
-            android:name="sigmob.splash_placement_id"
-            android:value="ea1f8f21300" />
-        <meta-data
-            android:name="sigmob.reward_placement_id"
-            android:value="ea1f8ea2d90" />
-        <meta-data
-            android:name="sigmob.fullScreen_placement_id"
-            android:value="ea1f8f45d80" />
-        <meta-data
-            android:name="sigmob.native_unified_placement_id"
-            android:value="ed70b4760ff" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
     </application>
 
 </manifest>

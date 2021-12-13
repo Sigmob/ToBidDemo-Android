@@ -19,7 +19,7 @@ public class VersionActivity extends Activity {
 
     private Map<String, String> mAdVersions = new LinkedHashMap<>();
 
-    private String[] mAdNames = {"WindMill", "SigMob", "Vungle", "OneWay", "Mtg", "Tapjoy", "Unity", "头条", "快手", "广点通"};
+    private String[] mAdNames = {"Windmill", "Sigmob", "Vungle", "Mintegral", "UnityAds", "穿山甲", "快手", "腾讯优量会"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class VersionActivity extends Activity {
         for (int i = 0; i < mAdNames.length; i++) {
             String mAdName = mAdNames[i];
             switch (mAdName) {
-                case "WindMill":
+                case "Windmill":
                     try {
                         Class aClass = Class.forName("com.sigmob.windad.WindAds");
                         Method method = aClass.getMethod("getVersion");
@@ -121,7 +121,7 @@ public class VersionActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
-                case "SigMob":
+                case "Sigmob":
                     try {
                         Class aClass = Class.forName("com.windmill.sdk.WindMillAd");
                         Method method = aClass.getMethod("getVersion");
@@ -146,19 +146,19 @@ public class VersionActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
-                case "OneWay":
-                    try {
-                        Class aClass = Class.forName("mobi.oneway.export.Ad.OnewaySdk");
-                        Method method = aClass.getMethod("getVersion");
-                        method.setAccessible(true);
-                        String invoke = (String) method.invoke(aClass);
-                        mAdVersions.put(mAdName, invoke);
-                    } catch (Exception e) {
-                        mAdVersions.put(mAdName, "NoChannel");
-                        e.printStackTrace();
-                    }
-                    break;
-                case "Mtg":
+//                case "OneWay":
+//                    try {
+//                        Class aClass = Class.forName("mobi.oneway.export.Ad.OnewaySdk");
+//                        Method method = aClass.getMethod("getVersion");
+//                        method.setAccessible(true);
+//                        String invoke = (String) method.invoke(aClass);
+//                        mAdVersions.put(mAdName, invoke);
+//                    } catch (Exception e) {
+//                        mAdVersions.put(mAdName, "NoChannel");
+//                        e.printStackTrace();
+//                    }
+//                    break;
+                case "Mintegral":
                     try {
                         Class cls = Class.forName("com.mbridge.msdk.out.MBConfiguration");
                         Object obj = cls.newInstance();
@@ -171,20 +171,20 @@ public class VersionActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
-                case "Tapjoy":
-                    try {
-                        Class cls = Class.forName("com.tapjoy.BuildConfig");
-                        Object obj = cls.newInstance();
-                        Field f = cls.getDeclaredField("VERSION_NAME");
-                        f.setAccessible(true);
-                        String o = (String) f.get(obj);
-                        mAdVersions.put(mAdName, o);
-                    } catch (Exception e) {
-                        mAdVersions.put(mAdName, "NoChannel");
-                        e.printStackTrace();
-                    }
-                    break;
-                case "Unity":
+//                case "Tapjoy":
+//                    try {
+//                        Class cls = Class.forName("com.tapjoy.BuildConfig");
+//                        Object obj = cls.newInstance();
+//                        Field f = cls.getDeclaredField("VERSION_NAME");
+//                        f.setAccessible(true);
+//                        String o = (String) f.get(obj);
+//                        mAdVersions.put(mAdName, o);
+//                    } catch (Exception e) {
+//                        mAdVersions.put(mAdName, "NoChannel");
+//                        e.printStackTrace();
+//                    }
+//                    break;
+                case "UnityAds":
                     try {
                         Class cls = Class.forName("com.unity3d.ads.BuildConfig");
                         Object obj = cls.newInstance();
@@ -197,7 +197,7 @@ public class VersionActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
-                case "头条":
+                case "穿山甲":
                     try {
                         Class ttAdSdk = Class.forName("com.bytedance.sdk.openadsdk.TTAdSdk");
                         Method getAdManager = ttAdSdk.getMethod("getAdManager");
@@ -225,7 +225,7 @@ public class VersionActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
-                case "广点通":
+                case "腾讯优量会":
                     try {
                         Class aClass = Class.forName("com.qq.e.comm.managers.status.SDKStatus");
                         Method method = aClass.getMethod("getIntegrationSDKVersion");
