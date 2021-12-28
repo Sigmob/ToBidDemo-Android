@@ -102,7 +102,7 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
                     Map<String, Object> options = new HashMap<>();
                     options.put("user_id", String.valueOf(userID));
                     windInterstitialAd = new WMInterstitialAd(this, new WMInterstitialAdRequest(placementId, userID, options));
-                    windInterstitialAd.setWindInterstitialAdListener(this);
+                    windInterstitialAd.setInterstitialAdListener(this);
                 }
                 windInterstitialAd.loadAd();
                 break;

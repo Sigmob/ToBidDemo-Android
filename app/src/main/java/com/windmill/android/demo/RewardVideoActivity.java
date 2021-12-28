@@ -81,7 +81,7 @@ public class RewardVideoActivity extends Activity implements AdapterView.OnItemS
         Map<String, Object> options = new HashMap<>();
         options.put("user_id", String.valueOf(userID));
         windRewardedVideoAd = new WMRewardAd(this, new WMRewardAdRequest(placementId, userID, options));
-        windRewardedVideoAd.setWindRewardedVideoAdListener(new WMRewardAdListener() {
+        windRewardedVideoAd.setRewardedAdListener(new WMRewardAdListener() {
             @Override
             public void onVideoAdLoadSuccess(final String placementId) {
                 Log.d("lance", "------onVideoAdLoadSuccess------" + placementId);
