@@ -73,11 +73,51 @@ public class RewardVideoActivity extends Activity implements AdapterView.OnItemS
 
         WebView.setWebContentsDebuggingEnabled(true);
 
-        String[] stringArray = getResources().getStringArray(R.array.reward_adapter);
+        String[] stringArray = getResources().getStringArray(R.array.reward_id_value);
         placementId = stringArray[0];
 
         initCallBack();
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (windRewardedVideoAd != null) {
+            windRewardedVideoAd.destroy();
+            windRewardedVideoAd = null;
+        }
+    }
+
+    public void ButtonClick(View view) {
+        switch (view.getId()) {
+            case R.id.bt_load_ad:
+                resetCallBackData();
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+                loadAd();
+                break;
+            case R.id.bt_show_ad:
+                HashMap option = new HashMap();
+                option.put(WMConstants.AD_SCENE_ID, "567");
+                option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
+                if (windRewardedVideoAd != null && windRewardedVideoAd.isReady()) {
+                    windRewardedVideoAd.show(this, option);
+                } else {
+                    Log.d("lance", "------Ad is not Ready------");
+                }
+                break;
+        }
+    }
+
+    private void loadAd() {
         Map<String, Object> options = new HashMap<>();
         options.put("user_id", String.valueOf(userID));
         windRewardedVideoAd = new WMRewardAd(this, new WMRewardAdRequest(placementId, userID, options));
@@ -130,51 +170,16 @@ public class RewardVideoActivity extends Activity implements AdapterView.OnItemS
                 logCallBack("onVideoAdPlayError", error.toString());
             }
         });
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (windRewardedVideoAd != null) {
-            windRewardedVideoAd.destroy();
-            windRewardedVideoAd = null;
-        }
-    }
-
-    public void ButtonClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_load_ad:
-                resetCallBackData();
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-                if (windRewardedVideoAd != null) {
-                    windRewardedVideoAd.loadAd();
-                }
-                break;
-            case R.id.bt_show_ad:
-                HashMap option = new HashMap();
-                option.put(WMConstants.AD_SCENE_ID, "567");
-                option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
-                if (windRewardedVideoAd != null && windRewardedVideoAd.isReady()) {
-                    windRewardedVideoAd.show(this, option);
-                } else {
-                    Log.d("lance", "------Ad is not Ready------");
-                }
-                break;
-        }
+        windRewardedVideoAd.loadAd();
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("lance", "------onItemSelected------" + position);
         String[] stringArray = getResources().getStringArray(R.array.reward_id_value);
         placementId = stringArray[position];
+        Log.d("lance", "------onItemSelected------" + position + ":" + placementId);
+
     }
 
     @Override

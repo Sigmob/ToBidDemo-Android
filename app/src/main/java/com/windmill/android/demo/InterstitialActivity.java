@@ -98,12 +98,10 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
                     adapter.notifyDataSetChanged();
                 }
                 updatePlacementId();
-                if (windInterstitialAd == null) {
-                    Map<String, Object> options = new HashMap<>();
-                    options.put("user_id", String.valueOf(userID));
-                    windInterstitialAd = new WMInterstitialAd(this, new WMInterstitialAdRequest(placementId, userID, options));
-                    windInterstitialAd.setInterstitialAdListener(this);
-                }
+                Map<String, Object> options = new HashMap<>();
+                options.put("user_id", String.valueOf(userID));
+                windInterstitialAd = new WMInterstitialAd(this, new WMInterstitialAdRequest(placementId, userID, options));
+                windInterstitialAd.setInterstitialAdListener(this);
                 windInterstitialAd.loadAd();
                 break;
             case R.id.bt_show_ad:
@@ -167,7 +165,6 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     @Override
     public void onInterstitialAdLoadSuccess(final String placementId) {
         Log.d("lance", "------onInterstitialAdLoadSuccess------" + placementId);
-//        Toast.makeText(InterstitialActivity.this, "onInterstitialAdLoadSuccess", Toast.LENGTH_SHORT).show();
         logCallBack("onInterstitialAdLoadSuccess", "");
     }
 

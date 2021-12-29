@@ -51,9 +51,9 @@ public class NativeAdActivity extends Activity implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("lance", "------onItemSelected------" + position);
         String[] stringArray = getResources().getStringArray(R.array.native_id_value);
         placementId = stringArray[position];
+        Log.d("lance", "------onItemSelected------" + position + ":" + placementId);
     }
 
     @Override
