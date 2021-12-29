@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/app_logo"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:src="@mipmap/launcher" />
 
     <!-- 2.开屏广告容器区域：-->

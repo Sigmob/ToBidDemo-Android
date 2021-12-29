@@ -10,10 +10,10 @@
     </array>
 
     <string-array name="splash_id_value">
-        <item>ee791904f96</item>
-        <item>ee78f2e39b9</item>
-        <item>ee7918ef1a1</item>
-        <item>ee7918df0d9</item>
+        <item>0086980548875108</item>
+        <item>2218336124382564</item>
+        <item>3383299685120306</item>
+        <item>8533819703338454</item>
         <item>ee7919a6d46</item>
     </string-array>
 
@@ -26,10 +26,10 @@
     </array>
 
     <string-array name="reward_id_value">
-        <item>ee7913be5cc</item>
-        <item>ee78f2cc615</item>
-        <item>ee7913a4087</item>
-        <item>ee791393b0b</item>
+        <item>6400896819786689</item>
+        <item>8104236386514976</item>
+        <item>5825719236150754</item>
+        <item>4769134350486339</item>
         <item>ee791d1ffde</item>
     </string-array>
 
@@ -42,18 +42,18 @@
     </array>
 
     <string-array name="interstitial_full_id_value">
-        <item>ee79153f7df</item>
-        <item>ee78f2f32c2</item>
-        <item>ee79152db8b</item>
-        <item>ee7915168fd</item>
+        <item>3972916839250293</item>
+        <item>0822647287181498</item>
+        <item>9603982623087023</item>
+        <item>2228423289895318</item>
         <item>ee79163e53f</item>
     </string-array>
 
     <string-array name="interstitial_half_id_value">
         <item>0</item>//不支持半屏
-        <item>ee791a4c5ff</item>
-        <item>ee791a62b82</item>
-        <item>ee792063499</item>
+        <item>9682719217483833</item>
+        <item>7077023042853073</item>
+        <item>5913429514952451</item>
         <item>ee791ff5448</item>
     </string-array>
 
