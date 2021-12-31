@@ -118,7 +118,7 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     }
 
     private void updatePlacementId() {
-        if (selectedId == 0 || selectedId == 5) {//SigMob、Unity不支持半屏
+        if (selectedId < 3) {//SigMob、Unity、Vungle不支持半屏,默认显示SigMob全屏
             String[] stringArray = getResources().getStringArray(R.array.interstitial_full_id_value);
             placementId = stringArray[0];
         } else {
@@ -150,7 +150,7 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d("lance", "------onItemSelected------" + position);
         selectedId = position;
-        if (selectedId == 0 || selectedId == 5) {//SigMob、Unity不支持半屏
+        if (selectedId < 3) {//SigMob、Unity、Vungle不支持半屏
             halfScreen.setVisibility(View.GONE);
         } else {
             halfScreen.setVisibility(View.VISIBLE);

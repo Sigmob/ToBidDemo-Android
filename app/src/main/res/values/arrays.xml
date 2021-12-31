@@ -37,29 +37,32 @@
 
     <array name="interstitial_adapter">
         <item>SigMob</item>
+        <item>Unity</item>
+        <item>Vungle</item>
         <item>穿山甲</item>
         <item>快手</item>
         <item>腾讯广告</item>
         <item>Mtg</item>
-        <item>Unity</item>
     </array>
 
     <string-array name="interstitial_full_id_value">
         <item>2356993315979412</item>
-        <item>0822647287181498</item>
+        <item>5595658046689912</item>
+        <item>2356993315979412</item>
+        <item>2356993315979412</item>
         <item>7887247211721462</item>
         <item>5590941914089397</item>
         <item>6014576652008250</item>
-        <item>5595658046689912</item>
     </string-array>
 
     <string-array name="interstitial_half_id_value">
+        <item>0</item>//不支持半屏
+        <item>0</item>//不支持半屏
         <item>0</item>//不支持半屏
         <item>3951514124869465</item>
         <item>6211161933610556</item>
         <item>1668901219912901</item>
         <item>2190634366362584</item>
-        <item>0</item>//不支持半屏
     </string-array>
 
     <array name="native_adapter">
