@@ -108,6 +108,7 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
         }
 
         Intent intent = new Intent(this, SplashActivity.class);
+        Log.d("lance", isFullScreen + "------ButtonClick------" + isSelfLogo);
         intent.putExtra("isFullScreen", isFullScreen);
         intent.putExtra("isSelfLogo", isSelfLogo);
         intent.putExtra("placementId", placementId);

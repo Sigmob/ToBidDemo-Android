@@ -40,7 +40,8 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
         Intent intent = getIntent();
         isLoadAndShow = intent.getBooleanExtra("isLoadAndShow", true);
         isFullScreen = intent.getBooleanExtra("isFullScreen", false);
-        isSelfLogo = intent.getBooleanExtra("isLoadAndShow", false);
+        isSelfLogo = intent.getBooleanExtra("isSelfLogo", false);
+        Log.d("lance", isFullScreen + "------getExtraInfo------" + isSelfLogo);
         placementId = intent.getStringExtra("placementId");
         needStartMainActivity = intent.getBooleanExtra("need_start_main_activity", true);
         if (TextUtils.isEmpty(placementId)) {
