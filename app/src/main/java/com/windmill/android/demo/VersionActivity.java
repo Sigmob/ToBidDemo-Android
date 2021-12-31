@@ -19,7 +19,7 @@ public class VersionActivity extends Activity {
 
     private Map<String, String> mAdVersions = new LinkedHashMap<>();
 
-    private String[] mAdNames = {"Windmill", "Sigmob", "Vungle", "Mintegral", "UnityAds", "穿山甲", "快手", "腾讯优量会"};
+    private String[] mAdNames = {"Windmill", "Sigmob", "Vungle", "Mintegral", "UnityAds", "穿山甲", "快手", "腾讯优量汇"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
