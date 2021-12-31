@@ -10,11 +10,11 @@
     </array>
 
     <string-array name="splash_id_value">
-        <item>0086980548875108</item>
-        <item>2218336124382564</item>
-        <item>3383299685120306</item>
-        <item>8533819703338454</item>
-        <item>ee7919a6d46</item>
+        <item>7171758002397401</item>
+        <item>8331035191952408</item>
+        <item>2409402038724191</item>
+        <item>7854563079439861</item>
+        <item>6166471883491389</item>
     </string-array>
 
     <array name="reward_adapter">
@@ -23,14 +23,16 @@
         <item>快手</item>
         <item>腾讯广告</item>
         <item>Mtg</item>
+        <item>Unity</item>
     </array>
 
     <string-array name="reward_id_value">
-        <item>6400896819786689</item>
-        <item>8104236386514976</item>
-        <item>5825719236150754</item>
-        <item>4769134350486339</item>
-        <item>ee791d1ffde</item>
+        <item>6141360825863000</item>
+        <item>8893899587641537</item>
+        <item>8580302217675441</item>
+        <item>3944182683972397</item>
+        <item>2320094072199734</item>
+        <item>6184826358866010</item>
     </string-array>
 
     <array name="interstitial_adapter">
@@ -39,22 +41,25 @@
         <item>快手</item>
         <item>腾讯广告</item>
         <item>Mtg</item>
+        <item>Unity</item>
     </array>
 
     <string-array name="interstitial_full_id_value">
-        <item>3972916839250293</item>
+        <item>2356993315979412</item>
         <item>0822647287181498</item>
-        <item>9603982623087023</item>
-        <item>2228423289895318</item>
-        <item>ee79163e53f</item>
+        <item>7887247211721462</item>
+        <item>5590941914089397</item>
+        <item>6014576652008250</item>
+        <item>5595658046689912</item>
     </string-array>
 
     <string-array name="interstitial_half_id_value">
         <item>0</item>//不支持半屏
-        <item>9682719217483833</item>
-        <item>7077023042853073</item>
-        <item>5913429514952451</item>
-        <item>ee791ff5448</item>
+        <item>3951514124869465</item>
+        <item>6211161933610556</item>
+        <item>1668901219912901</item>
+        <item>2190634366362584</item>
+        <item>0</item>//不支持半屏
     </string-array>
 
     <array name="native_adapter">
@@ -62,15 +67,13 @@
         <item>穿山甲</item>
         <item>快手</item>
         <item>腾讯广告</item>
-        <item>Mtg</item>
     </array>
 
     <string-array name="native_id_value">
-        <item>ee78f308b79</item>
+        <item>6264478152908391</item>
         <item>ee78f2cc615</item>
         <item>ee7913a4087</item>
         <item>ee791393b0b</item>
-        <item>ee791d1ffde</item>
     </string-array>
 
 </resources>

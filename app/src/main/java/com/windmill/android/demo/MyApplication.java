@@ -35,7 +35,7 @@ public class MyApplication extends MultiDexApplication {
         ads.setIsAgeRestrictedUser(WindMillUserAgeStatus.WindAgeRestrictedStatusNO);//coppa//是否年龄限制
         ads.setUserGDPRConsentStatus(WindMillConsentStatus.ACCEPT);//是否接受gdpr协议
 
-        ads.startWithOptions(this, new WindMillOptions("2093", "0c548b7bf41c8901"));
+        ads.startWithOptions(this, new WindMillOptions("2579", "030852922b33d01b"));
     }
 
     @Override
