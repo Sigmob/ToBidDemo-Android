@@ -22,7 +22,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/windmill_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -112,6 +113,17 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/gdt_file_path" />
+        </provider>
+
+        <!-- 游可赢 -->
+        <provider
+            android:name="com.tencent.klevin.utils.FileProvider"
+            android:authorities="${applicationId}.klevin.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/klevin_provider_paths" />
         </provider>
 
         <activity

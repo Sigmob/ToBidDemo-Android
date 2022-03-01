@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.splash.IWMSplashEyeAd;
 import com.windmill.sdk.splash.WMSplashAd;
 import com.windmill.sdk.splash.WMSplashAdListener;
 import com.windmill.sdk.splash.WMSplashAdRequest;
@@ -165,7 +166,7 @@ public class SplashActivity extends Activity implements WMSplashAdListener {
     }
 
     @Override
-    public void onSplashClosed() {
+    public void onSplashClosed(IWMSplashEyeAd iwmSplashEyeAd) {
         callBack.put("onSplashClosed", "");
         Log.d("lance", "------onSplashClosed------");
         jumpWhenCanClick();
