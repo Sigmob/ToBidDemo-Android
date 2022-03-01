@@ -3,21 +3,80 @@ package com.windmill.android.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.windmill.android.demo.natives.NativeAdActivity;
+import com.windmill.android.demo.splash.SplashEyeAdHolder;
+import com.windmill.android.demo.splash.SplashZoomOutManager;
 import com.windmill.sdk.WindMillAd;
+import com.windmill.sdk.splash.WMSplashEyeAdListener;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        showSplashEyeAd();
+    }
+
+    private void showSplashEyeAd() {
+
+        if (SplashEyeAdHolder.splashEyeAd == null) {
+            return;
+        }
+
+        SplashEyeAdHolder.splashEyeAd.show(MainActivity.this, null, new WMSplashEyeAdListener() {
+            @Override
+            public void onAnimationStart(View splashView) {
+                Log.i(TAG, "------------onAnimationStart---------");
+                SplashZoomOutManager zoomOutManager = SplashZoomOutManager.getInstance(getApplicationContext());
+
+                int[] suggestedSize = SplashEyeAdHolder.splashEyeAd.getSuggestedSize(getApplicationContext());
+                if (suggestedSize != null) {
+                    zoomOutManager.setSplashEyeAdViewSize(suggestedSize[0], suggestedSize[1]);
+                }
+                View zoomOutView = zoomOutManager.startZoomOutInTwoActivity((ViewGroup) getWindow().getDecorView(),
+                        (ViewGroup) findViewById(android.R.id.content), new SplashZoomOutManager.AnimationCallBack() {
+
+                            @Override
+                            public void animationStart(int animationTime) {
+                                Log.i(TAG, "------------animationStart---------");
+                            }
+
+                            @Override
+                            public void animationEnd() {
+                                Log.i(TAG, "------------animationEnd---------");
+                                SplashEyeAdHolder.splashEyeAd.onFinished();
+                            }
+                        });
+
+                if (zoomOutView != null) {
+                    overridePendingTransition(0, 0);
+                }
+            }
+
+            @Override
+            public void onAdDismiss(boolean isSupportEyeSplash) {
+                Log.i(TAG, "------------onAdDismiss---------" + isSupportEyeSplash);
+                SplashZoomOutManager zoomOutManager = SplashZoomOutManager.getInstance(getApplicationContext());
+                zoomOutManager.clearStaticData();
+
+                SplashEyeAdHolder.splashEyeAd.destroy();
+                SplashEyeAdHolder.splashEyeAd = null;
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

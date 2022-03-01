@@ -69,18 +69,18 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/bt_load_show"
+            android:id="@+id/bt_load"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="ButtonClick"
-            android:text="拉取并显示开屏广告" />
+            android:text="拉取开屏广告" />
 
         <Button
-            android:id="@+id/bt_load_only"
+            android:id="@+id/bt_show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="ButtonClick"
-            android:text="拉取与显示分离" />
+            android:text="展示开屏广告" />
     </LinearLayout>
 
     <TextView
