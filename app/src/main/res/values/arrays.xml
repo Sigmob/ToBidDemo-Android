@@ -7,14 +7,18 @@
         <item>快手</item>
         <item>腾讯广告</item>
         <item>Mtg</item>
+        <item>百度</item>
+        <item>游可赢</item>
     </array>
 
     <string-array name="splash_id_value">
-        <item>7171758002397401</item>
-        <item>8331035191952408</item>
-        <item>2409402038724191</item>
-        <item>7854563079439861</item>
-        <item>6166471883491389</item>
+        <item>2009470615832232</item>
+        <item>5800294909655664</item>
+        <item>9633401111091418</item>
+        <item>3431532395562379</item>
+        <item>7335341774069271</item>
+        <item>4971306168449311</item>
+        <item>1151623533996816</item>
     </string-array>
 
     <array name="reward_adapter">
@@ -23,46 +27,48 @@
         <item>快手</item>
         <item>腾讯广告</item>
         <item>Mtg</item>
-        <item>Unity</item>
+        <item>百度</item>
+        <item>游可赢</item>
     </array>
 
     <string-array name="reward_id_value">
-        <item>6141360825863000</item>
-        <item>8893899587641537</item>
-        <item>8580302217675441</item>
-        <item>3944182683972397</item>
-        <item>2320094072199734</item>
-        <item>6184826358866010</item>
+        <item>9387595158051935</item>
+        <item>3245548070173764</item>
+        <item>7233517458533366</item>
+        <item>1193836006892140</item>
+        <item>5062866798108302</item>
+        <item>2771810861425553</item>
+        <item>8942716542710972</item>
     </string-array>
 
     <array name="interstitial_adapter">
         <item>SigMob</item>
-        <item>Unity</item>
-        <item>Vungle</item>
-        <item>快手</item>
         <item>穿山甲</item>
+        <item>快手</item>
         <item>腾讯广告</item>
         <item>Mtg</item>
+        <item>百度</item>
+        <item>游可赢</item>
     </array>
 
     <string-array name="interstitial_full_id_value">
-        <item>2356993315979412</item>
-        <item>5595658046689912</item>
-        <item>2356993315979412</item>
-        <item>7887247211721462</item>
-        <item>8954105521900878</item>
-        <item>5590941914089397</item>
-        <item>6014576652008250</item>
+        <item>4753286031006593</item>
+        <item>9716819932607276</item>
+        <item>3643065184356601</item>
+        <item>7545481407897468</item>
+        <item>1487634309430012</item>
+        <item>9329165797267084</item>
+        <item>5434383154791266</item>
     </string-array>
 
     <string-array name="interstitial_half_id_value">
         <item>0</item>//不支持半屏
+        <item>6041801895839958</item>
+        <item>9907380281057668</item>
+        <item>3780333219352229</item>
         <item>0</item>//不支持半屏
+        <item>7591984450159998</item>
         <item>0</item>//不支持半屏
-        <item>0</item>//不支持半屏
-        <item>3951514124869465</item>
-        <item>1668901219912901</item>
-        <item>2190634366362584</item>
     </string-array>
 
     <array name="native_adapter">
@@ -73,10 +79,10 @@
     </array>
 
     <string-array name="native_id_value">
-        <item>6264478152908391</item>
-        <item>ee78f2cc615</item>
-        <item>ee7913a4087</item>
-        <item>ee791393b0b</item>
+        <item>9224761251541712</item>
+        <item>3128761931931303</item>
+        <item>7637507237063488</item>
+        <item>1489316935402150</item>
     </string-array>
 
 </resources>

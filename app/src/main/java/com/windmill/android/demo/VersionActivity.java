@@ -19,7 +19,7 @@ public class VersionActivity extends Activity {
 
     private Map<String, String> mAdVersions = new LinkedHashMap<>();
 
-    private String[] mAdNames = {"Windmill", "Sigmob", "Vungle", "Mintegral", "UnityAds", "穿山甲", "快手", "腾讯优量汇"};
+    private String[] mAdNames = {"WindMill", "Sigmob", "Vungle", "Mintegral", "UnityAds", "穿山甲", "快手", "腾讯优量汇", "游可赢", "百度"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +109,9 @@ public class VersionActivity extends Activity {
         for (int i = 0; i < mAdNames.length; i++) {
             String mAdName = mAdNames[i];
             switch (mAdName) {
-                case "Windmill":
+                case "WindMill":
                     try {
-                        Class aClass = Class.forName("com.sigmob.windad.WindAds");
+                        Class aClass = Class.forName("com.windmill.sdk.WindMillAd");
                         Method method = aClass.getMethod("getVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);
@@ -123,8 +123,32 @@ public class VersionActivity extends Activity {
                     break;
                 case "Sigmob":
                     try {
-                        Class aClass = Class.forName("com.windmill.sdk.WindMillAd");
+                        Class aClass = Class.forName("com.sigmob.windad.WindAds");
                         Method method = aClass.getMethod("getVersion");
+                        method.setAccessible(true);
+                        String invoke = (String) method.invoke(aClass);
+                        mAdVersions.put(mAdName, invoke);
+                    } catch (Exception e) {
+                        mAdVersions.put(mAdName, "NoChannel");
+                        e.printStackTrace();
+                    }
+                    break;
+                case "游可赢":
+                    try {
+                        Class aClass = Class.forName("com.tencent.klevin.KlevinManager");
+                        Method method = aClass.getMethod("getVersion");
+                        method.setAccessible(true);
+                        String invoke = (String) method.invoke(aClass);
+                        mAdVersions.put(mAdName, invoke);
+                    } catch (Exception e) {
+                        mAdVersions.put(mAdName, "NoChannel");
+                        e.printStackTrace();
+                    }
+                    break;
+                case "百度":
+                    try {
+                        Class aClass = Class.forName("com.baidu.mobads.sdk.api.AdSettings");
+                        Method method = aClass.getMethod("getSDKVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);
                         mAdVersions.put(mAdName, invoke);
