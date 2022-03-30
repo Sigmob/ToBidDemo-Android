@@ -21,6 +21,7 @@ import com.windmill.android.demo.log.CallBackItem;
 import com.windmill.android.demo.log.ExpandAdapter;
 import com.windmill.android.demo.splash.SplashZoomOutManager;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.splash.IWMSplashEyeAd;
 import com.windmill.sdk.splash.WMSplashAd;
 import com.windmill.sdk.splash.WMSplashAdListener;
@@ -154,12 +155,12 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
         WMSplashAdRequest adRequest = new WMSplashAdRequest(placementId, String.valueOf(0), null);
         splashAd = new WMSplashAd(this, adRequest, new WMSplashAdListener() {
             @Override
-            public void onSplashAdSuccessPresent() {
+            public void onSplashAdSuccessPresent(AdInfo adInfo) {
                 logCallBack("onSplashAdSuccessPresent", "");
             }
 
             @Override
-            public void onSplashAdSuccessLoad() {
+            public void onSplashAdSuccessLoad(String placementId) {
                 logCallBack("onSplashAdSuccessLoad", "");
             }
 
@@ -173,12 +174,12 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
             }
 
             @Override
-            public void onSplashAdClicked() {
+            public void onSplashAdClicked(AdInfo adInfo) {
                 logCallBack("onSplashAdClicked", "");
             }
 
             @Override
-            public void onSplashClosed(IWMSplashEyeAd splashEyeAd) {
+            public void onSplashClosed(AdInfo adInfo, IWMSplashEyeAd splashEyeAd) {
                 logCallBack("onSplashClosed", "");
                 //（1）当穿山甲、优量汇的开屏广告素材支持点睛时，splashEyeAd不为null
                 //（2）当展示的是快手开屏广告时，splashEyeAd为非null值，但不一定表示此次快手开屏广告的素材支持点睛，不支持时调用IATSplashEyeAd#show()方法会直接回调ATSplashEyeAdListener#onAdDismiss()方法

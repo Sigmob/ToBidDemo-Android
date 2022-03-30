@@ -16,6 +16,7 @@ import com.windmill.android.demo.log.CallBackItem;
 import com.windmill.android.demo.log.ExpandAdapter;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.reward.WMRewardAd;
 import com.windmill.sdk.reward.WMRewardAdListener;
 import com.windmill.sdk.reward.WMRewardAdRequest;
@@ -129,32 +130,32 @@ public class RewardVideoActivity extends Activity implements AdapterView.OnItemS
             }
 
             @Override
-            public void onVideoAdPlayEnd(final String placementId) {
-                Log.d("lance", "------onVideoAdPlayEnd------" + placementId);
+            public void onVideoAdPlayEnd(AdInfo adInfo) {
+                Log.d("lance", "------onVideoAdPlayEnd------" + adInfo.getPlacementId());
                 logCallBack("onVideoAdPlayEnd", "");
             }
 
             @Override
-            public void onVideoAdPlayStart(final String placementId) {
-                Log.d("lance", "------onVideoAdPlayStart------" + placementId);
+            public void onVideoAdPlayStart(AdInfo adInfo) {
+                Log.d("lance", "------onVideoAdPlayStart------" + adInfo.getPlacementId());
                 logCallBack("onVideoAdPlayStart", "");
             }
 
             @Override
-            public void onVideoAdClicked(final String placementId) {
-                Log.d("lance", "------onVideoAdClicked------" + placementId);
+            public void onVideoAdClicked(AdInfo adInfo) {
+                Log.d("lance", "------onVideoAdClicked------" + adInfo.getPlacementId());
                 logCallBack("onVideoAdClicked", "");
             }
 
             @Override
-            public void onVideoAdClosed(final String placementId) {
-                Log.d("lance", "------onVideoAdClosed------" + placementId);
+            public void onVideoAdClosed(AdInfo adInfo) {
+                Log.d("lance", "------onVideoAdClosed------" + adInfo.getPlacementId());
                 logCallBack("onVideoAdClosed", "");
             }
 
             @Override
-            public void onVideoRewarded(final WMRewardInfo rewardInfo, final String placementId) {
-                Log.d("lance", "------onVideoRewarded------" + rewardInfo.toString() + ":" + placementId);
+            public void onVideoRewarded(AdInfo adInfo, final WMRewardInfo rewardInfo) {
+                Log.d("lance", "------onVideoRewarded------" + rewardInfo.toString() + ":" + adInfo.getPlacementId());
                 logCallBack("onVideoRewarded", rewardInfo.toString());
             }
 

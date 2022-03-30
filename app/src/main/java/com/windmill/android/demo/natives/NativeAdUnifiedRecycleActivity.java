@@ -27,6 +27,7 @@ import com.windmill.android.demo.view.LoadMoreRecyclerView;
 import com.windmill.android.demo.view.LoadMoreView;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.natives.WMNativeAd;
 import com.windmill.sdk.natives.WMNativeAdContainer;
 import com.windmill.sdk.natives.WMNativeAdData;
@@ -260,22 +261,22 @@ public class NativeAdUnifiedRecycleActivity extends Activity {
             //设置广告交互监听
             nativeAdData.setInteractionListener(new WMNativeAdData.NativeAdInteractionListener() {
                 @Override
-                public void onADExposed() {
+                public void onADExposed(AdInfo adInfo) {
                     Log.d("lance", "----------onADExposed----------");
                 }
 
                 @Override
-                public void onADClicked() {
+                public void onADClicked(AdInfo adInfo) {
                     Log.d("lance", "----------onADClicked----------");
                 }
 
                 @Override
-                public void onADRenderSuccess(View view, float width, float height) {
+                public void onADRenderSuccess(AdInfo adInfo, View view, float width, float height) {
                     Log.d("lance", "----------onADRenderSuccess----------:" + width + ":" + height);
                 }
 
                 @Override
-                public void onADError(WindMillError error) {
+                public void onADError(AdInfo adInfo, WindMillError error) {
                     Log.d("lance", "----------onADError----------:" + error.toString());
                 }
 

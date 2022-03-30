@@ -21,6 +21,7 @@ import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.interstitial.WMInterstitialAd;
 import com.windmill.sdk.interstitial.WMInterstitialAdListener;
 import com.windmill.sdk.interstitial.WMInterstitialAdRequest;
+import com.windmill.sdk.models.AdInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,26 +170,26 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     }
 
     @Override
-    public void onInterstitialAdPlayStart(final String placementId) {
-        Log.d("lance", "------onInterstitialAdPlayStart------" + placementId);
+    public void onInterstitialAdPlayStart(AdInfo adInfo) {
+        Log.d("lance", "------onInterstitialAdPlayStart------" + adInfo.getPlacementId());
         logCallBack("onInterstitialAdPlayStart", "");
     }
 
     @Override
-    public void onInterstitialAdPlayEnd(final String placementId) {
-        Log.d("lance", "------onInterstitialAdPlayEnd------" + placementId);
+    public void onInterstitialAdPlayEnd(AdInfo adInfo) {
+        Log.d("lance", "------onInterstitialAdPlayEnd------" + adInfo.getPlacementId());
         logCallBack("onInterstitialAdPlayEnd", "");
     }
 
     @Override
-    public void onInterstitialAdClicked(final String placementId) {
-        Log.d("lance", "------onInterstitialAdClicked------" + placementId);
+    public void onInterstitialAdClicked(AdInfo adInfo) {
+        Log.d("lance", "------onInterstitialAdClicked------" + adInfo.getPlacementId());
         logCallBack("onInterstitialAdClicked", "");
     }
 
     @Override
-    public void onInterstitialAdClosed(final String placementId) {
-        Log.d("lance", "------onInterstitialAdClosed------" + placementId);
+    public void onInterstitialAdClosed(AdInfo adInfo) {
+        Log.d("lance", "------onInterstitialAdClosed------" + adInfo.getPlacementId());
         logCallBack("onInterstitialAdClosed", "");
     }
 

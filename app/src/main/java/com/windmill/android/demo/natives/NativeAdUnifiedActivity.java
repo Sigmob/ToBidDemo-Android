@@ -21,6 +21,7 @@ import com.windmill.android.demo.log.ExpandAdapter;
 import com.windmill.android.demo.log.MyListView;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.natives.WMNativeAd;
 import com.windmill.sdk.natives.WMNativeAdContainer;
 import com.windmill.sdk.natives.WMNativeAdData;
@@ -237,19 +238,19 @@ public class NativeAdUnifiedActivity extends Activity {
         //设置广告交互监听
         nativeAdData.setInteractionListener(new WMNativeAdData.NativeAdInteractionListener() {
             @Override
-            public void onADExposed() {
+            public void onADExposed(AdInfo adInfo) {
                 Log.d("lance", "----------onADExposed----------");
                 logCallBack("onADExposed", "");
             }
 
             @Override
-            public void onADClicked() {
+            public void onADClicked(AdInfo adInfo) {
                 Log.d("lance", "----------onADClicked----------");
                 logCallBack("onADClicked", "");
             }
 
             @Override
-            public void onADRenderSuccess(View view, float width, float height) {
+            public void onADRenderSuccess(AdInfo adInfo, View view, float width, float height) {
                 Log.d("lance", "----------onADRenderSuccess----------:" + width + ":" + height);
                 logCallBack("onADRenderSuccess", "");
                 //媒体最终将要展示广告的容器
@@ -260,7 +261,7 @@ public class NativeAdUnifiedActivity extends Activity {
             }
 
             @Override
-            public void onADError(WindMillError error) {
+            public void onADError(AdInfo adInfo, WindMillError error) {
                 logCallBack("onADError", error.toString());
                 Log.d("lance", "----------onADError----------:" + error.toString());
             }

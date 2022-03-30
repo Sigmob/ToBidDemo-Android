@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.windmill.android.demo.splash.SplashEyeAdHolder;
 import com.windmill.android.demo.splash.SplashZoomOutManager;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.splash.IWMSplashEyeAd;
 import com.windmill.sdk.splash.WMSplashAd;
 import com.windmill.sdk.splash.WMSplashAdListener;
@@ -74,13 +75,13 @@ public class SplashActivity extends Activity {
 
         splashAd = new WMSplashAd(this, splashAdRequest, new WMSplashAdListener() {
             @Override
-            public void onSplashAdSuccessPresent() {
-                Log.d("lance", "------onSplashAdSuccessPresent------");
+            public void onSplashAdSuccessPresent(AdInfo adInfo) {
+                Log.d("lance", "------onSplashAdSuccessPresent------" + adInfo.getPlacementId());
             }
 
             @Override
-            public void onSplashAdSuccessLoad() {
-                Log.d("lance", "------onSplashAdSuccessLoad------" + splashAd.isReady());
+            public void onSplashAdSuccessLoad(String placementId) {
+                Log.d("lance", "------onSplashAdSuccessLoad------" + splashAd.isReady() + ":" + placementId);
             }
 
             @Override
@@ -90,13 +91,13 @@ public class SplashActivity extends Activity {
             }
 
             @Override
-            public void onSplashAdClicked() {
-                Log.d("lance", "------onSplashAdClicked------");
+            public void onSplashAdClicked(AdInfo adInfo) {
+                Log.d("lance", "------onSplashAdClicked------" + adInfo.getPlacementId());
             }
 
             @Override
-            public void onSplashClosed(IWMSplashEyeAd splashEyeAd) {
-                Log.d("lance", "------onSplashClosed------");
+            public void onSplashClosed(AdInfo adInfo, IWMSplashEyeAd splashEyeAd) {
+                Log.d("lance", "------onSplashClosed------" + adInfo.getPlacementId());
                 SplashEyeAdHolder.splashEyeAd = splashEyeAd;
                 jumpWhenCanClick();
             }
