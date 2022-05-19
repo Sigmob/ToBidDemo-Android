@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         bindButton(R.id.bt_interstitial, InterstitialActivity.class);
         bindButton(R.id.bt_splash, SplashAdActivity.class);
         bindButton(R.id.bt_native, NativeAdActivity.class);
+        bindButton(R.id.bt_banner, BannerActivity.class);
         bindButton(R.id.bt_version, VersionActivity.class);
         bindButton(R.id.bt_device, DeviceActivity.class);
     }

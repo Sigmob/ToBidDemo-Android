@@ -84,6 +84,22 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/bt_banner"
+                android:layout_width="240dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:text="Banner广告" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
                 android:id="@+id/bt_version"
                 android:layout_width="240dp"
                 android:layout_height="60dp"

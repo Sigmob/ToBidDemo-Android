@@ -8,7 +8,6 @@ import androidx.multidex.MultiDexApplication;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.windmill.sdk.WindMillAd;
 import com.windmill.sdk.WindMillConsentStatus;
-import com.windmill.sdk.WindMillOptions;
 import com.windmill.sdk.WindMillUserAgeStatus;
 
 /**
@@ -35,7 +34,7 @@ public class MyApplication extends MultiDexApplication {
         ads.setIsAgeRestrictedUser(WindMillUserAgeStatus.WindAgeRestrictedStatusNO);//coppa//是否年龄限制
         ads.setUserGDPRConsentStatus(WindMillConsentStatus.ACCEPT);//是否接受gdpr协议
 
-        ads.startWithOptions(this, new WindMillOptions("16991", "1c6d03bc081fbb82"));
+        ads.startWithAppId(this, "16991");
     }
 
     @Override
