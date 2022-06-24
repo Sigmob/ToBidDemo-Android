@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +36,7 @@ public class NativeAdDemoRender implements WMNativeAdRender<WMNativeAdData> {
     private Map<Integer, View> developViewMap = new HashMap<>();
     private ImageView img_logo;
     private ImageView ad_logo;
+    private RelativeLayout ad_choice;
     private ImageView img_dislike;
     private TextView text_desc;
     private View mButtonsContainer;
@@ -85,6 +87,7 @@ public class NativeAdDemoRender implements WMNativeAdRender<WMNativeAdData> {
         Log.d("lance", "renderAdView:" + adData.getTitle());
         img_logo = view.findViewById(R.id.img_logo);
         ad_logo = view.findViewById(R.id.channel_ad_logo);
+        ad_choice = view.findViewById(R.id.channel_ad_choice);
         img_dislike = view.findViewById(R.id.iv_dislike);
 
         text_desc = view.findViewById(R.id.text_desc);
@@ -130,6 +133,14 @@ public class NativeAdDemoRender implements WMNativeAdRender<WMNativeAdData> {
             ad_logo.setImageBitmap(adData.getAdLogo());
         } else {
             ad_logo.setVisibility(View.GONE);
+        }
+
+        if (adData.getAdChoice() != null) {
+            ad_choice.setVisibility(View.VISIBLE);
+            ad_choice.removeAllViews();
+            ad_choice.addView(adData.getAdChoice());
+        } else {
+            ad_choice.setVisibility(View.GONE);
         }
 
         //clickViews数量必须大于等于1

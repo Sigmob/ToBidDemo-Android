@@ -204,6 +204,16 @@
                 android:text="立即下载"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
+
+            <!-- AdChoice -->
+            <RelativeLayout
+                android:id="@+id/channel_ad_choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:background="@color/black" />
         </RelativeLayout>
 
 

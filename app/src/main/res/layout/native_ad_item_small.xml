@@ -62,6 +62,15 @@
                         android:layout_marginRight="10dp"
                         android:src="@mipmap/ic_launcher" />
 
+                    <!-- AdChoice -->
+                    <RelativeLayout
+                        android:id="@+id/channel_ad_choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/img_logo"
+                        android:background="@color/black" />
+
                     <!-- disLick的小图 -->
                     <ImageView
                         android:id="@+id/iv_dislike"
