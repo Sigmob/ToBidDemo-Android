@@ -76,6 +76,7 @@
         <item>穿山甲</item>
         <item>快手</item>
         <item>腾讯广告</item>
+        <item>Mtg</item>
     </array>
 
     <string-array name="native_id_value">
@@ -83,6 +84,7 @@
         <item>3128761931931303</item>
         <item>7637507237063488</item>
         <item>1489316935402150</item>
+        <item>6847370170971294</item>
     </string-array>
 
     <array name="banner_adapter">
