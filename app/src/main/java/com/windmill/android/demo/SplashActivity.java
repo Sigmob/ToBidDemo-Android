@@ -3,10 +3,14 @@ package com.windmill.android.demo;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.windmill.android.demo.splash.SplashEyeAdHolder;
 import com.windmill.android.demo.splash.SplashZoomOutManager;
@@ -34,6 +38,9 @@ public class SplashActivity extends Activity {
     private String placementId;
     private String userId = "123456789";
 
+    // 是否适配全面屏，默认是适配全面屏，即使用顶部状态栏和底部导航栏
+    private boolean isNotchAdaptation = true;
+
     private void getExtraInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("setting", 0);
         isSelfLogo = sharedPreferences.getBoolean(Constants.CONF_SELF_LOGO, false);
@@ -46,9 +53,55 @@ public class SplashActivity extends Activity {
         }
     }
 
+    private void hideSystemUI() {
+        int systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                View.SYSTEM_UI_FLAG_FULLSCREEN |
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        } else {
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        }
+        Window window = this.getWindow();
+        window.getDecorView().setSystemUiVisibility(systemUiVisibility);
+        // 五要素隐私详情页或五要素弹窗关闭回到开屏广告时，再次设置SystemUi
+        window.getDecorView().setOnSystemUiVisibilityChangeListener(visibility -> setSystemUi());
+
+        // Android P 官方方法
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            window.setAttributes(params);
+        }
+    }
+
+    private void showSystemUI() {
+        int systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        Window window = this.getWindow();
+        window.getDecorView().setSystemUiVisibility(systemUiVisibility);
+        // 五要素隐私详情页或五要素弹窗关闭回到开屏广告时，再次设置SystemUi
+        window.getDecorView().setOnSystemUiVisibilityChangeListener(visibility -> setSystemUi());
+    }
+
+    private void setSystemUi() {
+        if (!isNotchAdaptation) {
+            showSystemUI();
+        } else {
+            hideSystemUI();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 如需适配刘海屏水滴屏，必须在onCreate方法中设置全屏显示
+        if (isNotchAdaptation) {
+            hideSystemUI();
+        }
+
         setContentView(R.layout.activity_splash);
         adContainer = findViewById(R.id.splash_container);
 
