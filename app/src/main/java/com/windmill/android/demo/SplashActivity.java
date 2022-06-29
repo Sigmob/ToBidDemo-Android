@@ -1,11 +1,13 @@
 package com.windmill.android.demo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.view.WindowManager;
 
 import com.windmill.android.demo.splash.SplashEyeAdHolder;
 import com.windmill.android.demo.splash.SplashZoomOutManager;
+import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.splash.IWMSplashEyeAd;
@@ -93,6 +96,25 @@ public class SplashActivity extends Activity {
         }
     }
 
+    public int dipsToIntPixels(final float dips, final Context context) {
+        return (int) (dips * context.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public int getScreenHeight(Context context) {
+        DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics();
+        return (int) (dm.heightPixels + getStatusBarHeight(context));
+    }
+
+    //获取状态栏高度
+    public static float getStatusBarHeight(Context context) {
+        float height = 0;
+        int resourceId = context.getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            height = context.getApplicationContext().getResources().getDimensionPixelSize(resourceId);
+        }
+        return height;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +131,8 @@ public class SplashActivity extends Activity {
 
         Map<String, Object> options = new HashMap<>();
         options.put("user_id", userId);
+        options.put(WMConstants.AD_WIDTH, this.getResources().getDisplayMetrics().widthPixels);//针对于穿山甲、GroMore开屏有效、单位px
+        options.put(WMConstants.AD_HEIGHT, getScreenHeight(this) - dipsToIntPixels(100, this));//针对于穿山甲、GroMore开屏有效、单位px
         WMSplashAdRequest splashAdRequest = new WMSplashAdRequest(placementId, userId, options);
 
         /**
