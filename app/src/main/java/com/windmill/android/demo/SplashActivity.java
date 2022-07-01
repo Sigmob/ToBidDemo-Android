@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -24,6 +25,7 @@ import com.windmill.sdk.splash.WMSplashAd;
 import com.windmill.sdk.splash.WMSplashAdListener;
 import com.windmill.sdk.splash.WMSplashAdRequest;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,19 +102,25 @@ public class SplashActivity extends Activity {
         return (int) (dips * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    public int getScreenHeight(Context context) {
-        DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics();
-        return (int) (dm.heightPixels + getStatusBarHeight(context));
-    }
-
-    //获取状态栏高度
-    public static float getStatusBarHeight(Context context) {
-        float height = 0;
-        int resourceId = context.getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            height = context.getApplicationContext().getResources().getDimensionPixelSize(resourceId);
+    private DisplayMetrics getRealMetrics(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        Display display = windowManager.getDefaultDisplay();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            display.getRealMetrics(dm);
+        } else {
+            @SuppressWarnings("rawtypes")
+            Class c;
+            try {
+                c = Class.forName("android.view.Display");
+                @SuppressWarnings("unchecked")
+                Method method = c.getMethod("getRealMetrics", DisplayMetrics.class);
+                method.invoke(display, dm);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return height;
+        return dm;
     }
 
     @Override
@@ -131,8 +139,8 @@ public class SplashActivity extends Activity {
 
         Map<String, Object> options = new HashMap<>();
         options.put("user_id", userId);
-        options.put(WMConstants.AD_WIDTH, this.getResources().getDisplayMetrics().widthPixels);//针对于穿山甲、GroMore开屏有效、单位px
-        options.put(WMConstants.AD_HEIGHT, getScreenHeight(this) - dipsToIntPixels(100, this));//针对于穿山甲、GroMore开屏有效、单位px
+        options.put(WMConstants.AD_WIDTH, getRealMetrics(this).widthPixels);//针对于穿山甲、GroMore开屏有效、单位px
+        options.put(WMConstants.AD_HEIGHT, getRealMetrics(this).heightPixels - dipsToIntPixels(100, this));//针对于穿山甲、GroMore开屏有效、单位px
         WMSplashAdRequest splashAdRequest = new WMSplashAdRequest(placementId, userId, options);
 
         /**
