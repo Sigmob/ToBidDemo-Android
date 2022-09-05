@@ -8,7 +8,7 @@
 -dontskipnonpubliclibraryclasses
 
 #不预校验
-#-dontpreverify
+-dontpreverify
 
 #不优化输入的类文件
 -dontoptimize
@@ -135,3 +135,23 @@ public static final ** CREATOR;
 -keep public class * extends androidx.** { *; }
 -dontwarn com.mbridge.**
 -keep class **.R$* { public static final int mbridge*; }
+
+#klevin
+-dontwarn com.tencent.tgpa.lite.**
+-keep class com.tencent.tgpa.lite.**{*;}
+-keep class com.ihoc.mgpa.deviceid.**{*;}
+-keep class com.tencent.klevin.**{*;}
+
+# x5
+-dontwarn dalvik.**
+-dontwarn com.tencent.smtt.**
+-keep class com.tencent.smtt.** {
+    *;
+}
+-keep class com.tencent.tbs.** {
+    *;
+}
+
+# qapm
+-keep class com.tencent.qapmsdk.**{*;}
+-keep class okhttp3.** { *; }
