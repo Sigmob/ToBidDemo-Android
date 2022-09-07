@@ -125,7 +125,6 @@
                 android:onClick="ButtonClick"
                 android:text="展示广告" />
 
-            <!--Mtg原生自渲染要求必须用RelativeLayout,其他布局可能会有问题-->
             <RelativeLayout
                 android:id="@+id/native_ad_container"
                 android:layout_width="match_parent"
