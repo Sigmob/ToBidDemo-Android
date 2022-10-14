@@ -68,6 +68,8 @@ dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/vungle')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/klevin')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/baidu')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/adscope')
+
 
 }
 

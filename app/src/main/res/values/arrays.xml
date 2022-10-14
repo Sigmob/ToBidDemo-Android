@@ -9,6 +9,7 @@
         <item>Mtg</item>
         <item>百度</item>
         <item>游可赢</item>
+        <item>AdScope</item>
     </array>
 
     <string-array name="splash_id_value">
@@ -19,6 +20,8 @@
         <item>7335341774069271</item>
         <item>4971306168449311</item>
         <item>1151623533996816</item>
+        <item>3638729744885982</item>
+
     </string-array>
 
     <array name="reward_adapter">
