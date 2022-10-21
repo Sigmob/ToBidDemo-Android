@@ -142,6 +142,12 @@ public static final ** CREATOR;
 -keep class com.ihoc.mgpa.deviceid.**{*;}
 -keep class com.tencent.klevin.**{*;}
 
+# 倍孜混淆
+-dontwarn com.beizi.fusion.**
+-dontwarn com.beizi.ad.**
+-keep class com.beizi.fusion.** {*; }
+-keep class com.beizi.ad.** {*; }
+
 # x5
 -dontwarn dalvik.**
 -dontwarn com.tencent.smtt.**
