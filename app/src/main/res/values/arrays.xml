@@ -22,7 +22,7 @@
         <item>4971306168449311</item>
         <item>1151623533996816</item>
         <item>3638729744885982</item>
-        <item>0000000000000000</item>
+        <item>8592766355131657</item>
 
     </string-array>
 
@@ -45,7 +45,7 @@
         <item>5062866798108302</item>
         <item>2771810861425553</item>
         <item>8942716542710972</item>
-        <item>0000000000000000</item>
+        <item>3942855757229247</item>
     </string-array>
 
     <array name="interstitial_adapter">
@@ -67,7 +67,7 @@
         <item>3643065184356601</item>
         <item>7545481407897468</item>
         <item>9329165797267084</item>
-        <item>0000000000000000</item>
+        <item>9263961235998074</item>
     </string-array>
 
     <string-array name="interstitial_half_id_value">
@@ -78,7 +78,7 @@
         <item>9907380281057668</item>
         <item>3780333219352229</item>
         <item>7591984450159998</item>
-        <item>0000000000000000</item>
+        <item>9263961235998074</item>
     </string-array>
 
     <array name="native_adapter">
@@ -96,7 +96,7 @@
         <item>7637507237063488</item>
         <item>1489316935402150</item>
         <item>6847370170971294</item>
-        <item>0000000000000000</item>
+        <item>4952664543881484</item>
     </string-array>
 
     <array name="banner_adapter">
@@ -116,7 +116,7 @@
         <item>4614865511129242</item>
         <item>2528051798565300</item>
         <item>6476741851665224</item>
-        <item>0000000000000000</item>
+        <item>5228774828571889</item>
     </string-array>
 
 </resources>
