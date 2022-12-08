@@ -49,6 +49,7 @@ public class PangleCustomerInterstitial extends WMCustomInterstitialAdapter {
 
                 @Override
                 public void onError(int code, String message) {
+                    Log.d(TAG, "onError:" + code + ":" + message);
                     callLoadFail(new WMAdapterError(code, message));
                 }
 
@@ -60,38 +61,45 @@ public class PangleCustomerInterstitial extends WMCustomInterstitialAdapter {
                 //视频广告加载后的视频文件资源缓存到本地的回调
                 @Override
                 public void onFullScreenVideoCached(TTFullScreenVideoAd ttFullScreenVideoAd) {
+                    Log.d(TAG, "onFullScreenVideoCached");
                     callLoadSuccess();
                 }
 
                 //=，如title,视频url等，不包括视频文件
                 @Override
                 public void onFullScreenVideoAdLoad(final TTFullScreenVideoAd ad) {
+                    Log.d(TAG, "onFullScreenVideoAdLoad");
                     //mttRewardVideoAd.setShowDownLoadBar(false);
                     mTTFullScreenVideoAd = ad;
                     ad.setFullScreenVideoAdInteractionListener(new TTFullScreenVideoAd.FullScreenVideoAdInteractionListener() {
 
                         @Override
                         public void onAdShow() {
+                            Log.d(TAG, "onAdShow");
                             callVideoAdShow();
                         }
 
                         @Override
                         public void onAdVideoBarClick() {
+                            Log.d(TAG, "onAdVideoBarClick");
                             callVideoAdClick();
                         }
 
                         @Override
                         public void onAdClose() {
+                            Log.d(TAG, "onAdClose");
                             callVideoAdClosed();
                         }
 
                         @Override
                         public void onVideoComplete() {
+                            Log.d(TAG, "onVideoComplete");
                             callVideoAdPlayComplete();
                         }
 
                         @Override
                         public void onSkippedVideo() {
+                            Log.d(TAG, "onSkippedVideo");
                             callVideoAdSkipped();
                         }
                     });
