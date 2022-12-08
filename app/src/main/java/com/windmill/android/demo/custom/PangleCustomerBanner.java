@@ -29,7 +29,7 @@ public class PangleCustomerBanner extends WMCustomBannerAdapter {
     /**
      * @param activity
      * @param localExtra
-     * @param serverExtra Placement:CustomInfo:{"codeId":"901121246"}
+     * @param serverExtra Placement:CustomInfo:{"codeId":"948728682","adSize":"600x300"}
      */
     @Override
     public void loadAd(final Activity activity, Map<String, Object> localExtra, Map<String, Object> serverExtra) {
@@ -39,17 +39,27 @@ public class PangleCustomerBanner extends WMCustomBannerAdapter {
             JSONObject object = new JSONObject(placementCustomInfo);
 
 //            String codeId = object.optString("codeId");//901121246
+            String adSize = object.optString("adSize");//600x300
+
             /**
              * 广告位Id可以直接取、也可以放到自定义参数里面自己取
              * 平台填写时尽量对应
              */
             String codeId = (String) serverExtra.get(WMConstants.PLACEMENT_ID);//901121246
 
+            float width = 0, height = 0;
+            try {
+                int x = adSize.indexOf("x");
+                width = Float.parseFloat(adSize.substring(0, x));
+                height = Float.parseFloat(adSize.substring(x + 1));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            Log.d(TAG, "loadAd:" + codeId);
+            Log.d(TAG, "loadAd:" + codeId + ":" + width + ":" + height);
 
-            if (activity == null) {
-                callLoadFail(new WMAdapterError(WindMillError.ERROR_AD_ADAPTER_LOAD.getErrorCode(), "loadAd with activity is null"));
+            if (activity == null || width <= 0 || height <= 0) {
+                callLoadFail(new WMAdapterError(WindMillError.ERROR_AD_ADAPTER_LOAD.getErrorCode(), "loadAd with activity is null or adSize is error"));
                 return;
             }
 
@@ -57,7 +67,7 @@ public class PangleCustomerBanner extends WMCustomBannerAdapter {
 
             AdSlot.Builder builder = new AdSlot.Builder()
                     .setCodeId(codeId)
-                    .setExpressViewAcceptedSize(300, 45)////期望模板广告view的size,单位dp
+                    .setExpressViewAcceptedSize(width / 2, height / 2)//期望模板广告view的size,单位dp
                     .setAdCount(1); //请求广告数量为1到3条
 
             mTTAdNative.loadBannerExpressAd(builder.build(), new TTAdNative.NativeExpressAdListener() {
