@@ -97,7 +97,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/toutiao" />
+                android:resource="@xml/file_paths" />
         </provider>
 
         <!-- TT（国内） GP专属 -->
