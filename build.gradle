@@ -8,9 +8,6 @@ buildscript {
             url 'https://maven.aliyun.com/repository/public/'
         }
 
-        maven { url "https://jitpack.io" }
-
-
         google()
 
         mavenCentral()
@@ -44,10 +41,10 @@ allprojects {
             url 'https://maven.aliyun.com/repository/public/'
         }
 
-        maven { url "https://jitpack.io" }
-
         google()
+
         mavenCentral()
+
         maven {
             url 'https://maven.google.com/'
             name 'Google'
