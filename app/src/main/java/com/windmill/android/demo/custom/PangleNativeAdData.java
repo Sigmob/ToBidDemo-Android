@@ -71,6 +71,11 @@ public class PangleNativeAdData implements WMNativeAdData {
     }
 
     @Override
+    public boolean isNativeDrawAd() {
+        return false;
+    }
+
+    @Override
     public String getCTAText() {
         if (ttFeedAd != null) {
             switch (ttFeedAd.getInteractionType()) {

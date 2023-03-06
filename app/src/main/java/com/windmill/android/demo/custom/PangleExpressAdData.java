@@ -37,6 +37,11 @@ public class PangleExpressAdData implements WMNativeAdData {
         this.adAdapter = adAdapter;
     }
 
+    @Override
+    public boolean isNativeDrawAd() {
+        return false;
+    }
+
     /**
      * 根据类型设置video的监听，但是不生效针对头条
      *

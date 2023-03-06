@@ -119,4 +119,18 @@
         <item>5228774828571889</item>
     </string-array>
 
+
+    <array name="draw_adapter">
+        <item>穿山甲</item>
+        <item>腾讯广告</item>
+        <item>快手</item>
+    </array>
+
+    <string-array name="draw_id_value">
+        <item>7358735313218604</item>
+        <item>1443811417625395</item>
+        <item>2413339963567002</item>
+    </string-array>
+
+
 </resources>
