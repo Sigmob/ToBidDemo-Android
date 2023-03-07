@@ -84,6 +84,16 @@
             android:layout_marginRight="10dp"
             android:gravity="center"
             android:text="RecycleView接入事例" />
+
+        <Button
+            android:id="@+id/unified_native_ad_draw_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="Draw信息流接入事例" />
     </LinearLayout>
 
 </LinearLayout>
