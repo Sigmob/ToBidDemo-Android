@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true">
+
+    <!-- 原生广告的视频组件 -->
+    <FrameLayout
+        android:id="@+id/media_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#000" />
+
+    <!-- 原生广告的大图 -->
+    <ImageView
+        android:id="@+id/img_poster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY" />
+
+    <!-- 原生广告的logo -->
+    <ImageView
+        android:id="@+id/channel_ad_logo"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:scaleType="centerInside"
+        android:src="@drawable/sig_logo"
+        android:visibility="visible" />
+
+    <!-- 广告的信息描述 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/channel_ad_logo"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="40dp"
+        android:background="@android:color/holo_purple"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/ad_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#17A0DD">
+            <!-- 原生广告的小图 -->
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher" />
+
+            <!-- 原生广告的标题 -->
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/img_logo"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/img_logo"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="ToBid"
+                android:textColor="#e0000000"
+                android:textSize="16sp" />
+
+            <!-- 原生广告的描述 -->
+            <TextView
+                android:id="@+id/text_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_title"
+                android:layout_alignBottom="@id/img_logo"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/img_logo"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:text="ToBid广告是国内领先的营销平台,汇聚ToBid公司全量的应用场景。"
+                android:textColor="#a0000000"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <!-- 原生广告的点击按钮 -->
+        <Button
+            android:id="@+id/btn_cta"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/btn_bg_creative"
+            android:gravity="center"
+            android:text="立即下载"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

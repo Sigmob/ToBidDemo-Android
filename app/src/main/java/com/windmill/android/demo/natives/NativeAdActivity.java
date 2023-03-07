@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 
@@ -17,7 +18,7 @@ public class NativeAdActivity extends Activity implements AdapterView.OnItemSele
 
     private Spinner spinner;
     private ArrayAdapter<String> arrayAdapter;
-    private String placementId;
+    private int curPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +31,28 @@ public class NativeAdActivity extends Activity implements AdapterView.OnItemSele
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
 
-        String[] stringArray = getResources().getStringArray(R.array.native_id_value);
-        placementId = stringArray[0];
-
         bindButton(R.id.unified_native_ad_button, NativeAdUnifiedActivity.class);
         bindButton(R.id.unified_native_ad_list_button, NativeAdUnifiedListActivity.class);
         bindButton(R.id.unified_native_ad_recycle_button, NativeAdUnifiedRecycleActivity.class);
+        bindButton(R.id.unified_native_ad_draw_button, NativeAdDrawActivity.class);
     }
 
     private void bindButton(@IdRes int id, final Class clz) {
         this.findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String placementId;
+                if (clz == NativeAdDrawActivity.class) {
+                    String[] stringArray = getResources().getStringArray(R.array.native_draw_id_value);
+                    placementId = stringArray[curPosition];
+                    if (placementId.equals("0")) {
+                        Toast.makeText(NativeAdActivity.this, "仅穿山甲、快手、优量汇支持Draw广告类型", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                } else {
+                    String[] stringArray = getResources().getStringArray(R.array.native_id_value);
+                    placementId = stringArray[curPosition];
+                }
                 Intent intent = new Intent(NativeAdActivity.this, clz);
                 intent.putExtra("placementId", placementId);
                 startActivity(intent);
@@ -51,9 +62,8 @@ public class NativeAdActivity extends Activity implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String[] stringArray = getResources().getStringArray(R.array.native_id_value);
-        placementId = stringArray[position];
-        Log.d("lance", "------onItemSelected------" + position + ":" + placementId);
+        curPosition = position;
+        Log.d("lance", "------onItemSelected------" + curPosition);
     }
 
     @Override

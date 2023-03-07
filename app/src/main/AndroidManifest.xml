@@ -49,6 +49,12 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".natives.NativeAdDrawActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
             android:name=".BannerActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
@@ -75,7 +81,9 @@
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:hardwareAccelerated="true"
-            android:screenOrientation="portrait" /> <!-- SigMob -->
+            android:screenOrientation="portrait" />
+
+        <!-- SigMob -->
         <provider
             android:name="com.sigmob.sdk.SigmobFileProvider"
             android:authorities="${applicationId}.sigprovider"
@@ -85,7 +93,9 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/sigmob_provider_paths" />
-        </provider> <!-- TT 国内 -->
+        </provider>
+
+        <!-- TT 国内 -->
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
             android:authorities="${applicationId}.TTFileProvider"
@@ -94,7 +104,9 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- TT（国内） GP专属 -->
+        </provider>
+
+        <!-- TT（国内） GP专属 -->
         <provider
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
             android:authorities="${applicationId}.TTMultiProvider"
@@ -107,7 +119,9 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/gdt_file_path" />
-        </provider> <!-- 游可赢 -->
+        </provider>
+
+        <!-- 游可赢 -->
         <provider
             android:name="com.tencent.klevin.utils.FileProvider"
             android:authorities="${applicationId}.klevin.fileProvider"
