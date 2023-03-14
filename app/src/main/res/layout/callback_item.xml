@@ -43,7 +43,7 @@
             android:background="@color/colorGray"
             android:text="这是一个回调错误的描述" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_copy"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
