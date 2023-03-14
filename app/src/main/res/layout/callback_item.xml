@@ -36,6 +36,8 @@
         android:layout_margin="5dp"
         android:background="@color/colorGray"
         android:gravity="center_vertical"
-        android:text="这是一个回调错误的描述" />
+        android:text="这是一个回调错误的描述"
+        android:longClickable="true"
+        android:textIsSelectable="true"/>
 
 </LinearLayout>
