@@ -64,12 +64,18 @@ dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/kuaishou')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/mintegral-cn')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/csj')
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/unity')
+
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/vungle')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/klevin')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/baidu')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/adscope')
 
-
+    //unityAds
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/unity')
+    implementation "androidx.startup:startup-runtime:1.1.1"
+    implementation "androidx.lifecycle:lifecycle-process:2.5.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.32"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
+    implementation "com.unity3d.services.identifiers:unity-services-identifiers:1.0.0"
 }
 
