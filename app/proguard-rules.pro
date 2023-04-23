@@ -161,3 +161,11 @@ public static final ** CREATOR;
 # qapm
 -keep class com.tencent.qapmsdk.**{*;}
 -keep class okhttp3.** { *; }
+
+
+# TapTap混淆
+-dontwarn com.tapsdk.**
+-dontwarn com.tapadn.**
+-keep class com.tapsdk.** {*; }
+-keep class com.tapadn.** {*; }
+
