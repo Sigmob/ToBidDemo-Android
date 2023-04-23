@@ -11,7 +11,7 @@
         <item>游可赢</item>
         <item>AdScope</item>
         <item>趣盟</item>
-        <item>taptap</item>
+        <item>TapTap</item>
         <item>自定义穿山甲</item>
     </array>
 
@@ -39,7 +39,7 @@
         <item>百度</item>
         <item>游可赢</item>
         <item>趣盟</item>
-        <item>taptap</item>
+        <item>TapTap</item>
         <item>自定义穿山甲</item>
     </array>
 
@@ -76,7 +76,7 @@
         <item>3643065184356601</item>
         <item>7545481407897468</item>
         <item>9329165797267084</item>
-        <item>0</item>//不支持全屏
+        <item>8173976725692502</item>
         <item>9263961235998074</item>
     </string-array>
 
@@ -129,9 +129,8 @@
         <item>Mtg</item>
         <item>Vungle</item>
         <item>UnityAds</item>
-        <item>taptap</item>
+        <item>TapTap</item>
         <item>自定义穿山甲</item>
-
     </array>
 
     <string-array name="banner_id_value">
@@ -144,6 +143,6 @@
         <item>8922552189161799</item>
         <item>5228774828571889</item>
     </string-array>
-    
+
 
 </resources>
