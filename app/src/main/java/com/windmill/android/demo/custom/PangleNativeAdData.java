@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -29,6 +30,7 @@ import com.windmill.sdk.natives.WMNativeAdDataType;
 import com.windmill.sdk.natives.WMNativeAdRender;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -302,6 +304,30 @@ public class PangleNativeAdData implements WMNativeAdData {
                 }
             }
         }
+    }
+
+    @Override
+    public List<String> getImageUrlList() {
+        if (ttFeedAd != null) {
+            //需要自己渲染Image
+            List<TTImage> imageInfo = ttFeedAd.getImageList();
+            if (imageInfo != null && imageInfo.size() > 0) {
+                List<String> urls = new ArrayList<>();
+                for (int i = 0; i < imageInfo.size(); i++) {
+                    TTImage info = imageInfo.get(i);
+                    if (!TextUtils.isEmpty(info.getImageUrl())) {
+                        urls.add(info.getImageUrl());
+                    }
+                }
+                return urls;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void setAdLogoParams(FrameLayout.LayoutParams layoutParams) {
+
     }
 
     @Override

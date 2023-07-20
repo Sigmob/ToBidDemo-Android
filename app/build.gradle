@@ -59,16 +59,17 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 
-
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/admob')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/gdt')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/kuaishou')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/mintegral-cn')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/csj')
-
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/vungle')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/klevin')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/baidu')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/adscope')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/qumeng')
+
 
     //unityAds
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/unity')
@@ -77,11 +78,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.32"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
     implementation "com.unity3d.services.identifiers:unity-services-identifiers:1.0.0"
-    //qumeng
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/qumeng')
+//    implementation "com.squareup.okhttp3:okhttp:3.12.13"
+    implementation "androidx.webkit:webkit:1.6.1"
+
     //TapTap
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/taptap')
-    implementation "com.github.bumptech.glide:glide:4.0.0"
+    implementation "com.github.bumptech.glide:glide:4.9.0"
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
 //    implementation 'com.squareup.okhttp3:okhttp:3.12.1'

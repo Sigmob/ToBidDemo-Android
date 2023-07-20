@@ -11,7 +11,9 @@ import androidx.multidex.MultiDexApplication;
 
 import com.tencent.bugly.crashreport.CrashReport;
 import com.windmill.sdk.WMAdConfig;
+import com.windmill.sdk.WMAdnInitConfig;
 import com.windmill.sdk.WMCustomController;
+import com.windmill.sdk.WMNetworkConfig;
 import com.windmill.sdk.WindMillAd;
 import com.windmill.sdk.WindMillConsentStatus;
 import com.windmill.sdk.WindMillUserAgeStatus;
@@ -39,6 +41,36 @@ public class MyApplication extends MultiDexApplication {
         ads.setPersonalizedAdvertisingOn(true);//是否开启个性化推荐接口
         ads.setIsAgeRestrictedUser(WindMillUserAgeStatus.WindAgeRestrictedStatusNO);//coppa//是否年龄限制
         ads.setUserGDPRConsentStatus(WindMillConsentStatus.ACCEPT);//是否接受gdpr协议
+
+
+        /**
+         * 前置初始化第三方sdk
+         */
+//        WMNetworkConfig.Builder builder = (new WMNetworkConfig.Builder())
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.ADMOB))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.REKLAMUP))
+//                .addInitConfig(new WMAdnInitConfig(23, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(24, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(25, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(26, "appId"))//异步
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.VUNGLE, "appId"))//异步
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.UNITYADS, "appId"))//异步
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.IRONSOURCE, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.TOUTIAO, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.GDT, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.KUAISHOU, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.KLEVIN, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.BAIDU, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.GROMORE, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.ADSCOPE, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.QUMENG, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.PANGLE, "appId"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.APPLOVIN, "appKey"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.APPLOVIN_MAX, "appKey"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.MOBVISTA, "appId", "appKey"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.SIGMOB, "appId", "appKey"))
+//                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.TAPTAP, "appId", "appKey"));
+//        ads.setInitNetworkConfig(builder.build());
 
         ads.startWithAppId(this, "16991", new WMAdConfig.Builder().customController(new WMCustomController() {
             @Override
@@ -74,6 +106,31 @@ public class MyApplication extends MultiDexApplication {
             @Override
             public String getDevOaid() {
                 return super.getDevOaid();
+            }
+
+            @Override
+            public boolean isCanUseWifiState() {
+                return super.isCanUseWifiState();
+            }
+
+            @Override
+            public String getMacAddress() {
+                return super.getMacAddress();
+            }
+
+            @Override
+            public boolean isCanUseWriteExternal() {
+                return super.isCanUseWriteExternal();
+            }
+
+            @Override
+            public boolean isCanUseAppList() {
+                return super.isCanUseAppList();
+            }
+
+            @Override
+            public boolean isCanUsePermissionRecordAudio() {
+                return super.isCanUsePermissionRecordAudio();
             }
         }).build());
     }

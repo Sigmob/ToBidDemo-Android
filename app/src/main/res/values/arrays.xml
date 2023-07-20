@@ -17,11 +17,11 @@
 
     <string-array name="splash_id_value">
         <item>2009470615832232</item>
-        <item>5800294909655664</item>
-        <item>9633401111091418</item>
-        <item>3431532395562379</item>
+        <item>9313386614358887</item>
+        <item>5179213617529365</item>
+        <item>1444173223421106</item>
         <item>7335341774069271</item>
-        <item>4971306168449311</item>
+        <item>8917428365932184</item>
         <item>1151623533996816</item>
         <item>3638729744885982</item>
         <item>4195993224896991</item>
@@ -45,11 +45,11 @@
 
     <string-array name="reward_id_value">
         <item>9387595158051935</item>
-        <item>3245548070173764</item>
-        <item>7233517458533366</item>
-        <item>1193836006892140</item>
+        <item>4742225414998032</item>
+        <item>7115931754238704</item>
+        <item>5158581793348183</item>
         <item>5062866798108302</item>
-        <item>2771810861425553</item>
+        <item>3816398934274348</item>
         <item>8942716542710972</item>
         <item>5972542615262601</item>
         <item>5178753447131189</item>
@@ -72,10 +72,10 @@
         <item>4753286031006593</item>
         <item>1487634309430012</item>
         <item>5434383154791266</item>
-        <item>9716819932607276</item>
-        <item>3643065184356601</item>
-        <item>7545481407897468</item>
-        <item>9329165797267084</item>
+        <item>9747535575453635</item>
+        <item>7734341669262440</item>
+        <item>2862684688565436</item>
+        <item>2951495787812547</item>
         <item>8173976725692502</item>
         <item>9263961235998074</item>
     </string-array>
@@ -84,10 +84,10 @@
         <item>0</item>//不支持半屏
         <item>0</item>//不支持半屏
         <item>0</item>//不支持半屏
-        <item>6041801895839958</item>
+        <item>9747535575453635</item>
         <item>9907380281057668</item>
-        <item>3780333219352229</item>
-        <item>7591984450159998</item>
+        <item>2862684688565436</item>
+        <item>2652851931352738</item>
         <item>8173976725692502</item>
         <item>9263961235998074</item>
     </string-array>
@@ -97,6 +97,7 @@
         <item>穿山甲</item>
         <item>快手</item>
         <item>腾讯广告</item>
+        <item>百度广告</item>
         <item>Mtg</item>
         <item>趣盟</item>
         <item>自定义穿山甲</item>
@@ -104,9 +105,10 @@
 
     <string-array name="native_id_value">
         <item>9224761251541712</item>
-        <item>3128761931931303</item>
-        <item>7637507237063488</item>
-        <item>1489316935402150</item>
+        <item>5771359946996735</item>
+        <item>2691614432498176</item>
+        <item>4179171937516006</item>
+        <item>4356144419563636</item>
         <item>6847370170971294</item>
         <item>4772764698616709</item>
         <item>4952664543881484</item>
@@ -114,9 +116,10 @@
 
     <string-array name="native_draw_id_value">
         <item>0</item>
-        <item>7358735313218604</item>
-        <item>2413339963567002</item>
+        <item>9243878171116818</item>
+        <item>3969166469641223</item>
         <item>1443811417625395</item>
+        <item>0</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
@@ -134,15 +137,14 @@
     </array>
 
     <string-array name="banner_id_value">
-        <item>6426940313333654</item>
+        <item>7697128192498681</item>
         <item>0572652890771407</item>
-        <item>8544641057554824</item>
+        <item>1144613361889830</item>
         <item>4614865511129242</item>
         <item>2528051798565300</item>
         <item>6476741851665224</item>
         <item>8922552189161799</item>
         <item>5228774828571889</item>
     </string-array>
-
 
 </resources>
