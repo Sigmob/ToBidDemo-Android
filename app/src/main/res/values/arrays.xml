@@ -17,22 +17,22 @@
 
     <string-array name="splash_id_value">
         <item>2009470615832232</item>
-        <item>5800294909655664</item>
-        <item>9633401111091418</item>
-        <item>3431532395562379</item>
-        <item>7335341774069271</item>
-        <item>4971306168449311</item>
-        <item>1151623533996816</item>
-        <item>3638729744885982</item>
+        <item>2557859332779578</item>
+        <item>5273575612847152</item>
+        <item>9874754328828823</item>
+        <item>4291116760884064</item>
+        <item>9173839333293095</item>
+        <item>8335696523490528</item>
+        <item>3587447376114742</item>
         <item>4195993224896991</item>
         <item>8391836162295408</item>
         <item>8592766355131657</item>
-
     </string-array>
 
     <array name="reward_adapter">
         <item>SigMob</item>
-        <item>穿山甲</item>
+        <item>穿山甲_竖</item>
+        <item>穿山甲_横</item>
         <item>快手</item>
         <item>腾讯广告</item>
         <item>Mtg</item>
@@ -40,62 +40,66 @@
         <item>游可赢</item>
         <item>趣盟</item>
         <item>TapTap</item>
+        <item>AdMob</item>
+        <item>UnityAds</item>
+        <item>Vungle</item>
         <item>自定义穿山甲</item>
     </array>
 
     <string-array name="reward_id_value">
         <item>9387595158051935</item>
-        <item>3245548070173764</item>
-        <item>7233517458533366</item>
-        <item>1193836006892140</item>
-        <item>5062866798108302</item>
-        <item>2771810861425553</item>
+        <item>5161749878887362</item>
+        <item>1812159969244081</item>
+        <item>9569724998587566</item>
+        <item>8662275972853840</item>
+        <item>5787358330001656</item>
+        <item>5289563931699841</item>
         <item>8942716542710972</item>
         <item>5972542615262601</item>
         <item>5178753447131189</item>
+        <item>7765183888252898</item>
+        <item>1728642467353555</item>
+        <item>9757938166352981</item>
         <item>3942855757229247</item>
     </string-array>
 
     <array name="interstitial_adapter">
-        <item>SigMob</item>
+        <item>SigMob_全屏</item>
+        <item>SigMob_半屏</item>
         <item>Mtg</item>
         <item>游可赢</item>
-
-        <item>穿山甲</item>
-        <item>穿山甲半屏</item>
+        <item>AdMob_插屏视频</item>
+        <item>AdMob_插屏广告</item>
+        <item>穿山甲_全屏</item>
+        <item>穿山甲_半屏</item>
+        <item>穿山甲_新插屏</item>
         <item>快手</item>
-        <item>快手半屏</item>
         <item>腾讯广告</item>
-        <item>腾讯广告半屏</item>
         <item>百度</item>
-        <item>百度半屏</item>
+        <item>百度_智选模版</item>
         <item>趣盟</item>
-        <item>趣盟半屏</item>
+        <item>UnityAds</item>
+        <item>Vungle</item>
         <item>自定义穿山甲</item>
-        <item>自定义穿山甲半屏</item>
     </array>
 
     <string-array name="interstitial_id_value">
-        <item>4753286031006593</item>
-        <item>1487634309430012</item>
-        <item>5434383154791266</item>
-
-        <item>9716819932607276</item>
-        <item>6041801895839958</item>
-
-        <item>3643065184356601</item>
-        <item>9907380281057668</item>
-
-        <item>7545481407897468</item>
-        <item>3780333219352229</item>
-
-        <item>9329165797267084</item>
-        <item>7591984450159998</item>
-
+        <item>6364573199167167</item>
+        <item>1157338495916559</item>
+        <item>3219172072794542</item>
+        <item>7106606464456958</item>
+        <item>9136699615555138</item>
+        <item>9916923646474422</item>
+        <item>2548221365353356</item>
+        <item>7514675361112896</item>
+        <item>6164153675311158</item>
+        <item>2459616823282870</item>
+        <item>1664612139766065</item>
+        <item>6391359254489799</item>
+        <item>7225229189748652</item>
         <item>8173976725692502</item>
-        <item>8173976725692502</item>
-
-        <item>9263961235998074</item>
+        <item>5457847778477072</item>
+        <item>9370028652340772</item>
         <item>9263961235998074</item>
     </string-array>
 
@@ -104,26 +108,35 @@
         <item>穿山甲</item>
         <item>快手</item>
         <item>腾讯广告</item>
-        <item>Mtg</item>
+        <item>Mtg_自渲染</item>
+        <item>Mtg_模板</item>
         <item>趣盟</item>
+        <item>百度_智能优选</item>
+        <item>百度_模版</item>
         <item>自定义穿山甲</item>
     </array>
 
     <string-array name="native_id_value">
-        <item>9224761251541712</item>
-        <item>3128761931931303</item>
-        <item>7637507237063488</item>
-        <item>1489316935402150</item>
-        <item>6847370170971294</item>
+        <item>5756789376418096</item>
+        <item>9376521516682237</item>
+        <item>8251178562135817</item>
+        <item>8614115182199349</item>
+        <item>0891126797201388</item>
+        <item>4793442109057090</item>
         <item>4772764698616709</item>
+        <item>3372685948559285</item>
+        <item>6417345522251324</item>
         <item>4952664543881484</item>
     </string-array>
 
     <string-array name="native_draw_id_value">
         <item>0</item>
-        <item>7358735313218604</item>
-        <item>2413339963567002</item>
+        <item>1464362417662521</item>
+        <item>6321362398819916</item>
         <item>1443811417625395</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
@@ -137,19 +150,20 @@
         <item>Vungle</item>
         <item>UnityAds</item>
         <item>TapTap</item>
+        <item>AdMob</item>
         <item>自定义穿山甲</item>
     </array>
 
     <string-array name="banner_id_value">
-        <item>6426940313333654</item>
-        <item>0572652890771407</item>
-        <item>8544641057554824</item>
+        <item>7316148691848522</item>
+        <item>1261219727399929</item>
+        <item>7771258158986893</item>
         <item>4614865511129242</item>
         <item>2528051798565300</item>
-        <item>6476741851665224</item>
+        <item>7556519713337932</item>
         <item>8922552189161799</item>
+        <item>7242732152317874</item>
         <item>5228774828571889</item>
     </string-array>
-
 
 </resources>
