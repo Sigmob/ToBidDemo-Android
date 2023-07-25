@@ -44,21 +44,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical">
-
-        <CheckBox
-            android:id="@+id/cb_fullscreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="半屏显示"
-            android:textSize="16dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical">
 

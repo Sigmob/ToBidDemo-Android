@@ -8,8 +8,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -36,8 +34,6 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     private Spinner spinner;
     private ArrayAdapter<String> arrayAdapter;
 
-    private CheckBox halfScreen;
-    private boolean isHalfScreen = false;
     private int selectedId = 0;
 
     private ListView listView;
@@ -77,14 +73,6 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
 
-        halfScreen = findViewById(R.id.cb_fullscreen);
-        halfScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isHalfScreen = isChecked;
-            }
-        });
-
         WebView.setWebContentsDebuggingEnabled(true);
 
         initCallBack();
@@ -119,18 +107,8 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     }
 
     private void updatePlacementId() {
-        if (selectedId < 3) {//前三个没实现半屏,默认显示SigMob全屏
-            String[] stringArray = getResources().getStringArray(R.array.interstitial_full_id_value);
-            placementId = stringArray[selectedId];
-        } else {
-            String[] stringArray;
-            if (isHalfScreen) {
-                stringArray = getResources().getStringArray(R.array.interstitial_half_id_value);
-            } else {
-                stringArray = getResources().getStringArray(R.array.interstitial_full_id_value);
-            }
-            placementId = stringArray[selectedId];
-        }
+        String[] stringArray = getResources().getStringArray(R.array.interstitial_id_value);
+        placementId = stringArray[selectedId];
     }
 
     @Override
@@ -151,11 +129,6 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d("lance", "------onItemSelected------" + position);
         selectedId = position;
-        if (selectedId < 3) {//前三个没实现半屏
-            halfScreen.setVisibility(View.GONE);
-        } else {
-            halfScreen.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
