@@ -9,11 +9,6 @@ import android.location.LocationManager;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-import com.tencent.bugly.crashreport.CrashReport;
-import com.windmill.sdk.WMAdConfig;
-import com.windmill.sdk.WMAdnInitConfig;
-import com.windmill.sdk.WMCustomController;
-import com.windmill.sdk.WMNetworkConfig;
 import com.windmill.sdk.WindMillAd;
 import com.windmill.sdk.WindMillConsentStatus;
 import com.windmill.sdk.WindMillUserAgeStatus;
@@ -27,7 +22,7 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        CrashReport.initCrashReport(getApplicationContext(), "4c41e5eed0", true);//4c41e5eed0//4ee13aff7b
+//        CrashReport.initCrashReport(getApplicationContext(), "4c41e5eed0", true);//4c41e5eed0//4ee13aff7b
 
         initSDK();
     }
@@ -41,7 +36,6 @@ public class MyApplication extends MultiDexApplication {
         ads.setPersonalizedAdvertisingOn(true);//是否开启个性化推荐接口
         ads.setIsAgeRestrictedUser(WindMillUserAgeStatus.WindAgeRestrictedStatusNO);//coppa//是否年龄限制
         ads.setUserGDPRConsentStatus(WindMillConsentStatus.ACCEPT);//是否接受gdpr协议
-
 
         /**
          * 前置初始化第三方sdk
@@ -72,67 +66,7 @@ public class MyApplication extends MultiDexApplication {
 //                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.TAPTAP, "appId", "appKey"));
 //        ads.setInitNetworkConfig(builder.build());
 
-        ads.startWithAppId(this, "16991", new WMAdConfig.Builder().customController(new WMCustomController() {
-            @Override
-            public boolean isCanUseLocation() {
-                return super.isCanUseLocation();
-            }
-
-            @Override
-            public Location getLocation() {
-                return super.getLocation();
-            }
-
-            @Override
-            public boolean isCanUsePhoneState() {
-                return super.isCanUsePhoneState();
-            }
-
-            @Override
-            public String getDevImei() {
-                return super.getDevImei();
-            }
-
-            @Override
-            public boolean isCanUseAndroidId() {
-                return super.isCanUseAndroidId();
-            }
-
-            @Override
-            public String getAndroidId() {
-                return super.getAndroidId();
-            }
-
-            @Override
-            public String getDevOaid() {
-                return super.getDevOaid();
-            }
-
-            @Override
-            public boolean isCanUseWifiState() {
-                return super.isCanUseWifiState();
-            }
-
-            @Override
-            public String getMacAddress() {
-                return super.getMacAddress();
-            }
-
-            @Override
-            public boolean isCanUseWriteExternal() {
-                return super.isCanUseWriteExternal();
-            }
-
-            @Override
-            public boolean isCanUseAppList() {
-                return super.isCanUseAppList();
-            }
-
-            @Override
-            public boolean isCanUsePermissionRecordAudio() {
-                return super.isCanUsePermissionRecordAudio();
-            }
-        }).build());
+        ads.startWithAppId(this, "16991",null);
     }
 
     @Override
