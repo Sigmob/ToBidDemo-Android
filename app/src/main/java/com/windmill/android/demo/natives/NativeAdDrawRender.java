@@ -155,12 +155,12 @@ public class NativeAdDrawRender implements WMNativeAdRender<WMNativeAdData> {
     }
 
     public void updateAdAction(String ctaText) {
-        if (!TextUtils.isEmpty(ctaText)) {
-            //如果拉取广告包含CTA组件，则渲染该组件
+        if (TextUtils.isEmpty(ctaText)) {
+            mCTAButton.setVisibility(View.INVISIBLE);
+        } else {
+            // 如果拉取广告包含 CTA 组件，则渲染该组件
             mCTAButton.setText(ctaText);
             mCTAButton.setVisibility(View.VISIBLE);
-        } else {
-            mCTAButton.setVisibility(View.INVISIBLE);
         }
     }
 }

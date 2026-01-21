@@ -40,17 +40,16 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
     private ViewGroup splashLY;
     private WMSplashAd splashAd;
 
-    private List<CallBackItem> callBackDataList = new ArrayList<>();
+    private final List<CallBackItem> callBackDataList = new ArrayList<>();
 
     private void initViewGroup(Activity activity) {
+        /*if (this.splashLY != null) {
+            if (this.splashLY.getParent() != null) {
+                ((ViewGroup) this.splashLY.getParent()).removeView(this.splashLY);
+            }
 
-//        if (this.splashLY != null) {
-//            if (this.splashLY.getParent() != null) {
-//                ((ViewGroup) this.splashLY.getParent()).removeView(this.splashLY);
-//            }
-//
-//            this.splashLY = null;
-//        }
+            this.splashLY = null;
+        }*/
 
         splashLY = new RelativeLayout(activity);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -63,19 +62,16 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
         listView = findViewById(R.id.callback_lv);
         adapter = new ExpandAdapter(this, callBackDataList);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("lance", "------onItemClick------" + position);
-                CallBackItem callItem = callBackDataList.get(position);
-                if (callItem != null) {
-                    if (callItem.is_expand()) {
-                        callItem.set_expand(false);
-                    } else {
-                        callItem.set_expand(true);
-                    }
-                    adapter.notifyDataSetChanged();
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d("lance", "------onItemClick------" + position);
+            CallBackItem callItem = callBackDataList.get(position);
+            if (callItem != null) {
+                if (callItem.is_expand()) {
+                    callItem.set_expand(false);
+                } else {
+                    callItem.set_expand(true);
                 }
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -92,24 +88,18 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
 
         CheckBox fullScreen = findViewById(R.id.cb_fullscreen);
         CheckBox selfLogo = findViewById(R.id.cb_self_logo);
-        fullScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences sharedPreferences = SplashAdActivity.this.getSharedPreferences("setting", 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(Constants.CONF_FULL_SCREEN, isChecked);
-                editor.apply();
-            }
+        fullScreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences sharedPreferences = SplashAdActivity.this.getSharedPreferences("setting", 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.CONF_FULL_SCREEN, isChecked);
+            editor.apply();
         });
 
-        selfLogo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences sharedPreferences = SplashAdActivity.this.getSharedPreferences("setting", 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(Constants.CONF_SELF_LOGO, isChecked);
-                editor.apply();
-            }
+        selfLogo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences sharedPreferences = SplashAdActivity.this.getSharedPreferences("setting", 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constants.CONF_SELF_LOGO, isChecked);
+            editor.apply();
         });
 
         String[] stringArray = getResources().getStringArray(R.array.splash_id_value);
@@ -149,7 +139,6 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
     }
 
     private void loadSplashAd() {
-
         initViewGroup(this);
 
         WMSplashAdRequest adRequest = new WMSplashAdRequest(placementId, String.valueOf(0), null);
@@ -198,7 +187,7 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
 
     private void showSplashAd() {
         if (splashAd != null && splashAd.isReady()) {
-//            splashAd.showAd(null);
+            //splashAd.showAd(null);
             splashAd.showAd(splashLY);
         } else {
             Toast.makeText(SplashAdActivity.this, "Ad is not Ready", Toast.LENGTH_SHORT).show();
@@ -213,16 +202,16 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
             @Override
             public void onAnimationStart(View splashView) {
                 Log.i("lance", "----------onAnimationStart---------: eye ad");
-                //执行缩放动画
+                // 执行缩放动画
                 SplashZoomOutManager zoomOutManager = SplashZoomOutManager.getInstance(SplashAdActivity.this.getApplicationContext());
 
-                ////建议优先使用IATSplashEyeAd#getSuggestedSize()返回的大小作为缩放动画的目标大小
+                // 建议优先使用IATSplashEyeAd#getSuggestedSize()返回的大小作为缩放动画的目标大小
                 int[] suggestedSize = splashEyeAd.getSuggestedSize(SplashAdActivity.this.getApplicationContext());
                 if (suggestedSize != null) {
                     zoomOutManager.setSplashEyeAdViewSize(suggestedSize[0], suggestedSize[1]);
                 }
 
-//                zoomOutManager.setSplashInfo(splashView, SplashAdActivity.this.getWindow().getDecorView());
+                //zoomOutManager.setSplashInfo(splashView, SplashAdActivity.this.getWindow().getDecorView());
                 ViewGroup content = SplashAdActivity.this.findViewById(android.R.id.content);
                 zoomOutManager.startZoomOut(splashView, content, content, new SplashZoomOutManager.AnimationCallBack() {
 
@@ -234,7 +223,7 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
                     @Override
                     public void animationEnd() {
                         Log.i("lance", "----------animationEnd---------: eye ad");
-                        //当缩放动画完成时必须调用IATSplashEyeAd#onFinished()通知SDK
+                        // 当缩放动画完成时必须调用IATSplashEyeAd#onFinished()通知SDK
                         splashEyeAd.onFinished();
                     }
                 });
@@ -243,7 +232,7 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
             @Override
             public void onAdDismiss(boolean isSupportEyeSplash) {
                 Log.i("lance", "----------onAdDismiss---------:" + isSupportEyeSplash);
-                //建议在此回调中调用IATSplashEyeAd#destroy()释放资源以及释放其他资源，以免造成内存泄漏
+                // 建议在此回调中调用IATSplashEyeAd#destroy()释放资源以及释放其他资源，以免造成内存泄漏
                 SplashZoomOutManager zoomOutManager = SplashZoomOutManager.getInstance(SplashAdActivity.this.getApplicationContext());
                 zoomOutManager.clearStaticData();
                 splashEyeAd.destroy();

@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class NativeAdUnifiedRecycleActivity extends Activity {
 
     private static final int LIST_ITEM_COUNT = 10;
@@ -454,7 +453,7 @@ public class NativeAdUnifiedRecycleActivity extends Activity {
 
             public NormalViewHolder(View itemView) {
                 super(itemView);
-                idle = (TextView) itemView.findViewById(R.id.text_idle);
+                idle = itemView.findViewById(R.id.text_idle);
             }
         }
 
@@ -465,8 +464,8 @@ public class NativeAdUnifiedRecycleActivity extends Activity {
             public LoadMoreViewHolder(View itemView) {
                 super(itemView);
                 itemView.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-                mTextView = (TextView) itemView.findViewById(R.id.tv_load_more_tip);
-                mProgressBar = (ProgressBar) itemView.findViewById(R.id.pb_load_more_progress);
+                mTextView = itemView.findViewById(R.id.tv_load_more_tip);
+                mProgressBar = itemView.findViewById(R.id.pb_load_more_progress);
             }
         }
     }

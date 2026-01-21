@@ -17,9 +17,9 @@ public class VersionActivity extends Activity {
 
     private TableLayout tl;
 
-    private Map<String, String> mAdVersions = new LinkedHashMap<>();
+    private final Map<String, String> mAdVersions = new LinkedHashMap<>();
 
-    private String[] mAdNames = {"WindMill", "Sigmob", "Vungle", "Mintegral", "UnityAds", "穿山甲", "快手", "腾讯优量汇", "游可赢", "百度"};
+    private final String[] mAdNames = {"WindMill", "Sigmob", "Vungle", "Mintegral", "UnityAds", "穿山甲", "快手", "腾讯优量汇", "游可赢", "百度"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ public class VersionActivity extends Activity {
         float density = this.getResources().getDisplayMetrics().density;
         return (int) ((dips * density) + 0.5f);
     }
-
 
     private void createView() {
         tl.removeAllViews();
@@ -67,9 +66,7 @@ public class VersionActivity extends Activity {
 
             tl.addView(row);
 
-
             for (Map.Entry<String, String> entry : mAdVersions.entrySet()) {
-
                 String key = entry.getKey();
                 String value = entry.getValue();
 
@@ -106,12 +103,11 @@ public class VersionActivity extends Activity {
 
     private void initChannelVersion() {
         mAdVersions.clear();
-        for (int i = 0; i < mAdNames.length; i++) {
-            String mAdName = mAdNames[i];
+        for (String mAdName : mAdNames) {
             switch (mAdName) {
                 case "WindMill":
                     try {
-                        Class aClass = Class.forName("com.windmill.sdk.WindMillAd");
+                        Class<?> aClass = Class.forName("com.windmill.sdk.WindMillAd");
                         Method method = aClass.getMethod("getVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);
@@ -123,7 +119,7 @@ public class VersionActivity extends Activity {
                     break;
                 case "Sigmob":
                     try {
-                        Class aClass = Class.forName("com.sigmob.windad.WindAds");
+                        Class<?> aClass = Class.forName("com.sigmob.windad.WindAds");
                         Method method = aClass.getMethod("getVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);
@@ -135,7 +131,7 @@ public class VersionActivity extends Activity {
                     break;
                 case "游可赢":
                     try {
-                        Class aClass = Class.forName("com.tencent.klevin.KlevinManager");
+                        Class<?> aClass = Class.forName("com.tencent.klevin.KlevinManager");
                         Method method = aClass.getMethod("getVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);
@@ -147,7 +143,7 @@ public class VersionActivity extends Activity {
                     break;
                 case "百度":
                     try {
-                        Class aClass = Class.forName("com.baidu.mobads.sdk.api.AdSettings");
+                        Class<?> aClass = Class.forName("com.baidu.mobads.sdk.api.AdSettings");
                         Method method = aClass.getMethod("getSDKVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);
@@ -159,7 +155,7 @@ public class VersionActivity extends Activity {
                     break;
                 case "Vungle":
                     try {
-                        Class cls = Class.forName("com.vungle.warren.BuildConfig");
+                        Class<?> cls = Class.forName("com.vungle.warren.BuildConfig");
                         Object obj = cls.newInstance();
                         Field f = cls.getDeclaredField("VERSION_NAME");
                         f.setAccessible(true);
@@ -184,7 +180,7 @@ public class VersionActivity extends Activity {
 //                    break;
                 case "Mintegral":
                     try {
-                        Class cls = Class.forName("com.mbridge.msdk.out.MBConfiguration");
+                        Class<?> cls = Class.forName("com.mbridge.msdk.out.MBConfiguration");
                         Object obj = cls.newInstance();
                         Field f = cls.getDeclaredField("SDK_VERSION");
                         f.setAccessible(true);
@@ -210,7 +206,7 @@ public class VersionActivity extends Activity {
 //                    break;
                 case "UnityAds":
                     try {
-                        Class cls = Class.forName("com.unity3d.ads.BuildConfig");
+                        Class<?> cls = Class.forName("com.unity3d.ads.BuildConfig");
                         Object obj = cls.newInstance();
                         Field f = cls.getDeclaredField("VERSION_NAME");
                         f.setAccessible(true);
@@ -223,7 +219,7 @@ public class VersionActivity extends Activity {
                     break;
                 case "穿山甲":
                     try {
-                        Class ttAdSdk = Class.forName("com.bytedance.sdk.openadsdk.TTAdSdk");
+                        Class<?> ttAdSdk = Class.forName("com.bytedance.sdk.openadsdk.TTAdSdk");
                         Method getAdManager = ttAdSdk.getMethod("getAdManager");
                         getAdManager.setAccessible(true);
                         Object ttAdManager = getAdManager.invoke(ttAdSdk);
@@ -239,7 +235,7 @@ public class VersionActivity extends Activity {
                     break;
                 case "快手":
                     try {
-                        Class aClass = Class.forName("com.kwad.sdk.api.KsAdSDK");
+                        Class<?> aClass = Class.forName("com.kwad.sdk.api.KsAdSDK");
                         Method method = aClass.getMethod("getSDKVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);
@@ -249,9 +245,9 @@ public class VersionActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
-                case "腾讯优量会":
+                case "腾讯优量汇":
                     try {
-                        Class aClass = Class.forName("com.qq.e.comm.managers.status.SDKStatus");
+                        Class<?> aClass = Class.forName("com.qq.e.comm.managers.status.SDKStatus");
                         Method method = aClass.getMethod("getIntegrationSDKVersion");
                         method.setAccessible(true);
                         String invoke = (String) method.invoke(aClass);

@@ -87,33 +87,27 @@ public class NativeAdUnifiedActivity extends Activity {
         adContainer = findViewById(R.id.native_ad_container);
         getExtraInfo();
 
-        editTextWidth = (EditText) findViewById(R.id.editWidth);
-        editTextHeight = (EditText) findViewById(R.id.editHeight);
+        editTextWidth = findViewById(R.id.editWidth);
+        editTextHeight = findViewById(R.id.editHeight);
 
-        checkBoxFullWidth = (CheckBox) findViewById(R.id.checkboxFullWidth);
-        checkBoxAutoHeight = (CheckBox) findViewById(R.id.checkboxAutoHeight);
-        checkBoxFullWidth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    editTextWidth.setText("0");
-                    editTextWidth.setEnabled(false);
-                } else {
-                    editTextWidth.setText("340");
-                    editTextWidth.setEnabled(true);
-                }
+        checkBoxFullWidth = findViewById(R.id.checkboxFullWidth);
+        checkBoxAutoHeight = findViewById(R.id.checkboxAutoHeight);
+        checkBoxFullWidth.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                editTextWidth.setText("0");
+                editTextWidth.setEnabled(false);
+            } else {
+                editTextWidth.setText("340");
+                editTextWidth.setEnabled(true);
             }
         });
-        checkBoxAutoHeight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    editTextHeight.setText("0");
-                    editTextHeight.setEnabled(false);
-                } else {
-                    editTextHeight.setText("320");
-                    editTextHeight.setEnabled(true);
-                }
+        checkBoxAutoHeight.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                editTextHeight.setText("0");
+                editTextHeight.setEnabled(false);
+            } else {
+                editTextHeight.setText("320");
+                editTextHeight.setEnabled(true);
             }
         });
 
@@ -160,8 +154,8 @@ public class NativeAdUnifiedActivity extends Activity {
             return;
         }
 
-        adWidth = Integer.valueOf(editTextWidth.getText().toString());
-        adHeight = Integer.valueOf(editTextHeight.getText().toString());
+        adWidth = Integer.parseInt(editTextWidth.getText().toString());
+        adHeight = Integer.parseInt(editTextHeight.getText().toString());
 
         if (adWidth == 0) {//最大宽度
             adWidth = screenWidthAsIntDips(this) - 20;//减20因为容器有个margin 10dp//340
@@ -395,5 +389,4 @@ public class NativeAdUnifiedActivity extends Activity {
             adapter.notifyDataSetChanged();
         }
     }
-
 }

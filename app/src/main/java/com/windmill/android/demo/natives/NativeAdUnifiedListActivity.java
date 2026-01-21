@@ -17,10 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.windmill.android.demo.R;
-import com.windmill.android.demo.view.ILoadMoreListener;
 import com.windmill.android.demo.view.LoadMoreListView;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
@@ -47,7 +44,7 @@ public class NativeAdUnifiedListActivity extends Activity {
 
     private List<WMNativeAdData> mData;
 
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private int adWidth; // 广告宽高
 
@@ -76,25 +73,14 @@ public class NativeAdUnifiedListActivity extends Activity {
         return (int) ((pixels / density) + 0.5f);
     }
 
-
     private void initListView() {
-        mListView = (LoadMoreListView) findViewById(R.id.unified_native_ad_list);
+        mListView = findViewById(R.id.unified_native_ad_list);
         mData = new ArrayList<>();
         myAdapter = new MyAdapter(this, mData);
         mListView.setAdapter(myAdapter);
-        mListView.setLoadMoreListener(new ILoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                loadListAd();
-            }
-        });
+        mListView.setLoadMoreListener(this::loadListAd);
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadListAd();
-            }
-        }, 500);
+        mHandler.postDelayed(this::loadListAd, 500);
     }
 
     /**
@@ -150,12 +136,12 @@ public class NativeAdUnifiedListActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mData != null) {
-            for (WMNativeAdData ad : mData) {
-                if (ad != null) {
-                    ad.destroy();
-                }
-            }
+        if (mData == null) return;
+
+        for (WMNativeAdData ad : mData) {
+            if (ad == null) continue;
+
+            ad.destroy();
         }
         mData = null;
     }
@@ -222,8 +208,7 @@ public class NativeAdUnifiedListActivity extends Activity {
         }
 
         //渲染视频广告，以视频广告为例，以下说明
-        @SuppressWarnings("RedundantCast")
-        private View getUnifiedADView(View convertView, ViewGroup viewGroup, @NonNull final WMNativeAdData ad) {
+        private View getUnifiedADView(View convertView, ViewGroup viewGroup, final WMNativeAdData ad) {
             final UnifiedAdViewHolder adViewHolder;
             try {
                 if (convertView == null) {
@@ -254,7 +239,7 @@ public class NativeAdUnifiedListActivity extends Activity {
             return convertView;
         }
 
-        private View getExpressADView(View convertView, ViewGroup viewGroup, @NonNull final WMNativeAdData ad) {
+        private View getExpressADView(View convertView, ViewGroup viewGroup, WMNativeAdData ad) {
             final ExpressAdViewHolder adViewHolder;
             try {
                 if (convertView == null) {
@@ -467,7 +452,7 @@ public class NativeAdUnifiedListActivity extends Activity {
             FrameLayout adContainer;
 
             public AdViewHolder(View convertView) {
-                adContainer = (FrameLayout) convertView.findViewById(R.id.iv_list_item_container);
+                adContainer = convertView.findViewById(R.id.iv_list_item_container);
 
             }
         }

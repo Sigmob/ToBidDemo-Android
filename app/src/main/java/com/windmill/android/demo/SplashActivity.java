@@ -29,7 +29,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class SplashActivity extends Activity {
     /**
      * 设置一个变量来控制当前开屏页面是否可以跳转，当开屏广告为普链类广告时，点击会打开一个广告落地页，此时开发者还不能打开自己的App主页。当从广告落地页返回以后，
@@ -127,7 +126,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 如需适配刘海屏水滴屏，必须在onCreate方法中设置全屏显示
+        // 如需适配刘海屏水滴屏，必须在 onCreate 方法中设置全屏显示
         if (isNotchAdaptation) {
             hideSystemUI();
         }
@@ -188,9 +187,11 @@ public class SplashActivity extends Activity {
             }
         });
 
-        if (isFullScreen) {//全屏开屏Window展示
+        if (isFullScreen) {
+            // 全屏开屏 Window 展示
             splashAd.loadAdAndShow(null);
-        } else {//采用容器展示开屏广告内容
+        } else {
+            // 采用容器展示开屏广告内容
             splashAd.loadAdAndShow(adContainer);
         }
     }
@@ -238,7 +239,7 @@ public class SplashActivity extends Activity {
 
         overridePendingTransition(0, 0);
 
-        this.finish();
+        finish();
     }
 
     @Override

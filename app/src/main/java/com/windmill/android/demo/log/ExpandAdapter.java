@@ -92,5 +92,4 @@ public class ExpandAdapter extends BaseAdapter {
             infoText = (TextView) convertView.findViewById(R.id.child_info);
         }
     }
-
 }

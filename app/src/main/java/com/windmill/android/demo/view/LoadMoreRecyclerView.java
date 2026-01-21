@@ -80,7 +80,8 @@ public class LoadMoreRecyclerView extends RecyclerView {
         super.setLayoutManager(layout);
 
         if (layout != null && getAdapter() != null) {
-            getAdapter().onAttachedToRecyclerView(this);//手动调用下，否则加载更多异常
+            // 手动调用下，否则加载更多异常
+            getAdapter().onAttachedToRecyclerView(this);
         }
     }
 
@@ -99,5 +100,4 @@ public class LoadMoreRecyclerView extends RecyclerView {
     public boolean isLoading() {
         return mIsLoading;
     }
-
 }

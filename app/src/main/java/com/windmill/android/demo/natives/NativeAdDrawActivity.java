@@ -498,5 +498,4 @@ public class NativeAdDrawActivity extends Activity {
             }
         }
     }
-
 }
