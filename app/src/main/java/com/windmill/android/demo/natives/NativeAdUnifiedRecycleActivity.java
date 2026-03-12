@@ -59,7 +59,6 @@ public class NativeAdUnifiedRecycleActivity extends Activity {
 
     private int adWidth; // 广告宽高
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,24 +84,13 @@ public class NativeAdUnifiedRecycleActivity extends Activity {
     }
 
     private void initListView() {
-        mListView = (LoadMoreRecyclerView) findViewById(R.id.unified_native_ad_recycle);
+        mListView = findViewById(R.id.unified_native_ad_recycle);
         mListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mData = new ArrayList<>();
         myAdapter = new MyAdapter(this, mData);
         mListView.setAdapter(myAdapter);
-        mListView.setLoadMoreListener(new ILoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                loadListAd();
-            }
-        });
-
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadListAd();
-            }
-        }, 500);
+        mListView.setLoadMoreListener(this::loadListAd);
+        mHandler.postDelayed(this::loadListAd, 500);
     }
 
     /**
@@ -136,21 +124,20 @@ public class NativeAdUnifiedRecycleActivity extends Activity {
                 }
 
                 List<WMNativeAdData> unifiedADData = windNativeUnifiedAd.getNativeADDataList();
+                if (unifiedADData == null || unifiedADData.isEmpty()) return;
 
-                if (unifiedADData != null && unifiedADData.size() > 0) {
-                    Log.d("lance", "onFeedAdLoad:" + unifiedADData.size());
-                    for (final WMNativeAdData adData : unifiedADData) {
+                Log.d("lance", "onFeedAdLoad:" + unifiedADData.size());
+                for (final WMNativeAdData adData : unifiedADData) {
 
-                        for (int i = 0; i < LIST_ITEM_COUNT; i++) {
-                            mData.add(null);
-                        }
-
-                        int count = mData.size();
-                        mData.set(count - 1, adData);
+                    for (int i = 0; i < LIST_ITEM_COUNT; i++) {
+                        mData.add(null);
                     }
 
-                    myAdapter.notifyDataSetChanged();
+                    int count = mData.size();
+                    mData.set(count - 1, adData);
                 }
+
+                myAdapter.notifyDataSetChanged();
             }
         });
     }

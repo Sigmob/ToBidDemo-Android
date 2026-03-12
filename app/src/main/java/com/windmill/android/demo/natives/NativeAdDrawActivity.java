@@ -184,42 +184,36 @@ public class NativeAdDrawActivity extends Activity {
 
     private void playVideo() {
         View itemView = mRecyclerView.getChildAt(0);
-        if (itemView != null) {
-            VideoView videoView = itemView.findViewById(R.id.video_view);
-            final ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
+        if (itemView == null) return;
 
-            if (videoView == null) {
-                return;
-            }
+        VideoView videoView = itemView.findViewById(R.id.video_view);
+        ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
 
-            if (!videoView.isPlaying()) {
-                videoView.start();
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-                    @Override
-                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                        imgThumb.animate().alpha(0).setDuration(200).start();
-                        return false;
-                    }
-                });
-            } else {
+        if (videoView == null) return;
+
+        if (!videoView.isPlaying()) {
+            videoView.start();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            videoView.setOnInfoListener((mp, what, extra) -> {
                 imgThumb.animate().alpha(0).setDuration(200).start();
-            }
+                return false;
+            });
+        } else {
+            imgThumb.animate().alpha(0).setDuration(200).start();
         }
     }
 
     private void releaseVideo(int index) {
         View itemView = mRecyclerView.getChildAt(index);
-        if (itemView != null) {
-            VideoView videoView = itemView.findViewById(R.id.video_view);
-            if (videoView == null) {
-                return;
-            }
-            ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
-            videoView.stopPlayback();
-            imgThumb.animate().alpha(1).start();
-        }
+        if (itemView == null) return;
+
+        VideoView videoView = itemView.findViewById(R.id.video_view);
+        if (videoView == null) return;
+
+        ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
+        videoView.stopPlayback();
+        imgThumb.animate().alpha(1).start();
     }
 
     private static class DrawRecyclerAdapter extends RecyclerView.Adapter {
@@ -247,9 +241,8 @@ public class NativeAdDrawActivity extends Activity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
             TestItem item = mDataList.get(position);
-            if (item == null) {
-                return;
-            }
+            if (item == null) return;
+
             if (viewHolder instanceof NormalViewHolder) {
                 NormalViewHolder normalViewHolder = (NormalViewHolder) viewHolder;
                 normalViewHolder.videoView.setVideoURI(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + item.normalVideo.videoId));
@@ -312,7 +305,6 @@ public class NativeAdDrawActivity extends Activity {
                 public void onADError(AdInfo adInfo, WindMillError error) {
                     Log.d("lance", "----------onADError----------:" + error.toString());
                 }
-
             });
 
             //设置media监听
@@ -432,7 +424,6 @@ public class NativeAdDrawActivity extends Activity {
         }
     }
 
-
     private static class ExpressAdViewHolder extends AdViewHolder {
         public ExpressAdViewHolder(View itemView) {
             super(itemView);
@@ -458,7 +449,7 @@ public class NativeAdDrawActivity extends Activity {
 
         public AdViewHolder(View itemView) {
             super(itemView);
-            adContainer = (FrameLayout) itemView.findViewById(R.id.video_container);
+            adContainer = itemView.findViewById(R.id.video_container);
         }
     }
 

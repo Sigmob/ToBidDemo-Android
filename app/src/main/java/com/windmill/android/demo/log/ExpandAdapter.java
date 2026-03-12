@@ -87,9 +87,9 @@ public class ExpandAdapter extends BaseAdapter {
         TextView infoText;
 
         public MyViewHolder(View convertView) {
-            callBackText = (TextView) convertView.findViewById(R.id.tv_log);
-            expandImage = (ImageView) convertView.findViewById(R.id.iv_log);
-            infoText = (TextView) convertView.findViewById(R.id.child_info);
+            callBackText = convertView.findViewById(R.id.tv_log);
+            expandImage = convertView.findViewById(R.id.iv_log);
+            infoText = convertView.findViewById(R.id.child_info);
         }
     }
 }

@@ -31,7 +31,7 @@ public class NativeAdDrawRender implements WMNativeAdRender<WMNativeAdData> {
     /**
      * 多布局根据adPatternType复用不同的根视图
      */
-    private Map<Integer, View> developViewMap = new HashMap<>();
+    private final Map<Integer, View> developViewMap = new HashMap<>();
     private ImageView img_logo;
     private ImageView ad_logo;
     private TextView text_desc;

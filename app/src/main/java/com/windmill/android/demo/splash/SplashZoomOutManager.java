@@ -11,7 +11,6 @@ import android.widget.FrameLayout;
 import com.windmill.android.demo.utils.PxUtils;
 import com.windmill.android.demo.utils.ViewUtils;
 
-
 /*
  * created by timfeng 2020/11/14
  */
@@ -59,7 +58,7 @@ public class SplashZoomOutManager {
     private SplashZoomOutManager(Context context) {
         int deviceWidth = Math.min(PxUtils.getDeviceHeightInPixel(context), PxUtils.getDeviceWidthInPixel(context));
         zoomOutWidth = Math.round(deviceWidth * 0.3f);//屏幕宽度的30%，之前使用PxUtils.dpToPx(context, 90);
-        zoomOutHeight = Math.round(zoomOutWidth * 16 / 9);//根据宽度计算高度，之前使用PxUtils.dpToPx(context, 160);
+        zoomOutHeight = Math.round(zoomOutWidth * 16f / 9);//根据宽度计算高度，之前使用PxUtils.dpToPx(context, 160);
 
         zoomOutMargin = PxUtils.dpToPx(context, 6);
         zoomOutMarginBottom = PxUtils.dpToPx(context, 100);
@@ -100,9 +99,9 @@ public class SplashZoomOutManager {
      * @param zoomOutContainer   最终浮窗所在的父布局
      * @param callBack           动画完成的回调
      */
-    public ViewGroup startZoomOutInTwoActivity(final ViewGroup animationContainer,
-                                               final ViewGroup zoomOutContainer,
-                                               final AnimationCallBack callBack) {
+    public ViewGroup startZoomOutInTwoActivity(ViewGroup animationContainer,
+                                               ViewGroup zoomOutContainer,
+                                               AnimationCallBack callBack) {
         Log.d(TAG, "zoomOut startZoomOut activity");
         if (animationContainer == null || zoomOutContainer == null) {
             Log.d(TAG, "zoomOut animationContainer or zoomOutContainer is null");
@@ -141,16 +140,16 @@ public class SplashZoomOutManager {
      * @param zoomOutContainer   动画结束时，最终悬浮窗所在的父布局
      * @param callBack           动画结束时的回调，splashAdView无法感知动画的执行时间，需要使用该函数通知动画结束了
      */
-    public ViewGroup startZoomOut(final View splash, final ViewGroup animationContainer,
-                                  final ViewGroup zoomOutContainer,
-                                  final AnimationCallBack callBack) {
+    public ViewGroup startZoomOut(View splash, ViewGroup animationContainer,
+                                  ViewGroup zoomOutContainer,
+                                  AnimationCallBack callBack) {
         clearStaticData();//单例清除下引用的view和ad数据，免得内存泄漏
 
         if (splash == null || zoomOutContainer == null) {
             return null;
         }
-        final Context context = zoomOutContainer.getContext();
-        final int[] splashScreenPos = new int[2];
+        Context context = zoomOutContainer.getContext();
+        int[] splashScreenPos = new int[2];
         splash.getLocationOnScreen(splashScreenPos);
 
         int fromWidth = splash.getWidth();
@@ -166,9 +165,9 @@ public class SplashZoomOutManager {
         }
         float xScaleRatio = (float) zoomOutWidth / fromWidth;
         float yScaleRation = (float) zoomOutHeight / fromHeight;
-        final float animationDistX = zoomOutPos == LEFT ? zoomOutMargin :
+        float animationDistX = zoomOutPos == LEFT ? zoomOutMargin :
                 animationContainerWidth - zoomOutMargin - zoomOutWidth;
-        final float animationDistY = animationContainerHeight - zoomOutMarginBottom - zoomOutHeight;  //最终位于container的y坐标
+        float animationDistY = animationContainerHeight - zoomOutMarginBottom - zoomOutHeight;  //最终位于container的y坐标
 
         Log.d(TAG, "zoomOut animationContainerWidth:" + animationContainerWidth + " " +
                 "animationContainerHeight:" + animationContainerHeight);
@@ -181,7 +180,7 @@ public class SplashZoomOutManager {
         FrameLayout.LayoutParams animationParams = new FrameLayout.LayoutParams(fromWidth, fromHeight);
         animationContainer.addView(splash, animationParams);
 
-        final ViewGroup zoomOutView = new SplashZoomOutLayout(context, zoomOutMargin);
+        ViewGroup zoomOutView = new SplashZoomOutLayout(context, zoomOutMargin);
 
         splash.setPivotX(0);
         splash.setPivotY(0);
@@ -238,5 +237,4 @@ public class SplashZoomOutManager {
                 });
         return zoomOutView;
     }
-
 }

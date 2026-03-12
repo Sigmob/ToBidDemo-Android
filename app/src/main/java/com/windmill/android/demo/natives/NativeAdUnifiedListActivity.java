@@ -48,7 +48,6 @@ public class NativeAdUnifiedListActivity extends Activity {
 
     private int adWidth; // 广告宽高
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +78,6 @@ public class NativeAdUnifiedListActivity extends Activity {
         myAdapter = new MyAdapter(this, mData);
         mListView.setAdapter(myAdapter);
         mListView.setLoadMoreListener(this::loadListAd);
-
         mHandler.postDelayed(this::loadListAd, 500);
     }
 
@@ -114,21 +112,19 @@ public class NativeAdUnifiedListActivity extends Activity {
                 }
 
                 List<WMNativeAdData> unifiedADData = windNativeUnifiedAd.getNativeADDataList();
+                if (unifiedADData == null || unifiedADData.isEmpty()) return;
 
-                if (unifiedADData != null && unifiedADData.size() > 0) {
-                    Log.d("lance", "onFeedAdLoad:" + unifiedADData.size());
-                    for (final WMNativeAdData adData : unifiedADData) {
-
-                        for (int i = 0; i < LIST_ITEM_COUNT; i++) {
-                            mData.add(null);
-                        }
-
-                        int count = mData.size();
-                        mData.set(count - 1, adData);
+                Log.d("lance", "onFeedAdLoad:" + unifiedADData.size());
+                for (WMNativeAdData adData : unifiedADData) {
+                    for (int i = 0; i < LIST_ITEM_COUNT; i++) {
+                        mData.add(null);
                     }
 
-                    myAdapter.notifyDataSetChanged();
+                    int count = mData.size();
+                    mData.set(count - 1, adData);
                 }
+
+                myAdapter.notifyDataSetChanged();
             }
         });
     }
