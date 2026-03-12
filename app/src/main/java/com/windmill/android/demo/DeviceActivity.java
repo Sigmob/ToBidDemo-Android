@@ -17,9 +17,9 @@ public class DeviceActivity extends Activity {
 
     private TableLayout tl;
 
-    private Map<String, String> mAdVersions = new LinkedHashMap<>();
+    private final Map<String, String> mAdVersions = new LinkedHashMap<>();
 
-    private String[] mAdNames = {"SigId", "GAID", "OAID", "IMEI"};
+    private final String[] mAdNames = {"SigId", "GAID", "OAID", "IMEI"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,60 +35,50 @@ public class DeviceActivity extends Activity {
         return (int) ((dips * density) + 0.5f);
     }
 
-
     private void createView() {
         tl.removeAllViews();
-        if (mAdVersions.size() > 0) {
+        if (mAdVersions.isEmpty()) return;
 
-            for (Map.Entry<String, String> entry : mAdVersions.entrySet()) {
+        for (Map.Entry<String, String> entry : mAdVersions.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
 
-                String key = entry.getKey();
-                String value = entry.getValue();
+            TableRow tb = new TableRow(this);
+            tb.setBackgroundColor(Color.GRAY);
+            tb.setPadding(1, 1, 1, 1);
+            tb.setGravity(Gravity.CENTER_VERTICAL);
 
-                TableRow tb = new TableRow(this);
-                tb.setBackgroundColor(Color.GRAY);
-                tb.setPadding(1, 1, 1, 1);
-                tb.setGravity(Gravity.CENTER_VERTICAL);
+            TextView tv3 = new TextView(this);
+            TableRow.LayoutParams params3 = new TableRow.LayoutParams(0, dipsToIntPixels(50));
+            params3.weight = 1;
+            params3.setMargins(0, 0, 1, 0);
+            tv3.setLayoutParams(params3);
+            tv3.setGravity(Gravity.CENTER);
+            tv3.setBackgroundColor(Color.WHITE);
+            tv3.setText(key);
+            tb.addView(tv3);
 
-                final TextView tv3 = new TextView(this);
-                TableRow.LayoutParams params3 = new TableRow.LayoutParams(0, dipsToIntPixels(50));
-                params3.weight = 1;
-                params3.setMargins(0, 0, 1, 0);
-                tv3.setLayoutParams(params3);
-                tv3.setGravity(Gravity.CENTER);
-                tv3.setBackgroundColor(Color.WHITE);
-                tv3.setText(key);
-                tb.addView(tv3);
+            TextView tv4 = new TextView(this);
+            TableRow.LayoutParams params4 = new TableRow.LayoutParams(0, dipsToIntPixels(50));
+            params4.weight = 4;
+            tv4.setLayoutParams(params4);
+            tv4.setGravity(Gravity.CENTER);
+            tv4.setBackgroundColor(Color.WHITE);
+            tv4.post(() -> tv4.setTextIsSelectable(true));
+            tv4.setText(value);
+            tb.addView(tv4);
 
-                final TextView tv4 = new TextView(this);
-                TableRow.LayoutParams params4 = new TableRow.LayoutParams(0, dipsToIntPixels(50));
-                params4.weight = 4;
-                tv4.setLayoutParams(params4);
-                tv4.setGravity(Gravity.CENTER);
-                tv4.setBackgroundColor(Color.WHITE);
-                tv4.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv4.setTextIsSelectable(true);
-                    }
-                });
-                tv4.setText(value);
-                tb.addView(tv4);
-
-                tl.addView(tb);
-            }
+            tl.addView(tb);
         }
     }
 
-
     private void initChannelVersion() {
         mAdVersions.clear();
-        for (int i = 0; i < mAdNames.length; i++) {
-            String mAdName = mAdNames[i];
+        for (String mAdName : mAdNames) {
             switch (mAdName) {
                 case "SigId":
                     try {
-                        Class cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
+                        Class<?> cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
                         Method getInstance = cm.getMethod("getInstance");
                         getInstance.setAccessible(true);
                         Object instance = getInstance.invoke(cm);
@@ -108,7 +98,7 @@ public class DeviceActivity extends Activity {
                     break;
                 case "IMEI":
                     try {
-                        Class cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
+                        Class<?> cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
                         Method getInstance = cm.getMethod("getInstance");
                         getInstance.setAccessible(true);
                         Object instance = getInstance.invoke(cm);
@@ -128,7 +118,7 @@ public class DeviceActivity extends Activity {
                     break;
                 case "OAID":
                     try {
-                        Class cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
+                        Class<?> cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
                         Method getInstance = cm.getMethod("getInstance");
                         getInstance.setAccessible(true);
                         Object instance = getInstance.invoke(cm);
@@ -148,7 +138,7 @@ public class DeviceActivity extends Activity {
                     break;
                 case "GAID":
                     try {
-                        Class cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
+                        Class<?> cm = Class.forName("com.czhj.sdk.common.ClientMetadata");
                         Method getInstance = cm.getMethod("getInstance");
                         getInstance.setAccessible(true);
                         Object instance = getInstance.invoke(cm);
@@ -166,9 +156,7 @@ public class DeviceActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
-
             }
         }
     }
-
 }

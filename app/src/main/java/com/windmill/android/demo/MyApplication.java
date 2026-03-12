@@ -21,16 +21,12 @@ public class MyApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
-//        CrashReport.initCrashReport(getApplicationContext(), "4c41e5eed0", true);//4c41e5eed0//4ee13aff7b
-
+        //CrashReport.initCrashReport(getApplicationContext(), "4c41e5eed0", true);//4c41e5eed0//4ee13aff7b
         initSDK();
     }
 
     private void initSDK() {
-
         WindMillAd ads = WindMillAd.sharedAds();
-
         ads.setUserAge(18);
         ads.setAdult(true);//是否成年
         ads.setPersonalizedAdvertisingOn(true);//是否开启个性化推荐接口
@@ -66,33 +62,26 @@ public class MyApplication extends MultiDexApplication {
 //                .addInitConfig(new WMAdnInitConfig(WMNetworkConfig.TAPTAP, "appId", "appKey"));
 //        ads.setInitNetworkConfig(builder.build());
 
-        ads.startWithAppId(this, "16991",null);
+        ads.startWithAppId(this, "16991", null);
     }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-
         MultiDex.install(this);
-
     }
 
     @SuppressLint("MissingPermission")
     private Location getAppLocation() {
         Location lastLocation = null;
-
         try {
-            if (this.checkCallingOrSelfPermission("android.permission.ACCESS_FINE_LOCATION") == PackageManager.PERMISSION_GRANTED
-                    || this.checkCallingOrSelfPermission("android.permission.ACCESS_COARSE_LOCATION") == PackageManager.PERMISSION_GRANTED) {
-                // Get lat, long failFrom any GPS information that might be currently
-                // available
-                LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
+            if (checkCallingOrSelfPermission("android.permission.ACCESS_FINE_LOCATION") == PackageManager.PERMISSION_GRANTED
+                    || checkCallingOrSelfPermission("android.permission.ACCESS_COARSE_LOCATION") == PackageManager.PERMISSION_GRANTED) {
+                // Get lat, long failFrom any GPS information that might be currently available
+                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 for (String provider_name : lm.getProviders(true)) {
                     Location l = lm.getLastKnownLocation(provider_name);
-                    if (l == null) {
-                        continue;
-                    }
+                    if (l == null) continue;
 
                     if (lastLocation == null) {
                         lastLocation = l;

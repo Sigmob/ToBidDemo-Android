@@ -37,67 +37,67 @@ public class VersionActivity extends Activity {
 
     private void createView() {
         tl.removeAllViews();
-        if (mAdVersions.size() > 0) {
-            TableRow row = new TableRow(this);
-            row.setBackgroundColor(Color.GRAY);
-            row.setPadding(1, 1, 1, 1);
-            row.setGravity(Gravity.CENTER_VERTICAL);
+        if (mAdVersions.isEmpty()) return;
 
-            TextView tv1 = new TextView(this);
-            TableRow.LayoutParams params1 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
-            params1.weight = 1;
-            params1.setMargins(0, 0, 1, 0);
-            tv1.setLayoutParams(params1);
-            tv1.setGravity(Gravity.CENTER);
-            tv1.setBackgroundColor(Color.WHITE);
-            tv1.setText("渠道");
-            tv1.setTextSize(15);
-            row.addView(tv1);
+        TableRow row = new TableRow(this);
+        row.setBackgroundColor(Color.GRAY);
+        row.setPadding(1, 1, 1, 1);
+        row.setGravity(Gravity.CENTER_VERTICAL);
 
-            TextView tv2 = new TextView(this);
-            TableRow.LayoutParams params2 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
-            params2.weight = 1;
-            tv2.setLayoutParams(params2);
-            tv2.setGravity(Gravity.CENTER);
-            tv2.setBackgroundColor(Color.WHITE);
-            tv2.setText("SDK版本");
-            tv2.setTextSize(15);
-            row.addView(tv2);
+        TextView tv1 = new TextView(this);
+        TableRow.LayoutParams params1 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+        params1.weight = 1;
+        params1.setMargins(0, 0, 1, 0);
+        tv1.setLayoutParams(params1);
+        tv1.setGravity(Gravity.CENTER);
+        tv1.setBackgroundColor(Color.WHITE);
+        tv1.setText("渠道");
+        tv1.setTextSize(15);
+        row.addView(tv1);
 
-            tl.addView(row);
+        TextView tv2 = new TextView(this);
+        TableRow.LayoutParams params2 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+        params2.weight = 1;
+        tv2.setLayoutParams(params2);
+        tv2.setGravity(Gravity.CENTER);
+        tv2.setBackgroundColor(Color.WHITE);
+        tv2.setText("SDK版本");
+        tv2.setTextSize(15);
+        row.addView(tv2);
 
-            for (Map.Entry<String, String> entry : mAdVersions.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
+        tl.addView(row);
 
-                TableRow tb = new TableRow(this);
-                tb.setBackgroundColor(Color.GRAY);
-                tb.setPadding(1, 0, 1, 1);
-                tb.setGravity(Gravity.CENTER_VERTICAL);
+        for (Map.Entry<String, String> entry : mAdVersions.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
 
-                TextView tv3 = new TextView(this);
-                TableRow.LayoutParams params3 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
-                params3.weight = 1;
-                params3.setMargins(0, 0, 1, 0);
-                tv3.setLayoutParams(params3);
-                tv3.setGravity(Gravity.CENTER);
-                tv3.setBackgroundColor(Color.WHITE);
-                tv3.setText(key);
-                tv3.setTextSize(14);
-                tb.addView(tv3);
+            TableRow tb = new TableRow(this);
+            tb.setBackgroundColor(Color.GRAY);
+            tb.setPadding(1, 0, 1, 1);
+            tb.setGravity(Gravity.CENTER_VERTICAL);
 
-                TextView tv4 = new TextView(this);
-                TableRow.LayoutParams params4 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
-                params4.weight = 1;
-                tv4.setLayoutParams(params4);
-                tv4.setGravity(Gravity.CENTER);
-                tv4.setBackgroundColor(Color.WHITE);
-                tv4.setText(value);
-                tv4.setTextSize(14);
-                tb.addView(tv4);
+            TextView tv3 = new TextView(this);
+            TableRow.LayoutParams params3 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+            params3.weight = 1;
+            params3.setMargins(0, 0, 1, 0);
+            tv3.setLayoutParams(params3);
+            tv3.setGravity(Gravity.CENTER);
+            tv3.setBackgroundColor(Color.WHITE);
+            tv3.setText(key);
+            tv3.setTextSize(14);
+            tb.addView(tv3);
 
-                tl.addView(tb);
-            }
+            TextView tv4 = new TextView(this);
+            TableRow.LayoutParams params4 = new TableRow.LayoutParams(0, dipsToIntPixels(40));
+            params4.weight = 1;
+            tv4.setLayoutParams(params4);
+            tv4.setGravity(Gravity.CENTER);
+            tv4.setBackgroundColor(Color.WHITE);
+            tv4.setText(value);
+            tv4.setTextSize(14);
+            tb.addView(tv4);
+
+            tl.addView(tb);
         }
     }
 

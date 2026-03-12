@@ -65,14 +65,14 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Log.d("lance", "------onItemClick------" + position);
             CallBackItem callItem = callBackDataList.get(position);
-            if (callItem != null) {
-                if (callItem.is_expand()) {
-                    callItem.set_expand(false);
-                } else {
-                    callItem.set_expand(true);
-                }
-                adapter.notifyDataSetChanged();
+            if (callItem == null) return;
+
+            if (callItem.is_expand()) {
+                callItem.set_expand(false);
+            } else {
+                callItem.set_expand(true);
             }
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -81,7 +81,7 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_ad);
         spinner = findViewById(R.id.id_spinner);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.splash_adapter));
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.splash_adapter));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -195,9 +195,8 @@ public class SplashAdActivity extends Activity implements AdapterView.OnItemSele
     }
 
     private void showSplashEyeAd(final IWMSplashEyeAd splashEyeAd) {
-        if (splashEyeAd == null) {
-            return;
-        }
+        if (splashEyeAd == null) return;
+
         splashEyeAd.show(this, null, new WMSplashEyeAdListener() {
             @Override
             public void onAnimationStart(View splashView) {

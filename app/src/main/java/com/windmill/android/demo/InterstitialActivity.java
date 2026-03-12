@@ -38,27 +38,24 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
 
     private ListView listView;
     private ExpandAdapter adapter;
-    private List<CallBackItem> callBackDataList = new ArrayList<>();
+    private final List<CallBackItem> callBackDataList = new ArrayList<>();
 
     private void initCallBack() {
         resetCallBackData();
         listView = findViewById(R.id.callback_lv);
         adapter = new ExpandAdapter(this, callBackDataList);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("lance", "------onItemClick------" + position);
-                CallBackItem callItem = callBackDataList.get(position);
-                if (callItem != null) {
-                    if (callItem.is_expand()) {
-                        callItem.set_expand(false);
-                    } else {
-                        callItem.set_expand(true);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d("lance", "------onItemClick------" + position);
+            CallBackItem callItem = callBackDataList.get(position);
+            if (callItem == null) return;
+
+            if (callItem.is_expand()) {
+                callItem.set_expand(false);
+            } else {
+                callItem.set_expand(true);
             }
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -68,7 +65,7 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
         setContentView(R.layout.activity_interstitial);
 
         spinner = findViewById(R.id.id_spinner);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.interstitial_adapter));
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.interstitial_adapter));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(this);
@@ -76,7 +73,6 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
         WebView.setWebContentsDebuggingEnabled(true);
 
         initCallBack();
-
     }
 
     public void ButtonClick(View view) {
@@ -94,7 +90,7 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
                 windInterstitialAd.loadAd();
                 break;
             case R.id.bt_show_ad:
-                HashMap option = new HashMap();
+                HashMap<String, String> option = new HashMap<>();
                 option.put(WMConstants.AD_SCENE_ID, "567");
                 option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
                 if (windInterstitialAd != null && windInterstitialAd.isReady()) {

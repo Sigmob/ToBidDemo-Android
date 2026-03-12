@@ -1,12 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
 
     repositories {
-
-        maven {
-            url 'https://maven.aliyun.com/repository/public/'
-        }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
 
         google()
 
@@ -16,17 +12,13 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
-        //非上架GP市场应用 安卓X版本
-        maven {
-            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china"
-        }
+        // 非上架 GP 市场应用 AndroidX 版本
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china" }
 
-        //上架GP市场应用 安卓X版本
-        maven {
-            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea"
-        }
-
+        // 上架 GP 市场应用 AndroidX 版本
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.2'
 
@@ -37,9 +29,7 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url 'https://maven.aliyun.com/repository/public/'
-        }
+        maven { url 'https://maven.aliyun.com/repository/public/' }
 
         google()
 
@@ -50,19 +40,13 @@ allprojects {
             name 'Google'
         }
         // Some network SDKs are found in the following additional repositories:
-        maven {
-            url 'https://android-sdk.is.com/'
-        }
+        maven { url 'https://android-sdk.is.com/' }
 
-        //非上架GP市场应用 安卓X版本
-        maven {
-            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china"
-        }
+        // 非上架 GP 市场应用 AndroidX 版本
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china" }
 
-        //上架GP市场应用 安卓X版本
-        maven {
-            url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea"
-        }
+        // 上架 GP 市场应用 AndroidX 版本
+        maven { url "https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea" }
 
         flatDir {
             dirs 'libs'

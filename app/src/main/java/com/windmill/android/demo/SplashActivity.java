@@ -90,10 +90,10 @@ public class SplashActivity extends Activity {
     }
 
     private void setSystemUi() {
-        if (!isNotchAdaptation) {
-            showSystemUI();
-        } else {
+        if (isNotchAdaptation) {
             hideSystemUI();
+        } else {
+            showSystemUI();
         }
     }
 
@@ -108,11 +108,8 @@ public class SplashActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             display.getRealMetrics(dm);
         } else {
-            @SuppressWarnings("rawtypes")
-            Class c;
             try {
-                c = Class.forName("android.view.Display");
-                @SuppressWarnings("unchecked")
+                Class<?> c = Class.forName("android.view.Display");
                 Method method = c.getMethod("getRealMetrics", DisplayMetrics.class);
                 method.invoke(display, dm);
             } catch (Exception e) {
@@ -223,7 +220,6 @@ public class SplashActivity extends Activity {
      * 不可点击的开屏，使用该jump方法，而不是用jumpWhenCanClick
      */
     private void jumpMainActivity() {
-
         if (SplashEyeAdHolder.splashEyeAd != null) {
             try {
                 SplashZoomOutManager zoomOutManager = SplashZoomOutManager.getInstance(getApplicationContext());
