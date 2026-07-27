@@ -7,8 +7,6 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.windmill.android.demo.R;
 
@@ -20,17 +18,17 @@ public class LoadMoreView extends FrameLayout {
     private ProgressBar mProgressBar;
     private TextView mTextView;
 
-    public LoadMoreView(@NonNull Context context) {
+    public LoadMoreView(Context context) {
         super(context);
         init(context);
     }
 
-    public LoadMoreView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public LoadMoreView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public LoadMoreView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LoadMoreView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }

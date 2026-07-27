@@ -1,11 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+
+    compileSdkVersion 36
+    namespace 'com.windmill.android.demo'
     defaultConfig {
         applicationId 'com.windmill.android.demo'
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
+
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -24,9 +27,17 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        release {
+            storeFile file("../toBidAndroidReleaseKeystore.jks")
+            storePassword "toBidAndroidReleaseKeystore"
+            keyAlias "toBidAndroidReleaseKeystore"
+            keyPassword "toBidAndroidReleaseKeystore"
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -39,51 +50,46 @@ android {
 }
 
 dependencies {
-
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-
-    testImplementation 'junit:junit:4.13.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/adscope')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/baidu')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/csj')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/gdt')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/kuaishou')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/meishu')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/mercury')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/qumeng')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/taptap')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/billowlink')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/klevin')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/octopus')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/xbid')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/honor')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/vivo')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/oppo')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/mimo')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/huawei')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/huawei-lite')
+
+    implementation 'androidx.core:core:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
-    //implementation 'com.github.bumptech.glide:glide:4.5.0'
-    //annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
 
-    // AndroidX
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.34'
 
-    implementation 'com.android.support:multidex:1.0.3'
 
-    // 其中 latest.release 指代最新 Bugly SDK 版本号，也可以指定明确的版本号，例如 2.2.0
-    //implementation 'com.tencent.bugly:crashreport:latest.release'
-    //implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+//    implementation "com.bytedance.tools.codelocator:codelocator-core:2.0.4"
+//    implementation 'com.hihonor.mcs:ads-identifier:1.0.3.300'
 
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/admob')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/gdt')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/kuaishou')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/mintegral-cn')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/csj')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/vungle')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/klevin')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/baidu')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/adscope')
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/qumeng')
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
-    // Unity
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/unity')
-    implementation "androidx.startup:startup-runtime:1.1.1"
-    implementation "androidx.lifecycle:lifecycle-process:2.5.1"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.32"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
-    implementation "com.unity3d.services.identifiers:unity-services-identifiers:1.0.0"
-    //implementation "com.squareup.okhttp3:okhttp:3.12.13"
-    implementation "androidx.webkit:webkit:1.6.1"
-
-    // TapTap
-    //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs/AdNetworks/taptap')
-    implementation "com.github.bumptech.glide:glide:4.9.0"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
-    //implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    implementation "com.android.support:support-annotations:28.0.0"
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+//    implementation 'com.tencent.bugly:crashreport:latest.release'
+//    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 }

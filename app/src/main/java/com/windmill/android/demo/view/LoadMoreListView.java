@@ -32,6 +32,8 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
 
     private void init(Context context) {
         super.setOnScrollListener(this);
+
+
         initLoadMoreView(context);
     }
 
@@ -42,6 +44,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         addFooterView(mLoadMoreView);
     }
 
+    @SuppressWarnings("unused")
     public ILoadMoreListener getLoadMoreListener() {
         return mLoadMoreListener;
     }
@@ -54,6 +57,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         isLoading = false;
     }
 
+    @SuppressWarnings("unused")
     public boolean isLoading() {
         return isLoading;
     }
@@ -69,12 +73,14 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
             mOnScrollListener.onScrollStateChanged(view, scrollState);
         }
 
-        if (mLastVisibleItem == mTotalItemCount && scrollState == SCROLL_STATE_IDLE) {
+        if (mLastVisibleItem == mTotalItemCount
+                && scrollState == SCROLL_STATE_IDLE) {
             if (mLoadMoreListener != null && !isLoading) {
                 isLoading = true;
                 mLoadMoreListener.onLoadMore();
             }
         }
+
     }
 
     @Override
@@ -85,4 +91,5 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         mLastVisibleItem = firstVisibleItem + visibleItemCount;
         mTotalItemCount = totalItemCount;
     }
+
 }

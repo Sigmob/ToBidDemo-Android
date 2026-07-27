@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 /**
  * Created by bytedance on 2019/9/5.
  */
+
 public class UIUtils {
 
     public static float getScreenWidthDp(Context context) {

@@ -3,7 +3,7 @@ package com.windmill.android.demo.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import androidx.annotation.Nullable;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -21,12 +21,12 @@ public class LoadMoreRecyclerView extends RecyclerView {
         init(context);
     }
 
-    public LoadMoreRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public LoadMoreRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public LoadMoreRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public LoadMoreRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -80,8 +80,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
         super.setLayoutManager(layout);
 
         if (layout != null && getAdapter() != null) {
-            // 手动调用下，否则加载更多异常
-            getAdapter().onAttachedToRecyclerView(this);
+            getAdapter().onAttachedToRecyclerView(this);//手动调用下，否则加载更多异常
         }
     }
 
@@ -100,4 +99,5 @@ public class LoadMoreRecyclerView extends RecyclerView {
     public boolean isLoading() {
         return mIsLoading;
     }
+
 }

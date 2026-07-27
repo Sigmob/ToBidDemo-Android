@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="广告展示"
+            android:textColor="#333333"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_sdk_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/bt_banner"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="横幅广告"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/bt_splash"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="开屏广告"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/bt_reward"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="激励广告"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/bt_interstitial"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="插屏广告"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/bt_native"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="原生广告"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="工具"
+            android:textColor="#333333"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!--        <Button-->
+        <!--            android:id="@+id/bt_version"-->
+        <!--            android:layout_width="260dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_marginBottom="12dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="渠道SDK版本"-->
+        <!--            android:textSize="15sp" />-->
+
+        <Button
+            android:id="@+id/bt_device"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="基础工具"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -13,7 +13,9 @@ public class CallBackInfo {
             "onVideoAdPlayEnd",
             "onVideoAdClicked",
             "onVideoAdClosed",
-            "onVideoRewarded"};
+            "onVideoRewarded",
+            "onAutoAdLoadSuccess",
+            "onAutoAdLoadFail"};
 
     public static String[] INTERSTITIAL_CALLBACK = {
             "onInterstitialAdLoadSuccess",
@@ -22,14 +24,18 @@ public class CallBackInfo {
             "onInterstitialAdPlayError",
             "onInterstitialAdPlayEnd",
             "onInterstitialAdClicked",
-            "onInterstitialAdClosed",};
+            "onInterstitialAdClosed",
+            "onAutoAdLoadSuccess",
+            "onAutoAdLoadFail"};
 
     public static String[] SPLASH_CALLBACK = {
             "onSplashAdSuccessLoad",
             "onSplashAdFailToLoad",
             "onSplashAdSuccessPresent",
             "onSplashAdClicked",
-            "onSplashClosed"};
+            "onSplashClosed",
+            "onAutoAdLoadSuccess",
+            "onAutoAdLoadFail"};
 
     public static String[] NATIVE_CALLBACK = {
             "onFeedAdLoad",
@@ -37,7 +43,9 @@ public class CallBackInfo {
             "onADExposed",
             "onADClicked",
             "onADError",
-            "onADRenderSuccess"};
+            "onADRenderSuccess",
+            "onAutoAdLoadSuccess",
+            "onAutoAdLoadFail"};
 
     public static String[] BANNER_CALLBACK = {
             "onAdLoadSuccess",
@@ -46,5 +54,8 @@ public class CallBackInfo {
             "onAdClicked",
             "onAdClosed",
             "onAdAutoRefreshed",
-            "onAdAutoRefreshFail"};
+            "onAdAutoRefreshFail",
+            "onAutoAdLoadSuccess",
+            "onAutoAdLoadFail"};
+
 }

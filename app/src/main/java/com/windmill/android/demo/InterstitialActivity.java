@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.windmill.android.demo.log.CallBackInfo;
 import com.windmill.android.demo.log.CallBackItem;
 import com.windmill.android.demo.log.ExpandAdapter;
+import com.windmill.android.demo.manager.AdManager;
+import com.windmill.android.demo.view.AdChannelSelector;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.interstitial.WMInterstitialAd;
@@ -24,21 +22,18 @@ import com.windmill.sdk.models.AdInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class InterstitialActivity extends Activity implements WMInterstitialAdListener, AdapterView.OnItemSelectedListener {
+public class InterstitialActivity extends Activity implements WMInterstitialAdListener{
 
     private WMInterstitialAd windInterstitialAd;
     private String placementId;
     private String userID = "123456789";
-    private Spinner spinner;
-    private ArrayAdapter<String> arrayAdapter;
-
-    private int selectedId = 0;
 
     private ListView listView;
     private ExpandAdapter adapter;
-    private final List<CallBackItem> callBackDataList = new ArrayList<>();
+    private List<CallBackItem> callBackDataList = new ArrayList<>();
+
+    private AdChannelSelector adChannelSelector;
 
     private void initCallBack() {
         resetCallBackData();
@@ -48,14 +43,24 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Log.d("lance", "------onItemClick------" + position);
             CallBackItem callItem = callBackDataList.get(position);
-            if (callItem == null) return;
-
-            if (callItem.is_expand()) {
-                callItem.set_expand(false);
-            } else {
-                callItem.set_expand(true);
+            if (callItem != null) {
+                if (callItem.is_expand()) {
+                    callItem.set_expand(false);
+                } else {
+                    callItem.set_expand(true);
+                }
+                adapter.notifyDataSetChanged();
             }
-            adapter.notifyDataSetChanged();
+        });
+        // 初始化广告渠道选择器
+        adChannelSelector = findViewById(R.id.ad_channel_selector);
+        adChannelSelector.setAdType(AdManager.AD_TYPE_INTERSTITIAL);
+        adChannelSelector.setOnAdPlacementSelectedListener(new AdChannelSelector.OnAdPlacementSelectedListener() {
+            @Override
+            public void onAdPlacementSelected(String channel, String placementId, String placementName) {
+                InterstitialActivity.this.placementId = placementId;
+                Log.d("lance", "Selected: channel=" + channel + ", placementId=" + placementId + ", placementName=" + placementName);
+            }
         });
     }
 
@@ -64,49 +69,31 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interstitial);
 
-        spinner = findViewById(R.id.id_spinner);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.interstitial_adapter));
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(arrayAdapter);
-        spinner.setOnItemSelectedListener(this);
-
-        WebView.setWebContentsDebuggingEnabled(true);
-
         initCallBack();
+
     }
 
     public void ButtonClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_load_ad:
-                resetCallBackData();
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-                updatePlacementId();
-                Map<String, Object> options = new HashMap<>();
-                options.put("user_id", String.valueOf(userID));
-                windInterstitialAd = new WMInterstitialAd(this, new WMInterstitialAdRequest(placementId, userID, options));
-                windInterstitialAd.setInterstitialAdListener(this);
-                windInterstitialAd.loadAd();
-                break;
-            case R.id.bt_show_ad:
-                HashMap<String, String> option = new HashMap<>();
-                option.put(WMConstants.AD_SCENE_ID, "567");
-                option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
-                if (windInterstitialAd != null && windInterstitialAd.isReady()) {
-                    windInterstitialAd.show(this, option);
-                } else {
-                    Log.d("lance", "------Ad is not Ready------");
-                }
-                break;
+        int id = view.getId();
+        if(id == R.id.bt_load_ad){
+            resetCallBackData();
+            if(adapter != null){
+                adapter.notifyDataSetChanged();
+            }
+            windInterstitialAd = new WMInterstitialAd(this, new WMInterstitialAdRequest(placementId, String.valueOf(0), null));
+            windInterstitialAd.setInterstitialAdListener(this);
+            windInterstitialAd.loadAd();
+        }else if(id == R.id.bt_show_ad){
+            HashMap option = new HashMap();
+            option.put(WMConstants.AD_SCENE_ID, "567");
+            option.put(WMConstants.AD_SCENE_DESC, "转盘抽奖");
+            if (windInterstitialAd != null && windInterstitialAd.isReady()) {
+                windInterstitialAd.showAd(this, option);
+            } else {
+                Log.d("lance", "------Ad is not Ready------");
+            }
         }
     }
-
-    private void updatePlacementId() {
-        String[] stringArray = getResources().getStringArray(R.array.interstitial_id_value);
-        placementId = stringArray[selectedId];
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -119,17 +106,6 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
             windInterstitialAd.destroy();
             windInterstitialAd = null;
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("lance", "------onItemSelected------" + position);
-        selectedId = position;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        Log.d("lance", "------onNothingSelected------");
     }
 
     @Override
@@ -164,14 +140,14 @@ public class InterstitialActivity extends Activity implements WMInterstitialAdLi
 
     @Override
     public void onInterstitialAdLoadError(final WindMillError error, final String placementId) {
-        Log.d("lance", "------onInterstitialAdLoadError------" + error.toString() + ":" + placementId);
-        logCallBack("onInterstitialAdLoadError", error.toString());
+        Log.d("lance", "------onInterstitialAdLoadError------" + windInterstitialAd.getLoadFailMessages() + ":" + placementId + " " + error);
+        logCallBack("onInterstitialAdLoadError", windInterstitialAd.getLoadFailMessages() + ":" + placementId);
     }
 
     @Override
     public void onInterstitialAdPlayError(final WindMillError error, final String placementId) {
-        Log.d("lance", "------onInterstitialAdPlayError------" + error.toString() + ":" + placementId);
-        logCallBack("onInterstitialAdPlayError", error.toString());
+        Log.d("lance", "------onInterstitialAdPlayError------" + windInterstitialAd.getLoadFailMessages() + ":" + placementId + " " + error);
+        logCallBack("onInterstitialAdPlayError", windInterstitialAd.getLoadFailMessages() + ":" + placementId);
     }
 
     private void resetCallBackData() {

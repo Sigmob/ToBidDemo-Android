@@ -15,10 +15,14 @@ import android.widget.Spinner;
 import com.windmill.android.demo.log.CallBackInfo;
 import com.windmill.android.demo.log.CallBackItem;
 import com.windmill.android.demo.log.ExpandAdapter;
+import com.windmill.android.demo.manager.AdManager;
+import com.windmill.android.demo.view.AdChannelSelector;
+import com.windmill.sdk.WMAdSourceStatusListener;
 import com.windmill.sdk.WindMillError;
 import com.windmill.sdk.banner.WMBannerAdListener;
 import com.windmill.sdk.banner.WMBannerAdRequest;
 import com.windmill.sdk.banner.WMBannerView;
+import com.windmill.sdk.base.WMAutoAdLoadListener;
 import com.windmill.sdk.models.AdInfo;
 
 import java.util.ArrayList;
@@ -26,35 +30,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BannerActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class BannerActivity extends Activity{
 
-    private Spinner spinner;
-    private ArrayAdapter<String> arrayAdapter;
     private WMBannerView mBannerView;
     private String placementId;
-    private String userID = "123456789";
 
     private ListView listView;
     private ExpandAdapter adapter;
-    private final List<CallBackItem> callBackDataList = new ArrayList<>();
+    private List<CallBackItem> callBackDataList = new ArrayList<>();
     private ViewGroup adContainer;
+
+    private AdChannelSelector adChannelSelector;
 
     private void initCallBack() {
         resetCallBackData();
         listView = findViewById(R.id.callback_lv);
         adapter = new ExpandAdapter(this, callBackDataList);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            Log.d("lance", "------onItemClick------" + position);
-            CallBackItem callItem = callBackDataList.get(position);
-            if (callItem == null) return;
-
-            if (callItem.is_expand()) {
-                callItem.set_expand(false);
-            } else {
-                callItem.set_expand(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("lance", "------onItemClick------" + position);
+                CallBackItem callItem = callBackDataList.get(position);
+                if (callItem != null) {
+                    if (callItem.is_expand()) {
+                        callItem.set_expand(false);
+                    } else {
+                        callItem.set_expand(true);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
             }
-            adapter.notifyDataSetChanged();
         });
     }
 
@@ -63,16 +69,19 @@ public class BannerActivity extends Activity implements AdapterView.OnItemSelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner);
         adContainer = findViewById(R.id.banner_ad_container);
-        spinner = findViewById(R.id.id_spinner);
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.banner_adapter));
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(arrayAdapter);
-        spinner.setOnItemSelectedListener(this);
+
+        // 初始化广告渠道选择器
+        adChannelSelector = findViewById(R.id.ad_channel_selector);
+        adChannelSelector.setAdType(AdManager.AD_TYPE_BANNER);
+        adChannelSelector.setOnAdPlacementSelectedListener(new AdChannelSelector.OnAdPlacementSelectedListener() {
+            @Override
+            public void onAdPlacementSelected(String channel, String placementId, String placementName) {
+                BannerActivity.this.placementId = placementId;
+                Log.d("lance", "Selected: channel=" + channel + ", placementId=" + placementId + ", placementName=" + placementName);
+            }
+        });
 
         WebView.setWebContentsDebuggingEnabled(true);
-
-        String[] stringArray = getResources().getStringArray(R.array.banner_id_value);
-        placementId = stringArray[0];
 
         initCallBack();
     }
@@ -92,36 +101,32 @@ public class BannerActivity extends Activity implements AdapterView.OnItemSelect
     }
 
     public void ButtonClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_load_ad:
-                resetCallBackData();
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
+        int id = view.getId();
+        if(id == R.id.bt_load_ad){
+            resetCallBackData();
+            if(adapter != null){
+                adapter.notifyDataSetChanged();
+            }
+            loadAd();
+        }else if(id == R.id.bt_show_ad){
+            /**
+             * 广告是否有效
+             */
+            boolean ready = mBannerView.isReady();
+            Log.d("lance", "------Ad is Ready------" + ready);
+            if (mBannerView != null) {
+                //媒体最终将要展示广告的容器
+                if (adContainer != null) {
+                    adContainer.removeAllViews();
+                    adContainer.addView(mBannerView);
                 }
-                loadAd();
-                break;
-            case R.id.bt_show_ad:
-                /**
-                 * 广告是否有效
-                 */
-                boolean ready = mBannerView.isReady();
-                Log.d("lance", "------Ad is Ready------" + ready);
-                if (mBannerView != null) {
-                    //媒体最终将要展示广告的容器
-                    if (adContainer != null) {
-                        adContainer.removeAllViews();
-                        adContainer.addView(mBannerView);
-                    }
-                }
-                break;
+            }
         }
     }
 
     private void loadAd() {
-        Map<String, Object> options = new HashMap<>();
-        options.put("user_id", String.valueOf(userID));
         mBannerView = new WMBannerView(this);
-        mBannerView.setAdListener(new WMBannerAdListener() {
+        mBannerView.setBannerAdListener(new WMBannerAdListener() {
             @Override
             public void onAdLoadSuccess(String placementId) {
                 Log.d("lance", "------onAdLoadSuccess------" + placementId);
@@ -130,8 +135,8 @@ public class BannerActivity extends Activity implements AdapterView.OnItemSelect
 
             @Override
             public void onAdLoadError(WindMillError error, String placementId) {
-                Log.d("lance", "------onAdLoadError------" + error.toString() + ":" + placementId);
-                logCallBack("onAdLoadError", error.toString());
+                Log.d("lance", "------onAdLoadError------" + mBannerView.getLoadFailMessages() + ":" + placementId + ":" + error);
+                logCallBack("onAdLoadError", mBannerView.getLoadFailMessages() + ":" + placementId);
             }
 
             @Override
@@ -164,25 +169,12 @@ public class BannerActivity extends Activity implements AdapterView.OnItemSelect
 
             @Override
             public void onAdAutoRefreshFail(WindMillError error, String placementId) {
-                Log.d("lance", "------onAdAutoRefreshFail------" + error.toString() + ":" + placementId);
-                logCallBack("onAdAutoRefreshFail", error.toString());
+                Log.d("lance", "------onAdAutoRefreshFail------" + mBannerView.getLoadFailMessages() + ":" + placementId);
+                logCallBack("onAdAutoRefreshFail", error.toString() + ":" + placementId);
             }
         });
-
         mBannerView.setAutoAnimation(true);
-        mBannerView.loadAd(new WMBannerAdRequest(placementId, userID, options));
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String[] stringArray = getResources().getStringArray(R.array.banner_id_value);
-        placementId = stringArray[position];
-        Log.d("lance", "------onItemSelected------" + position + ":" + placementId);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        Log.d("lance", "------onNothingSelected------");
+        mBannerView.loadAd(new WMBannerAdRequest(placementId, String.valueOf(0), null));
     }
 
     private void resetCallBackData() {
@@ -207,4 +199,5 @@ public class BannerActivity extends Activity implements AdapterView.OnItemSelect
             adapter.notifyDataSetChanged();
         }
     }
+
 }

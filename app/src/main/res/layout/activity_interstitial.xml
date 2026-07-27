@@ -7,39 +7,12 @@
     android:orientation="vertical"
     tools:context=".InterstitialActivity">
 
-    <LinearLayout
+    <com.windmill.android.demo.view.AdChannelSelector
+        android:id="@+id/ad_channel_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:gravity="center"
-            android:text="请选择广告网络"
-            android:textSize="16dp" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/spinner_bg">
-
-            <Spinner
-                android:id="@+id/id_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:spinnerMode="dropdown" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:orientation="vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -6,7 +6,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,43 +16,31 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.IntDef;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-
 import com.windmill.android.demo.R;
 import com.windmill.android.demo.utils.UIUtils;
 import com.windmill.android.demo.widget.OnViewPagerListener;
 import com.windmill.android.demo.widget.ViewPagerLayoutManager;
-import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
-import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.natives.WMNativeAd;
-import com.windmill.sdk.natives.WMNativeAdContainer;
 import com.windmill.sdk.natives.WMNativeAdData;
-import com.windmill.sdk.natives.WMNativeAdDataType;
+import com.windmill.sdk.natives.WMNativeAdLoadListener;
 import com.windmill.sdk.natives.WMNativeAdRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class NativeAdDrawActivity extends Activity {
     private static final String TAG = "NativeAdDrawActivity";
-    private String userID = "0";
     private String placementId;
     private RecyclerView mRecyclerView;
     private ViewPagerLayoutManager mLayoutManager;
@@ -63,6 +50,8 @@ public class NativeAdDrawActivity extends Activity {
     private int[] images = {R.mipmap.video11, R.mipmap.video12, R.mipmap.video13, R.mipmap.video14, R.mipmap.video_2};
     private int[] videos = {R.raw.video11, R.raw.video12, R.raw.video13, R.raw.video14, R.raw.video_2};
     private WMNativeAd nativeUnifiedAd;
+
+    private static final int DEFAULT_LOAD_COUNT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +67,6 @@ public class NativeAdDrawActivity extends Activity {
     private void getExtraInfo() {
         Intent intent = getIntent();
         placementId = intent.getStringExtra("placementId");
-        if (TextUtils.isEmpty(placementId)) {
-            String[] stringArray = getResources().getStringArray(R.array.native_draw_id_value);
-            placementId = stringArray[1];
-        }
         adWidth = (int) UIUtils.getScreenWidthDp(this);
         adHeight = (int) UIUtils.getHeight(this);
         Log.d("lance", adWidth + "---------screenWidthAsIntDips---------" + adHeight);
@@ -108,15 +93,11 @@ public class NativeAdDrawActivity extends Activity {
      */
     private void loadDrawAd() {
         Log.d("lance", "-----------loadDrawAd-----------");
-        Map<String, Object> options = new HashMap<>();
-        options.put(WMConstants.AD_WIDTH, adWidth);//针对于模版广告有效、单位dp
-        options.put(WMConstants.AD_HEIGHT, adHeight);//针对于模版广告有效、单位dp
-        options.put("user_id", userID);
         if (nativeUnifiedAd == null) {
-            nativeUnifiedAd = new WMNativeAd(this, new WMNativeAdRequest(placementId, userID, 3, options));
+            nativeUnifiedAd = new WMNativeAd(this, new WMNativeAdRequest(placementId, String.valueOf(0), null));
         }
 
-        nativeUnifiedAd.loadAd(new WMNativeAd.NativeAdLoadListener() {
+        nativeUnifiedAd.setNativeAdLoadListener(new WMNativeAdLoadListener() {
             @Override
             public void onError(WindMillError error, String placementId) {
                 Log.d("lance", "----------onError----------:" + error.toString() + ":" + placementId);
@@ -124,10 +105,8 @@ public class NativeAdDrawActivity extends Activity {
             }
 
             @Override
-            public void onFeedAdLoad(String placementId) {
-
-                List<WMNativeAdData> unifiedADData = nativeUnifiedAd.getNativeADDataList();
-
+            public void onFeedAdLoad(List<WMNativeAdData> unifiedADData, String placementId) {
+                Log.d("lance", "----------onFeedAdLoad----------:" + (unifiedADData != null ? unifiedADData.size() : 0) + ":" + placementId);
                 if (unifiedADData != null && unifiedADData.size() > 0) {
                     for (final WMNativeAdData adData : unifiedADData) {
                         Log.d("lance", unifiedADData.size() + "----------onFeedAdLoad----------:" + adData.isNativeDrawAd());
@@ -143,6 +122,7 @@ public class NativeAdDrawActivity extends Activity {
                 }
             }
         });
+        nativeUnifiedAd.loadAd(DEFAULT_LOAD_COUNT);
     }
 
     private void initView() {
@@ -184,36 +164,42 @@ public class NativeAdDrawActivity extends Activity {
 
     private void playVideo() {
         View itemView = mRecyclerView.getChildAt(0);
-        if (itemView == null) return;
+        if (itemView != null) {
+            VideoView videoView = itemView.findViewById(R.id.video_view);
+            final ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
 
-        VideoView videoView = itemView.findViewById(R.id.video_view);
-        ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
+            if (videoView == null) {
+                return;
+            }
 
-        if (videoView == null) return;
-
-        if (!videoView.isPlaying()) {
-            videoView.start();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            videoView.setOnInfoListener((mp, what, extra) -> {
+            if (!videoView.isPlaying()) {
+                videoView.start();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                videoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                    @Override
+                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                        imgThumb.animate().alpha(0).setDuration(200).start();
+                        return false;
+                    }
+                });
+            } else {
                 imgThumb.animate().alpha(0).setDuration(200).start();
-                return false;
-            });
-        } else {
-            imgThumb.animate().alpha(0).setDuration(200).start();
+            }
         }
     }
 
     private void releaseVideo(int index) {
         View itemView = mRecyclerView.getChildAt(index);
-        if (itemView == null) return;
-
-        VideoView videoView = itemView.findViewById(R.id.video_view);
-        if (videoView == null) return;
-
-        ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
-        videoView.stopPlayback();
-        imgThumb.animate().alpha(1).start();
+        if (itemView != null) {
+            VideoView videoView = itemView.findViewById(R.id.video_view);
+            if (videoView == null) {
+                return;
+            }
+            ImageView imgThumb = itemView.findViewById(R.id.video_thumb);
+            videoView.stopPlayback();
+            imgThumb.animate().alpha(1).start();
+        }
     }
 
     private static class DrawRecyclerAdapter extends RecyclerView.Adapter {
@@ -241,8 +227,9 @@ public class NativeAdDrawActivity extends Activity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
             TestItem item = mDataList.get(position);
-            if (item == null) return;
-
+            if (item == null) {
+                return;
+            }
             if (viewHolder instanceof NormalViewHolder) {
                 NormalViewHolder normalViewHolder = (NormalViewHolder) viewHolder;
                 normalViewHolder.videoView.setVideoURI(Uri.parse("android.resource://" + mContext.getPackageName() + "/" + item.normalVideo.videoId));
@@ -254,7 +241,6 @@ public class NativeAdDrawActivity extends Activity {
 
             } else if (viewHolder instanceof ExpressAdViewHolder) {
                 ExpressAdViewHolder drawViewHolder = (ExpressAdViewHolder) viewHolder;
-                bindListener(item.nativeAdData, viewHolder);
                 item.nativeAdData.render();
                 View expressAdView = item.nativeAdData.getExpressAdView();
                 //添加进容器
@@ -268,130 +254,11 @@ public class NativeAdDrawActivity extends Activity {
                 }
             } else if (viewHolder instanceof UnifiedAdViewHolder) {
                 UnifiedAdViewHolder unifiedAdViewHolder = (UnifiedAdViewHolder) viewHolder;
-                bindListener(item.nativeAdData, viewHolder);
-                //将容器和view链接起来
-                item.nativeAdData.connectAdToView(mContext, unifiedAdViewHolder.windContainer, unifiedAdViewHolder.adRender);
-                //添加进容器
-                if (unifiedAdViewHolder.windContainer != null) {
-                    ViewGroup parent = (ViewGroup) unifiedAdViewHolder.windContainer.getParent();
-                    if (parent != null) {
-                        parent.removeView(unifiedAdViewHolder.windContainer);
-                    }
-                    unifiedAdViewHolder.adContainer.removeAllViews();
-                    unifiedAdViewHolder.adContainer.addView(unifiedAdViewHolder.windContainer);
+                NativeAdDrawRender nativeAdDrawRender = new NativeAdDrawRender();
+                View adView = nativeAdDrawRender.getAdView(mContext, item.nativeAdData);
+                if (unifiedAdViewHolder.adContainer != null) {
+                    unifiedAdViewHolder.adContainer.addView(adView);
                 }
-            }
-        }
-
-        private void bindListener(WMNativeAdData nativeAdData, RecyclerView.ViewHolder adViewHolder) {
-            //设置广告交互监听
-            nativeAdData.setInteractionListener(new WMNativeAdData.NativeAdInteractionListener() {
-                @Override
-                public void onADExposed(AdInfo adInfo) {
-                    Log.d("lance", "----------onADExposed----------");
-                }
-
-                @Override
-                public void onADClicked(AdInfo adInfo) {
-                    Log.d("lance", "----------onADClicked----------");
-                }
-
-                @Override
-                public void onADRenderSuccess(AdInfo adInfo, View view, float width, float height) {
-                    Log.d("lance", "----------onRenderSuccess----------:" + width + ":" + height);
-                }
-
-                @Override
-                public void onADError(AdInfo adInfo, WindMillError error) {
-                    Log.d("lance", "----------onADError----------:" + error.toString());
-                }
-            });
-
-            //设置media监听
-            if (nativeAdData.getAdPatternType() == WMNativeAdDataType.NATIVE_VIDEO_AD) {
-                nativeAdData.setMediaListener(new WMNativeAdData.NativeADMediaListener() {
-                    @Override
-                    public void onVideoLoad() {
-                        Log.d("lance", "----------onVideoLoad----------");
-                    }
-
-                    @Override
-                    public void onVideoError(WindMillError error) {
-                        Log.d("lance", "----------onVideoError----------:" + error.toString());
-                    }
-
-                    @Override
-                    public void onVideoStart() {
-                        Log.d("lance", "----------onVideoStart----------");
-                    }
-
-                    @Override
-                    public void onVideoPause() {
-                        Log.d("lance", "----------onVideoPause----------");
-                    }
-
-                    @Override
-                    public void onVideoResume() {
-                        Log.d("lance", "----------onVideoResume----------");
-                    }
-
-                    @Override
-                    public void onVideoCompleted() {
-                        Log.d("lance", "----------onVideoCompleted----------");
-                    }
-                });
-            }
-
-            if (nativeAdData.getInteractionType() == WMConstants.INTERACTION_TYPE_DOWNLOAD) {
-                nativeAdData.setDownloadListener(new WMNativeAdData.AppDownloadListener() {
-                    @Override
-                    public void onIdle() {
-                        Log.d("lance", "----------onIdle----------");
-                        if (adViewHolder instanceof UnifiedAdViewHolder) {
-                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("开始下载");
-                        }
-                    }
-
-                    @Override
-                    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("lance", "----------onADExposed----------");
-                        if (adViewHolder instanceof UnifiedAdViewHolder) {
-                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("下载中");
-                        }
-                    }
-
-                    @Override
-                    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("lance", "----------onDownloadActive----------");
-                        if (adViewHolder instanceof UnifiedAdViewHolder) {
-                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("下载暂停");
-                        }
-                    }
-
-                    @Override
-                    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("lance", "----------onDownloadFailed----------");
-                        if (adViewHolder instanceof UnifiedAdViewHolder) {
-                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("重新下载");
-                        }
-                    }
-
-                    @Override
-                    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                        Log.d("lance", "----------onDownloadFinished----------");
-                        if (adViewHolder instanceof UnifiedAdViewHolder) {
-                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("点击安装");
-                        }
-                    }
-
-                    @Override
-                    public void onInstalled(String fileName, String appName) {
-                        Log.d("lance", "----------onInstalled----------");
-                        if (adViewHolder instanceof UnifiedAdViewHolder) {
-                            ((UnifiedAdViewHolder) adViewHolder).adRender.updateAdAction("点击打开");
-                        }
-                    }
-                });
             }
         }
 
@@ -424,6 +291,7 @@ public class NativeAdDrawActivity extends Activity {
         }
     }
 
+
     private static class ExpressAdViewHolder extends AdViewHolder {
         public ExpressAdViewHolder(View itemView) {
             super(itemView);
@@ -431,14 +299,11 @@ public class NativeAdDrawActivity extends Activity {
     }
 
     private static class UnifiedAdViewHolder extends AdViewHolder {
-        //创建一个装整个自渲染广告的容器
-        WMNativeAdContainer windContainer;
         //媒体自渲染的View
         NativeAdDrawRender adRender;
 
         public UnifiedAdViewHolder(View itemView) {
             super(itemView);
-            windContainer = new WMNativeAdContainer(itemView.getContext());
             adRender = new NativeAdDrawRender();
         }
     }
@@ -449,7 +314,7 @@ public class NativeAdDrawActivity extends Activity {
 
         public AdViewHolder(View itemView) {
             super(itemView);
-            adContainer = itemView.findViewById(R.id.video_container);
+            adContainer = (FrameLayout) itemView.findViewById(R.id.video_container);
         }
     }
 
@@ -489,4 +354,5 @@ public class NativeAdDrawActivity extends Activity {
             }
         }
     }
+
 }

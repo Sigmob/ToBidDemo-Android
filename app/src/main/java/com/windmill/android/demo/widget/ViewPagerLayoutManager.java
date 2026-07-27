@@ -3,11 +3,13 @@ package com.windmill.android.demo.widget;
 import android.content.Context;
 import android.view.View;
 
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ViewPagerLayoutManager extends LinearLayoutManager implements
+public class ViewPagerLayoutManager extends LinearLayoutManager
+        implements
         RecyclerView.OnChildAttachStateChangeListener {
 
     private PagerSnapHelper mPagerSnapHelper;
@@ -52,16 +54,18 @@ public class ViewPagerLayoutManager extends LinearLayoutManager implements
      */
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        mDrift = dy;
+        this.mDrift = dy;
         return super.scrollVerticallyBy(dy, recycler, state);
     }
+
 
     /**
      * 监听水平方向的相对偏移量
      */
     @Override
-    public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        mDrift = dx;
+    public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler,
+                                    RecyclerView.State state) {
+        this.mDrift = dx;
         return super.scrollHorizontallyBy(dx, recycler, state);
     }
 
@@ -69,7 +73,7 @@ public class ViewPagerLayoutManager extends LinearLayoutManager implements
      * 设置监听
      */
     public void setOnViewPagerListener(OnViewPagerListener listener) {
-        mOnViewPagerListener = listener;
+        this.mOnViewPagerListener = listener;
     }
 
     @Override

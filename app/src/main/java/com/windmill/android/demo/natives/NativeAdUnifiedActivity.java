@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.windmill.android.demo.R;
@@ -21,17 +22,16 @@ import com.windmill.android.demo.log.ExpandAdapter;
 import com.windmill.android.demo.log.MyListView;
 import com.windmill.sdk.WMConstants;
 import com.windmill.sdk.WindMillError;
+import com.windmill.sdk.base.WMAutoAdLoadListener;
 import com.windmill.sdk.models.AdInfo;
 import com.windmill.sdk.natives.WMNativeAd;
-import com.windmill.sdk.natives.WMNativeAdContainer;
 import com.windmill.sdk.natives.WMNativeAdData;
 import com.windmill.sdk.natives.WMNativeAdDataType;
+import com.windmill.sdk.natives.WMNativeAdLoadListener;
 import com.windmill.sdk.natives.WMNativeAdRequest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class NativeAdUnifiedActivity extends Activity {
 
@@ -48,6 +48,8 @@ public class NativeAdUnifiedActivity extends Activity {
     private MyListView listView;
     private ExpandAdapter adapter;
     private List<CallBackItem> callBackDataList = new ArrayList<>();
+
+    private static final int DEFAULT_LOAD_COUNT = 1;
 
     private void initCallBack() {
         resetCallBackData();
@@ -74,10 +76,6 @@ public class NativeAdUnifiedActivity extends Activity {
     private void getExtraInfo() {
         Intent intent = getIntent();
         placementId = intent.getStringExtra("placementId");
-        if (TextUtils.isEmpty(placementId)) {
-            String[] stringArray = getResources().getStringArray(R.array.native_id_value);
-            placementId = stringArray[0];
-        }
     }
 
     @Override
@@ -87,27 +85,33 @@ public class NativeAdUnifiedActivity extends Activity {
         adContainer = findViewById(R.id.native_ad_container);
         getExtraInfo();
 
-        editTextWidth = findViewById(R.id.editWidth);
-        editTextHeight = findViewById(R.id.editHeight);
+        editTextWidth = (EditText) findViewById(R.id.editWidth);
+        editTextHeight = (EditText) findViewById(R.id.editHeight);
 
-        checkBoxFullWidth = findViewById(R.id.checkboxFullWidth);
-        checkBoxAutoHeight = findViewById(R.id.checkboxAutoHeight);
-        checkBoxFullWidth.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                editTextWidth.setText("0");
-                editTextWidth.setEnabled(false);
-            } else {
-                editTextWidth.setText("340");
-                editTextWidth.setEnabled(true);
+        checkBoxFullWidth = (CheckBox) findViewById(R.id.checkboxFullWidth);
+        checkBoxAutoHeight = (CheckBox) findViewById(R.id.checkboxAutoHeight);
+        checkBoxFullWidth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editTextWidth.setText("0");
+                    editTextWidth.setEnabled(false);
+                } else {
+                    editTextWidth.setText("340");
+                    editTextWidth.setEnabled(true);
+                }
             }
         });
-        checkBoxAutoHeight.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                editTextHeight.setText("0");
-                editTextHeight.setEnabled(false);
-            } else {
-                editTextHeight.setText("320");
-                editTextHeight.setEnabled(true);
+        checkBoxAutoHeight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editTextHeight.setText("0");
+                    editTextHeight.setEnabled(false);
+                } else {
+                    editTextHeight.setText("320");
+                    editTextHeight.setEnabled(true);
+                }
             }
         });
 
@@ -115,19 +119,17 @@ public class NativeAdUnifiedActivity extends Activity {
     }
 
     public void ButtonClick(View view) {
-        switch (view.getId()) {
-            case R.id.load_native_button:
-                resetCallBackData();
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-                //加载原生广告
-                loadNativeAd();
-                break;
-            case R.id.show_native_button:
-                //展示原生广告
-                showNativeAd();
-                break;
+        int id = view.getId();
+        if (id == R.id.load_native_button) {
+            resetCallBackData();
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+            //加载原生广告
+            loadNativeAd();
+        } else if (id == R.id.show_native_button) {
+            //展示原生广告
+            showNativeAd();
         }
     }
 
@@ -154,8 +156,8 @@ public class NativeAdUnifiedActivity extends Activity {
             return;
         }
 
-        adWidth = Integer.parseInt(editTextWidth.getText().toString());
-        adHeight = Integer.parseInt(editTextHeight.getText().toString());
+        adWidth = Integer.valueOf(editTextWidth.getText().toString());
+        adHeight = Integer.valueOf(editTextHeight.getText().toString());
 
         if (adWidth == 0) {//最大宽度
             adWidth = screenWidthAsIntDips(this) - 20;//减20因为容器有个margin 10dp//340
@@ -166,196 +168,211 @@ public class NativeAdUnifiedActivity extends Activity {
         }
 
         userID++;
-        Map<String, Object> options = new HashMap<>();
-        options.put(WMConstants.AD_WIDTH, adWidth);//针对于模版广告有效、单位dp
-        options.put(WMConstants.AD_HEIGHT, adHeight);//自适应高度
-        options.put("user_id", String.valueOf(userID));
         if (windNativeAd == null) {
-            windNativeAd = new WMNativeAd(this, new WMNativeAdRequest(placementId, String.valueOf(userID), 3, options));
+            windNativeAd = new WMNativeAd(this, new WMNativeAdRequest(placementId, String.valueOf(userID), null));
         }
 
-        windNativeAd.loadAd(new WMNativeAd.NativeAdLoadListener() {
+        windNativeAd.setAutoLoadListener(new WMAutoAdLoadListener() {
             @Override
-            public void onError(WindMillError error, String placementId) {
-                Log.d("lance", "onError:" + error.toString() + ":" + placementId);
-                logCallBack("onError", error.toString());
+            public void onAutoAdLoadSuccess(String placementId) {
+                logCallBack("onAutoAdLoadSuccess", "" );
+            }
+
+            @Override
+            public void onAutoAdLoadFail(WindMillError error, String placementId) {
+                logCallBack("onAutoAdLoadFail", windNativeAd.getLoadFailMessages() + ":" + placementId);
+            }
+        });
+
+        windNativeAd.setNativeAdLoadListener(new WMNativeAdLoadListener() {
+            @Override
+            public void onError(WindMillError windMillError, String s) {
+                Log.d("lance", "onError:" + windNativeAd.getLoadFailMessages() + ":" + placementId + " " + windMillError);
+                logCallBack("onError", windNativeAd.getLoadFailMessages() + ":" + placementId);
                 Toast.makeText(NativeAdUnifiedActivity.this, "onError", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFeedAdLoad(String placementId) {
+            public void onFeedAdLoad(List<WMNativeAdData> list, String s) {
                 Toast.makeText(NativeAdUnifiedActivity.this, "onFeedAdLoad", Toast.LENGTH_SHORT).show();
                 logCallBack("onFeedAdLoad", "");
-                List<WMNativeAdData> unifiedADData = windNativeAd.getNativeADDataList();
-                if (unifiedADData != null && unifiedADData.size() > 0) {
-                    Log.d("lance", "onFeedAdLoad:" + unifiedADData.size());
-                    nativeAdDataList = unifiedADData;
+                if (list != null && list.size() > 0) {
+                    Log.d("lance", "onFeedAdLoad:" + list.size());
+                    nativeAdDataList = list;
                 }
             }
         });
+        windNativeAd.loadAd(DEFAULT_LOAD_COUNT);
+
     }
 
     private void showNativeAd() {
         Log.d("lance", "-----------showNativeAd-----------");
         if (nativeAdDataList != null && nativeAdDataList.size() > 0) {
             WMNativeAdData nativeAdData = nativeAdDataList.get(0);
-
-            //先绑定监听器
-            bindListener(nativeAdData, placementId);
-
+            prepareNativeData(nativeAdData);
             if (nativeAdData.isExpressAd()) {//模版广告
                 nativeAdData.render();//onRenderSuccess
-//                View expressAdView = nativeAdData.getExpressAdView();
-//                //媒体最终将要展示广告的容器
-//                if (adContainer != null) {
-//                    adContainer.removeAllViews();
-//                    adContainer.addView(expressAdView);
-//                }
-            } else {//自渲染广告
-                //创建一个装整个自渲染广告的容器
-                WMNativeAdContainer windContainer = new WMNativeAdContainer(this);
-                //媒体自渲染的View
-                NativeAdDemoRender adRender = new NativeAdDemoRender();
-                //将容器和view链接起来
-                nativeAdData.connectAdToView(this, windContainer, adRender);
-
+                View expressAdView = nativeAdData.getExpressAdView();
                 //媒体最终将要展示广告的容器
                 if (adContainer != null) {
-                    adContainer.removeAllViews();
-                    adContainer.addView(windContainer);
+                    if (expressAdView != null) {
+                        adContainer.removeAllViews();
+                        adContainer.addView(expressAdView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    }
+                }
+            } else {//自渲染广告
+                NativeAdDemoRender nativeAdDemoRender = new NativeAdDemoRender();
+                View adView = nativeAdDemoRender.getAdView(this, nativeAdData);
+                if (adContainer != null) {
+                    if (adView.getParent() != null) {
+                        ViewGroup root = (ViewGroup) adView.getParent();
+                        root.removeView(adView);
+                    }
+                    adContainer.addView(adView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 }
             }
         }
     }
 
-    private void bindListener(WMNativeAdData nativeAdData, String id) {
-        //设置广告交互监听
+    private void prepareNativeData(WMNativeAdData nativeAdData) {
+        if (nativeAdData == null) {
+            return;
+        }
         nativeAdData.setInteractionListener(new WMNativeAdData.NativeAdInteractionListener() {
             @Override
             public void onADExposed(AdInfo adInfo) {
-                Log.d("lance", "----------onADExposed----------");
+                Log.d("lance", "onADExposed: " + adInfo);
                 logCallBack("onADExposed", "");
             }
 
             @Override
             public void onADClicked(AdInfo adInfo) {
-                Log.d("lance", "----------onADClicked----------");
+                Log.d("lance", "onADClicked: " + adInfo);
                 logCallBack("onADClicked", "");
             }
 
             @Override
             public void onADRenderSuccess(AdInfo adInfo, View view, float width, float height) {
-                Log.d("lance", "----------onADRenderSuccess----------:" + width + ":" + height);
-                logCallBack("onADRenderSuccess", "");
-                //媒体最终将要展示广告的容器
-                if (adContainer != null) {
-                    adContainer.removeAllViews();
-                    adContainer.addView(view);
-                }
+                runOnUiThread(() -> {
+                    logCallBack("onADRenderSuccess", "");
+                    Log.d("lance", "onADRenderSuccess: " + adInfo + "， width : " + width + "， height : " + height);
+                    if (adContainer != null) {
+                        adContainer.removeAllViews();
+                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                                RelativeLayout.LayoutParams.MATCH_PARENT);
+                        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+                        adContainer.addView(view, layoutParams);
+                    }
+                });
             }
 
             @Override
             public void onADError(AdInfo adInfo, WindMillError error) {
-                logCallBack("onADError", error.toString());
-                Log.d("lance", "----------onADError----------:" + error.toString());
+                Log.d("lance", "onADError: " + adInfo + "， error : " + error);
+                logCallBack("onADError", error.getMessage());
             }
         });
 
-        //设置media监听
         if (nativeAdData.getAdPatternType() == WMNativeAdDataType.NATIVE_VIDEO_AD) {
-            nativeAdData.setMediaListener(new WMNativeAdData.NativeADMediaListener() {
+            nativeAdData.setMediaListener(new WMNativeAdData.NativeADMediaListenerExt() {
+                @Override
+                public void onVideoProgressUpdate(long l, long l1) {
+                    Log.d("lance", "视频播放进度更新: " + l + " / " + l1);
+                }
+
                 @Override
                 public void onVideoLoad() {
-                    Log.d("lance", "----------onVideoLoad----------");
+                    Log.d("lance", "视频素材加载完成");
                 }
 
                 @Override
                 public void onVideoError(WindMillError error) {
-                    Log.d("lance", "----------onVideoError----------:" + error.toString());
+                    Log.d("lance", "视频播放出错: " + error);
                 }
 
                 @Override
                 public void onVideoStart() {
-                    Log.d("lance", "----------onVideoStart----------");
+                    Log.d("lance", "视频开始播放，时长：" + nativeAdData.getVideoDuration());
                 }
 
                 @Override
                 public void onVideoPause() {
-                    Log.d("lance", "----------onVideoPause----------");
+                    Log.d("lance", "视频暂停");
                 }
 
                 @Override
                 public void onVideoResume() {
-                    Log.d("lance", "----------onVideoResume----------");
+                    Log.d("lance", "视频继续");
                 }
 
                 @Override
                 public void onVideoCompleted() {
-                    Log.d("lance", "----------onVideoCompleted----------");
+                    Log.d("lance", "视频播放完成");
                 }
+
             });
         }
 
-        if (nativeAdData.getInteractionType() == WMConstants.INTERACTION_TYPE_DOWNLOAD) {
-            nativeAdData.setDownloadListener(new WMNativeAdData.AppDownloadListener() {
-                @Override
-                public void onIdle() {
-                    Log.d("lance", "----------onIdle----------");
-                }
+        nativeAdData.setDownloadListener(new WMNativeAdData.AppDownloadListener() {
+            @Override
+            public void onIdle() {
+                Log.d("lance", "下载状态: idle");
+            }
 
-                @Override
-                public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                    Log.d("lance", "----------onDownloadActive----------");
-                }
+            @Override
+            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+                Log.d("lance", "下载中 " + currBytes + "/" + totalBytes);
+            }
 
-                @Override
-                public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                    Log.d("lance", "----------onDownloadPaused----------");
-                }
+            @Override
+            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+                Log.d("lance", "下载暂停");
+            }
 
-                @Override
-                public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                    Log.d("lance", "----------onDownloadFailed----------");
-                }
+            @Override
+            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+                Log.d("lance", "下载失败");
+            }
 
-                @Override
-                public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                    Log.d("lance", "----------onDownloadFinished----------");
-                }
+            @Override
+            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+                Log.d("lance", "下载完成");
+            }
 
-                @Override
-                public void onInstalled(String fileName, String appName) {
-                    Log.d("lance", "----------onInstalled----------");
-                }
-            });
-        }
+            @Override
+            public void onInstalled(String fileName, String appName) {
+                Log.d("lance", "安装完成");
+            }
+        });
 
-        //设置dislike弹窗
-        nativeAdData.setDislikeInteractionCallback(this, new WMNativeAdData.DislikeInteractionCallback() {
+        nativeAdData.setDislikeInteractionCallback(this, new WMNativeAdData.WMDislikeInteractionCallback() {
             @Override
             public void onShow() {
-                Log.d("lance", "----------onShow----------");
+                Log.d("lance", "不喜欢展示");
+
             }
 
             @Override
             public void onSelected(int position, String value, boolean enforce) {
-                Log.d("lance", "----------onSelected----------:" + position + ":" + value + ":" + enforce);
                 if (adContainer != null) {
                     adContainer.removeAllViews();
                 }
+                Log.d("lance", "不喜欢原因: " + value);
             }
 
             @Override
             public void onCancel() {
-                Log.d("lance", "----------onCancel----------");
+                Log.d("lance", "取消不喜欢操作");
             }
+
         });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (nativeAdDataList != null && nativeAdDataList.size() > 0) {
+        if (nativeAdDataList != null && !nativeAdDataList.isEmpty()) {
             for (WMNativeAdData ad : nativeAdDataList) {
                 if (ad != null) {
                     ad.destroy();
@@ -389,4 +406,5 @@ public class NativeAdUnifiedActivity extends Activity {
             adapter.notifyDataSetChanged();
         }
     }
+
 }
